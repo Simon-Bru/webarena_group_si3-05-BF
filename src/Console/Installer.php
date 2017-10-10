@@ -40,6 +40,7 @@ class Installer
 
         static::createAppConfig($rootDir, $io);
         static::createWritableDirectories($rootDir, $io);
+        static::postUpdate($event);
 
         // ask if the permissions should be changed
         if ($io->isInteractive()) {
@@ -68,6 +69,22 @@ class Installer
         if (class_exists('\Cake\Codeception\Console\Installer')) {
             \Cake\Codeception\Console\Installer::customizeCodeceptionBinary($event);
         }
+    }
+
+    /**
+     * Copies bootstrap source files from vendor to webroot
+     *
+     * @param \Composer\Script\Event $event The composer event object.
+     * @throws \Exception Exception raised by validator.
+     * @return void
+     */
+    public static function postUpdate(Event $event)
+    {
+        $io = $event->getIO();
+
+        $rootDir = dirname(dirname(__DIR__));
+
+        static::copyTwitterBootstrapFiles($rootDir, $io);
     }
 
     /**
@@ -235,5 +252,32 @@ class Installer
             return;
         }
         $io->write('Unable to update __APP_NAME__ value.');
+    }
+
+    /**
+     * Copies bootstrap sources files to webroot
+     *
+     * @param string $dir The application's root directory.
+     * @param \Composer\IO\IOInterface $io IO interface to write to console.
+     * @return void
+     */
+    public static function copyTwitterBootstrapFiles($dir, $io) {
+
+        $bootstrapCssSource = $dir . '/vendor/twbs/bootstrap/dist/css/bootstrap.min.css';
+        $bootstrapCssDestination = $dir . '/webroot/css/bootstrap.min.css';
+
+        if (file_exists($bootstrapCssSource)) {
+            copy($bootstrapCssSource, $bootstrapCssDestination);
+            $io->write('Copied `bootstrap.min.css` file');
+        }
+
+        $bootstrapJsSource = $dir . '/vendor/twbs/bootstrap/dist/js/bootstrap.min.js';
+        $bootstrapJsDestination = $dir . '/webroot/js/bootstrap.min.js';
+
+        if (file_exists($bootstrapJsSource)) {
+            copy($bootstrapJsSource, $bootstrapJsDestination);
+            $io->write('Copied `bootstrap.min.js` file');
+        }
+
     }
 }
