@@ -279,5 +279,14 @@ class Installer
             $io->write('Copied `bootstrap.min.js` file');
         }
 
+        $jQuerySource = $dir . '/vendor/components/jquery/jquery.min.js';
+        $jQueryDestination = $dir . '/webroot/js/jquery.min.js';
+
+        if (file_exists($jQuerySource)) {
+            copy($jQuerySource, $jQueryDestination);
+            $io->write('Copied `jquery.min.js` file');
+        }
+
+
     }
 }
