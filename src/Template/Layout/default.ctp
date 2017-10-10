@@ -53,6 +53,8 @@ $cakeDescription = 'WebArena';
     <footer>
     </footer>
 
+    <?= $this->Html->script('jquery.min') ?>
+    <?= $this->Html->script('tether.min') ?>
     <?= $this->Html->script('bootstrap.min') ?>
 </body>
 </html>
