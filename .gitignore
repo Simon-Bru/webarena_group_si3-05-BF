@@ -6,10 +6,11 @@
 /logs/*
 /vendor/*
 
-# Copied Front-end files #
+# Copied Vendor Front-end files #
 ##########################
 /webroot/css/bootstrap.min.css
 /webroot/js/bootstrap.min.js
+/webroot/js/jquery.min.js
 
 # OS generated files #
 ######################
