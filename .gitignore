@@ -6,6 +6,11 @@
 /logs/*
 /vendor/*
 
+# Copied Front-end files #
+##########################
+/webroot/css/bootstrap.min.css
+/webroot/js/bootstrap.min.js
+
 # OS generated files #
 ######################
 .DS_Store
