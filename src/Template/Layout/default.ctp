@@ -26,6 +26,8 @@ $cakeDescription = 'WebArena';
     </title>
     <?= $this->Html->meta('icon') ?>
 
+    <?= $this->Html->css('bootstrap.min') ?>
+
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
@@ -50,5 +52,7 @@ $cakeDescription = 'WebArena';
     </div>
     <footer>
     </footer>
+
+    <?= $this->Html->script('bootstrap.min') ?>
 </body>
 </html>
