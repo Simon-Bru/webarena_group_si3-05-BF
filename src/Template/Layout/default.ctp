@@ -31,6 +31,12 @@ $cakeDescription = 'WebArena';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+    <?php echo $this->Html->link('Vision', array('controller' => 'Arenas', 'action' => 'sight')); ?>
+    <?php echo $this->Html->link('Home', array('controller' => 'Arenas', 'action' => '/')); ?>
+    <?php echo $this->Html->link('Journal', array('controller' => 'Arenas', 'action' => 'diary')); ?>
+    <?php echo $this->Html->link('Connection', array('controller' => 'Arenas', 'action' => 'login')); ?>
+    <?php echo $this->Html->link('Fighter', array('controller' => 'Arenas', 'action' => 'fighter')); ?>
+ 
 </head>
 <body>
     <nav class="top-bar expanded" data-topbar role="navigation">
@@ -56,5 +62,11 @@ $cakeDescription = 'WebArena';
     <?= $this->Html->script('jquery.min') ?>
     <?= $this->Html->script('popper.min') ?>
     <?= $this->Html->script('bootstrap.min') ?>
+    Groupe SII3
+    <p>&copy Bruguerolle/ Molano/ Belluccin Options BF</p>
+    <p> <a href="https://github.com/Simon-Bru/webarena_group_si3-05-BF">Lien versionning</a></p>
+
+    
+
 </body>
 </html>
