@@ -8,28 +8,28 @@ use App\Controller\AppController;
 */
 class ArenasController  extends AppController
 {
-public function index()
-{
+    public function index()
+    {
 
-}
+    }
 
-public function login()
-{
+    public function login()
+    {
 
-}
+    }
 
-public function fighter()
-{
+    public function fighter()
+    {
 
-}
+    }
 
-public function sight()
-{
+    public function sight()
+    {
 
-}
+    }
 
-public function diary()
-{
+    public function diary()
+    {
 
-}
+    }
 }
