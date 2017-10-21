@@ -1,1 +1,1 @@
- "Bienvenu <?php echo $myname;?> dans WebArena"
+ "Bienvenue <?php echo $myname;?> dans WebArena"
