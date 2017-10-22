@@ -36,6 +36,7 @@ $cakeDescription = 'WebArena';
     <?php echo $this->Html->link('Journal', array('controller' => 'Arenas', 'action' => 'diary')); ?>
     <?php echo $this->Html->link('Connection', array('controller' => 'Arenas', 'action' => 'login')); ?>
     <?php echo $this->Html->link('Fighter', array('controller' => 'Arenas', 'action' => 'fighter')); ?>
+    <?php echo $this->Html->link('Game', array('controller' => 'Arenas', 'action' => 'game')); ?>
  
 </head>
 <body>
