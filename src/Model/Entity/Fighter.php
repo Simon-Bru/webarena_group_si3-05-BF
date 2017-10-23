@@ -2,6 +2,8 @@
 namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
+
 
 /**
  * Fighter Entity
@@ -46,4 +48,39 @@ class Fighter extends Entity
         'next_action_time' => true,
         'guild_id' => true
     ];
+
+
+    /*
+     * Function to run before insert in database so the data validation passes
+     * */
+    public function beforeInsert() {
+        //TODO Store values in static variables
+        $this->skill_health = 5;
+        $this->skill_sight = 2;
+        $this->skill_strength = 1;
+        $this->level = 1;
+        $this->xp = 0;
+        $this->current_health = 5;
+        $this->coordinate_x = rand(0, 15);
+        $this->coordinate_y = rand(0, 10);
+
+        while(!$this->hasUniquePosition()) {
+            $this->coordinate_x = rand(0, 15);
+            $this->coordinate_y = rand(0, 10);
+        }
+    }
+
+    private function hasUniquePosition() {
+        $fighters = TableRegistry::get("Fighters");
+        $query = $fighters->find();
+
+        foreach ($query as $row) {
+            if($this->coordinate_y == $row->coordinate_y
+                || $this->coordinate_x == $row->coordinate_x) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
