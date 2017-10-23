@@ -33,7 +33,7 @@ $cakeDescription = 'WebArena';
     <?= $this->fetch('script') ?>
 </head>
 <body>
-    <header>
+    <header class="mb-3">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -69,28 +69,19 @@ $cakeDescription = 'WebArena';
             </div>
         </nav>
     </header>
-    <nav class="top-bar expanded" data-topbar role="navigation">
-        <ul class="title-area large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
-            </li>
-        </ul>
-    </nav>
-    <?= $this->Flash->render() ?>
     <div class="container clearfix">
         <?= $this->fetch('content') ?>
     </div>
-    <footer>
+
+    <?= $this->Flash->render() ?>
+    <footer class="container-fluid d-flex justify-content-around mt-5">
+        <p class="d-inline-block">Groupe SII3</p>
+        <p class="d-inline-block">&copy Bruguerolle/ Molano/ Belluccin Options BF</p>
+        <p class="d-inline-block"> <a href="https://github.com/Simon-Bru/webarena_group_si3-05-BF">Lien versionning</a></p>
     </footer>
 
     <?= $this->Html->script('jquery.min') ?>
     <?= $this->Html->script('popper.min') ?>
     <?= $this->Html->script('bootstrap.min') ?>
-    Groupe SII3
-    <p>&copy Bruguerolle/ Molano/ Belluccin Options BF</p>
-    <p> <a href="https://github.com/Simon-Bru/webarena_group_si3-05-BF">Lien versionning</a></p>
-
-    
-
 </body>
 </html>
