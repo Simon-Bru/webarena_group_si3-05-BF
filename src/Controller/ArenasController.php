@@ -9,9 +9,10 @@ use App\Controller\AppController;
 class ArenasController  extends AppController
 {
 public function index()
-{
+    {
 
-}
+
+    }
 
 public function login()
 {
@@ -30,6 +31,10 @@ public function sight()
 
 public function diary()
 {
+ $this->loadModel('Events');
+ $allEvents=$this->Events->find('all')->order(['Events.date' => 'DESC']);
+ $this->set('allEvents',$allEvents);
 
 }
+
 }
