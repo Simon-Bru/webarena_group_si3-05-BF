@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Players Controller
@@ -24,6 +25,12 @@ class PlayersController extends AppController
 
         $this->set(compact('players'));
         $this->set('_serialize', ['players']);
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow("add");
     }
 
     /**
