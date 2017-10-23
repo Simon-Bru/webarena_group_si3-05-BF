@@ -31,26 +31,50 @@ $cakeDescription = 'WebArena';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
-    <?php echo $this->Html->link('Vision', array('controller' => 'Arenas', 'action' => 'sight')); ?>
-    <?php echo $this->Html->link('Home', array('controller' => 'Arenas', 'action' => '/')); ?>
-    <?php echo $this->Html->link('Journal', array('controller' => 'Arenas', 'action' => 'diary')); ?>
-    <?php echo $this->Html->link('Connection', array('controller' => 'Arenas', 'action' => 'login')); ?>
-    <?php echo $this->Html->link('Fighter', array('controller' => 'Arenas', 'action' => 'fighter')); ?>
- 
 </head>
 <body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <?php echo $this->Html->link('Home',
+                            array('controller' => 'Pages', 'action' => '/'),
+                            ['class' => 'nav-link']); ?>
+                    </li>
+                    <li class="nav-item">
+                        <?php echo $this->Html->link('Sight',
+                            array('controller' => 'Arenas', 'action' => '/'),
+                            ['class' => 'nav-link']); ?>
+                    </li>
+                    <li class="nav-item">
+                        <?php echo $this->Html->link('Fighters',
+                            array('controller' => 'Fighters', 'action' => '/'),
+                            ['class' => 'nav-link']); ?>
+                    </li>
+                    <li class="nav-item">
+                        <?php echo $this->Html->link('Diary',
+                            array('controller' => 'Events', 'action' => '/'),
+                            ['class' => 'nav-link']); ?>
+                    </li>
+                    <li class="nav-item">
+                        <?php echo $this->Html->link('Sign in',
+                            '/login',
+                            ['class' => 'nav-link']); ?>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
     <nav class="top-bar expanded" data-topbar role="navigation">
         <ul class="title-area large-3 medium-4 columns">
             <li class="name">
                 <h1><a href=""><?= $this->fetch('title') ?></a></h1>
             </li>
         </ul>
-        <div class="top-bar-section">
-            <ul class="right">
-                <li><a target="_blank" href="https://book.cakephp.org/3.0/">Documentation</a></li>
-                <li><a target="_blank" href="https://api.cakephp.org/3.0/">API</a></li>
-            </ul>
-        </div>
     </nav>
     <?= $this->Flash->render() ?>
     <div class="container clearfix">
