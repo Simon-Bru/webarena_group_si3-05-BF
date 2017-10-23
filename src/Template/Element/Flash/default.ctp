@@ -7,7 +7,6 @@ if (!isset($params['escape']) || $params['escape'] !== false) {
     $message = h($message);
 }
 ?>
-
 <div class="alert alert-info alert-dismissible fade show <?= h($class) ?>" role="alert">
     <?= $message ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
