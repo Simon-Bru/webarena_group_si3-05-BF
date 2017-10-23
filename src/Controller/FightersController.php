@@ -55,6 +55,8 @@ class FightersController extends AppController
     {
         $fighter = $this->Fighters->newEntity();
         if ($this->request->is('post')) {
+            // We initialize our object
+            $fighter->beforeInsert();
             $fighter = $this->Fighters->patchEntity($fighter, $this->request->getData());
             if ($this->Fighters->save($fighter)) {
                 $this->Flash->success(__('The fighter has been saved.'));
