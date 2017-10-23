@@ -14,6 +14,7 @@
  */
 namespace App\Controller;
 
+use Cake\Controller\Component\AuthComponent;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 
@@ -55,9 +56,14 @@ class AppController extends Controller
             'logoutRedirect' => [
                 'controller' => 'Pages',
                 'action' => 'login'
+            ],
+            'authenticate' => [
+                'Form' => [
+                    'userModel' => 'Players',
+                    'fields' => ['username' => 'email', 'password' => 'password']
+                ]
             ]
         ]);
-
         /*
          * Enable the following components for recommended CakePHP security settings.
          * see https://book.cakephp.org/3.0/en/controllers/components/security.html
