@@ -27,6 +27,8 @@ $cakeDescription = 'WebArena';
     <?= $this->Html->meta('icon') ?>
 
     <?= $this->Html->css('bootstrap.min') ?>
+    <?= $this->Html->css('fighter') ?>
+    <?= $this->Html->css('icons8.min') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -69,11 +71,12 @@ $cakeDescription = 'WebArena';
             </div>
         </nav>
     </header>
-    <div class="container clearfix">
+    <?= $this->Flash->render() ?>
+
+    <div class="container clearfix mt-2">
         <?= $this->fetch('content') ?>
     </div>
 
-    <?= $this->Flash->render() ?>
     <footer class="container-fluid d-flex justify-content-around mt-5">
         <p class="d-inline-block">Groupe SII3</p>
         <p class="d-inline-block">&copy Bruguerolle/ Molano/ Belluccin Options BF</p>

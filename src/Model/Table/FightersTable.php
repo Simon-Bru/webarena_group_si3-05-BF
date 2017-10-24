@@ -12,7 +12,6 @@ use Cake\Validation\Validator;
  * @property |\Cake\ORM\Association\BelongsTo $Players
  * @property |\Cake\ORM\Association\BelongsTo $Guilds
  * @property |\Cake\ORM\Association\HasMany $Messages
- * @property |\Cake\ORM\Association\HasMany $Tools
  *
  * @method \App\Model\Entity\Fighter get($primaryKey, $options = [])
  * @method \App\Model\Entity\Fighter newEntity($data = null, array $options = [])
@@ -49,9 +48,6 @@ class FightersTable extends Table
         $this->hasMany('Messages', [
             'foreignKey' => 'fighter_id'
         ]);
-        $this->hasMany('Tools', [
-            'foreignKey' => 'fighter_id'
-        ]);
     }
 
     /**
@@ -64,7 +60,8 @@ class FightersTable extends Table
     {
         $validator
             ->integer('id')
-            ->allowEmpty('id', 'create');
+            ->allowEmpty('id', 'create')
+            ->notEmpty('id', 'Id must be specified on update', 'update');
 
         $validator
             ->scalar('name')
@@ -73,43 +70,35 @@ class FightersTable extends Table
 
         $validator
             ->integer('coordinate_x')
-            ->requirePresence('coordinate_x', 'create')
-            ->notEmpty('coordinate_x');
+            ->allowEmpty('coordinate_x');
 
         $validator
             ->integer('coordinate_y')
-            ->requirePresence('coordinate_y', 'create')
-            ->notEmpty('coordinate_y');
+            ->allowEmpty('coordinate_y');
 
         $validator
             ->integer('level')
-            ->requirePresence('level', 'create')
-            ->notEmpty('level');
+            ->allowEmpty('level');
 
         $validator
             ->integer('xp')
-            ->requirePresence('xp', 'create')
-            ->notEmpty('xp');
+            ->allowEmpty('xp');
 
         $validator
             ->integer('skill_sight')
-            ->requirePresence('skill_sight', 'create')
-            ->notEmpty('skill_sight');
+            ->allowEmpty('skill_sight');
 
         $validator
             ->integer('skill_strength')
-            ->requirePresence('skill_strength', 'create')
-            ->notEmpty('skill_strength');
+            ->allowEmpty('skill_strength');
 
         $validator
             ->integer('skill_health')
-            ->requirePresence('skill_health', 'create')
-            ->notEmpty('skill_health');
+            ->allowEmpty('skill_health');
 
         $validator
             ->integer('current_health')
-            ->requirePresence('current_health', 'create')
-            ->notEmpty('current_health');
+            ->allowEmpty('current_health');
 
         $validator
             ->dateTime('next_action_time')

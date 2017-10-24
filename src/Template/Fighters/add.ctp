@@ -3,39 +3,29 @@
  * @var \App\View\AppView $this
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('List Fighters'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Players'), ['controller' => 'Players', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Player'), ['controller' => 'Players', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Guilds'), ['controller' => 'Guilds', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Guild'), ['controller' => 'Guilds', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Messages'), ['controller' => 'Messages', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Message'), ['controller' => 'Messages', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Tools'), ['controller' => 'Tools', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Tool'), ['controller' => 'Tools', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="fighters form large-9 medium-8 columns content">
+<section class="jumbotron pt-4">
+    <nav class="nav nav-pills nav-fill text-center mb-4">
+        <?= $this->Html->link(
+            __('My Fighters'),
+            ['action' => 'index'],
+            ['class' => 'nav-item nav-link col-12 col-sm-2 ml-auto']
+        ) ?>
+        <?= $this->Html->link(
+            __('New Fighter'),
+            ['action' => 'add'],
+            ['class' => 'nav-item nav-link active col-12 col-sm-2 mr-auto']
+        ) ?>
+    </nav>
+    <h3><?= __('New fighter') ?></h3>
+    <p class="lead">Create a new fighter to get more power in the Arena.</p>
+    <hr class="my-4">
+
     <?= $this->Form->create($fighter) ?>
     <fieldset>
-        <legend><?= __('Add Fighter') ?></legend>
         <?php
             echo $this->Form->control('name');
-            echo $this->Form->control('player_id', ['options' => $players]);
-            echo $this->Form->control('coordinate_x');
-            echo $this->Form->control('coordinate_y');
-            echo $this->Form->control('level');
-            echo $this->Form->control('xp');
-            echo $this->Form->control('skill_sight');
-            echo $this->Form->control('skill_strength');
-            echo $this->Form->control('skill_health');
-            echo $this->Form->control('current_health');
-            echo $this->Form->control('next_action_time', ['empty' => true]);
-            echo $this->Form->control('guild_id', ['options' => $guilds, 'empty' => true]);
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
     <?= $this->Form->end() ?>
-</div>
+</section>

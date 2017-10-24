@@ -29,12 +29,12 @@ class PlayersController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['login', 'add', 'logout']);
+        $this->Auth->allow(['login', 'add']);
     }
 
     public function login()
     {
-        if ($this->request->is('post')) {
+        if ($this->request->is('post') && !($this->Auth->isAuthorized())) {
             $player = $this->Auth->identify();
             var_dump($player);
             if ($player) {
@@ -76,12 +76,12 @@ class PlayersController extends AppController
     public function add()
     {
         $player = $this->Players->newEntity();
-        if ($this->request->is('post')) {
+        if ($this->request->is('post') && !($this->Auth->isAuthorized())) {
             $player = $this->Players->patchEntity($player, $this->request->getData());
             if ($this->Players->save($player)) {
                 $this->Flash->success(__('The player has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect('/login');
             }
             $this->Flash->error(__('The player could not be saved. Please, try again.'));
         }
