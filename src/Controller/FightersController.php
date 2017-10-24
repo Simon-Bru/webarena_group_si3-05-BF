@@ -23,7 +23,11 @@ class FightersController extends AppController
         $this->paginate = [
             'contain' => ['Players', 'Guilds']
         ];
-        $fighters = $this->paginate($this->Fighters);
+        $fighters = $this->paginate(
+            $this->Fighters->find('all')
+                            ->where([
+                                'Fighters.player_id = ' => $this->Auth->user('id')
+                            ]));
 
         $this->set(compact('fighters'));
         $this->set('_serialize', ['fighters']);
@@ -39,7 +43,7 @@ class FightersController extends AppController
     public function view($id = null)
     {
         $fighter = $this->Fighters->get($id, [
-            'contain' => ['Players', 'Guilds', 'Messages', 'Tools']
+            'contain' => ['Players', 'Guilds', 'Messages']
         ]);
 
         $this->set('fighter', $fighter);
@@ -55,6 +59,7 @@ class FightersController extends AppController
     {
         $fighter = $this->Fighters->newEntity();
         if ($this->request->is('post')) {
+            $fighter->player_id = $this->Auth->user('id');
             // We initialize our object
             $fighter->beforeInsert();
             $fighter = $this->Fighters->patchEntity($fighter, $this->request->getData());
