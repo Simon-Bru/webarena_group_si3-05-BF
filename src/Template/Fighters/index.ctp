@@ -26,9 +26,27 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="float-right">
-                            <?= $this->Html->link(__('View'), ['action' => 'view', $fighter->id]) ?>
-                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $fighter->id]) ?>
-                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $fighter->id], ['confirm' => __('Are you sure you want to delete # {0}?', $fighter->id)]) ?>
+                            <?= $this->Html->link(
+                                $this->Html->tag('i', '',
+                                    ['class' => 'icons8-eye-filled text-dark mx-1']),
+                                ['action' => 'view', $fighter->id],
+                                ['escape' => false]) ?>
+                            <?= $this->Html->link(
+                                $this->Html->tag('i', '',
+                                    ['class' => 'icons8-edit-filled text-dark mx-1']),
+                                ['action' => 'edit', $fighter->id],
+                                ['escape' => false]) ?>
+                            <?= $this->Form->postLink(
+                                $this->Html->tag('i', '', [
+                                    'class' => 'icons8-delete-bin-filled text-danger mx-1'
+                                ]),
+                                ['action' => 'delete', $fighter->id],
+                                [
+                                    'confirm' => __('Are you sure you want to delete {0}?', $fighter->name),
+                                    'escape' => false
+                                ]
+                            )
+                            ?>
                         </div>
                         <h4 class="card-title"><?= h($fighter->name) ?></h4>
                         <p class="card-text">

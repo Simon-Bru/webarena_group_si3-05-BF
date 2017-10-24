@@ -28,3 +28,9 @@
 button {
     cursor: pointer !important;
 }
+
+.icons8-delete-bin-filled,
+.icons8-eye-filled,
+.icons8-edit-filled {
+    font-size: 25px;
+}
