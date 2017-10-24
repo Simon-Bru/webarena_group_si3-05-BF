@@ -23,11 +23,10 @@ class FightersController extends AppController
         $this->paginate = [
             'contain' => ['Players', 'Guilds']
         ];
-        $fighters = $this->paginate(
-            $this->Fighters->find('all')
+        $fighters = $this->Fighters->find('all')
                             ->where([
                                 'Fighters.player_id = ' => $this->Auth->user('id')
-                            ]));
+                            ]);
 
         $this->set(compact('fighters'));
         $this->set('_serialize', ['fighters']);
