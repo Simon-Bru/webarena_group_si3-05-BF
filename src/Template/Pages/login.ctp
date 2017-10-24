@@ -1,9 +1,9 @@
 <div class="jumbotron">
     <h1>Log in</h1>
+    <hr class="my-4">
 
     <?= $this->Form->create('Players', array('url' => 'Players/login')); ?>
-        <fieldset>
-            <legend>Please enter your credentials to log in</legend>
+    <fieldset>
             <?= $this->Form->control('email') ?>
             <?= $this->Form->control('password') ?>
         </fieldset>
