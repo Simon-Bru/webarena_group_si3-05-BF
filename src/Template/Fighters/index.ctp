@@ -4,45 +4,36 @@
  * @var \App\Model\Entity\Fighter[]|\Cake\Collection\CollectionInterface $fighters
  */
 ?>
-<nav class="nav nav-pills nav-fill mb-4">
-    <?= $this->Html->link(
-        __('My Fighters'),
-        ['action' => 'add'],
-        ['class' => 'nav-item nav-link active col-12 col-sm-2']
-    ) ?>
-    <?= $this->Html->link(
-        __('New Fighter'),
-        ['action' => 'add'],
-        ['class' => 'nav-item nav-link col-12 col-sm-2']
-    ) ?>
-</nav>
-<div class="jumbotron">
+<section class="jumbotron pt-4">
+    <nav class="nav nav-pills nav-fill mb-4 text-center">
+        <?= $this->Html->link(
+            __('My Fighters'),
+            ['action' => 'add'],
+            ['class' => 'nav-item nav-link active col-12 col-sm-2 ml-auto']
+        ) ?>
+        <?= $this->Html->link(
+            __('New Fighter'),
+            ['action' => 'add'],
+            ['class' => 'nav-item nav-link col-12 col-sm-2 mr-auto']
+        ) ?>
+    </nav>
     <h3><?= __('My Fighters') ?></h3>
-    <ul class="list-unstyled">
+    <hr class="my-4">
+
+    <ul class="row fightersList p-2">
         <?php foreach ($fighters as $fighter): ?>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><?= h($fighter->next_action_time) ?></td>
-                <td><?= $fighter->has('guild') ? $this->Html->link($fighter->guild->name, ['controller' => 'Guilds', 'action' => 'view', $fighter->guild->id]) : '' ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $fighter->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $fighter->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $fighter->id], ['confirm' => __('Are you sure you want to delete # {0}?', $fighter->id)]) ?>
-                </td>
-            </tr>
-
-
-            <div class="col-sm-6">
+            <div class="col-sm-4 d-inline-block">
                 <div class="card">
                     <div class="card-body">
+                        <div class="float-right">
+                            <?= $this->Html->link(__('View'), ['action' => 'view', $fighter->id]) ?>
+                            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $fighter->id]) ?>
+                            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $fighter->id], ['confirm' => __('Are you sure you want to delete # {0}?', $fighter->id)]) ?>
+                        </div>
                         <h4 class="card-title"><?= h($fighter->name) ?></h4>
                         <p class="card-text">
                         <dl>
-                            <dt>Level</dt>
-                            <dd><?= $this->Number->format($fighter->level) ?></dd>
-                            <dt>XP</dt>
+                            <dt>Level <?= $this->Number->format($fighter->level) ?></dt>
                             <dd>
                                 <div class="progress">
                                     <div class="progress-bar bg-success progress-bar-striped"
@@ -56,7 +47,7 @@
                             <dt>Current health</dt>
                             <dd><?php
                                 for($i=0; $i < $fighter->current_health; $i++) {
-                                    echo("<i class='material-icons text-danger'>favorite</i>");
+                                    echo("<i class='icons8-heart-filled text-danger'></i>");
                                 }
                                 ?></dd>
                             <dt>Position</dt>
@@ -64,67 +55,37 @@
                                 <?= $this->Number->format($fighter->coordinate_x) ?> ;
                                 <?= $this->Number->format($fighter->coordinate_y) ?> (X;Y)
                             </dd>
+                            <dt><?= $fighter->has('guild') ? "Guild" : "" ?></dt>
+                            <dd><?= $fighter->has('guild') ? $this->Html->link($fighter->guild->name, ['controller' => 'Guilds', 'action' => 'view', $fighter->guild->id]) : '' ?></dd>
                         </dl>
                         </p>
+                        <p class="text-center">
                         <button class="btn btn-info"
-                           type="button"
-                           data-toggle="collapse"
-                           data-target="#<?= $fighter->id ?>"
-                           aria-expanded="false"
-                           aria-controls="collapseExample">See skills</button>
+                                type="button"
+                                data-toggle="collapse"
+                                data-target="#<?= $fighter->id ?>"
+                                aria-expanded="false"
+                                aria-controls="collapseExample">Show skills</button>
                         <div class="collapse" id="<?= $fighter->id ?>">
-                            <ul class="text-center p-0">
-                                <li class="m-auto d-flex align-items-center justify-content-center">
+                            <ul class="m-auto skills">
+                                <li class="d-flex align-items-center">
+                                    <i class="icons8-iris-scan mr-2"></i>
                                     Sight : <?= $fighter->skill_sight ?>
                                 </li>
-                                <li class="d-flex align-items-center justify-content-center">
+                                <li class="d-flex align-items-center">
+                                    <i class="icons8-muscle mr-2"></i>
                                     Strength: <?= $fighter->skill_strength ?>
                                 </li>
-                                <li class="d-flex align-items-center justify-content-center">
+                                <li class="d-flex align-items-center">
+                                    <i class="icons8-heart-filled mr-2"></i>
                                     Max health: <?= $fighter->skill_health ?>
                                 </li>
                             </ul>
                         </div>
+                        </p>
                     </div>
                 </div>
             </div>
 
         <?php endforeach; ?>
-
-
-
-</div>
-
-
-<table cellpadding="0" cellspacing="0">
-    <thead>
-    <tr>
-        <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('player_id') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('coordinate_x') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('coordinate_y') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('level') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('xp') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('skill_sight') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('skill_strength') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('skill_health') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('current_health') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('next_action_time') ?></th>
-        <th scope="col"><?= $this->Paginator->sort('guild_id') ?></th>
-        <th scope="col" class="actions"><?= __('Actions') ?></th>
-    </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
-<div class="paginator">
-    <ul class="pagination">
-        <?= $this->Paginator->first('<< ' . __('first')) ?>
-        <?= $this->Paginator->prev('< ' . __('previous')) ?>
-        <?= $this->Paginator->numbers() ?>
-        <?= $this->Paginator->next(__('next') . ' >') ?>
-        <?= $this->Paginator->last(__('last') . ' >>') ?>
-    </ul>
-    <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-</div>
-</div>
+</section>
