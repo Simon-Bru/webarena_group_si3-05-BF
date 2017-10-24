@@ -47,7 +47,7 @@ $cakeDescription = 'WebArena';
                     </li>
                     <li class="nav-item">
                         <?php echo $this->Html->link('Sight',
-                            array('controller' => 'Arenas', 'action' => '/'),
+                            array('controller' => 'Arenas', 'action' => ''),
                             ['class' => 'nav-link']); ?>
                     </li>
                     <li class="nav-item">
