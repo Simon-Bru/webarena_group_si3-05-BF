@@ -11,7 +11,10 @@
     <?= $this->Form->button(__('Log In')); ?>
     <?= $this->Form->end() ?>
 
-    <?php echo $this->Html->link('Sign Up',
-        array('controller' => 'Players', 'action' => 'add'),
-        ['class' => '']); ?>
+    <div>
+        <small class="d-block">Not a member yet? </small>
+        <?php echo $this->Html->link('Sign Up',
+            array('controller' => 'Players', 'action' => 'add'),
+            ['class' => 'btn btn-primary']); ?>
+    </div>
 </div>

@@ -62,7 +62,8 @@ class AppController extends Controller
                     'userModel' => 'Players',
                     'fields' => ['username' => 'email', 'password' => 'password']
                 ]
-            ]
+            ],
+            'authError' => 'You are not authorized to access that location. Please log in or sign up to play'
         ]);
         /*
          * Enable the following components for recommended CakePHP security settings.
