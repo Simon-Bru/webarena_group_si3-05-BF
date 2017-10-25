@@ -21,6 +21,9 @@
     <hr class="my-4">
 
     <ul class="row fightersList p-2">
+        <?php if($fighters->isEmpty()) { ?>
+            <h5>You have no fighters yet ! Please click the link above to create one</h5>
+        <?php } ?>
         <?php foreach ($fighters as $fighter): ?>
             <div class="col-sm-4 d-inline-block">
                 <div class="card">
@@ -56,10 +59,10 @@
                                 <div class="progress">
                                     <div class="progress-bar bg-success progress-bar-striped"
                                          role="progressbar"
-                                         style="width:<?= $fighter->xp*10 ?>%;"
+                                         style="width:<?= ($fighter->xp/MAX_XP)*100 ?>%;"
                                          aria-valuenow="<?= $fighter->xp ?>"
                                          aria-valuemin="0"
-                                         aria-valuemax="10"><?= $fighter->xp*10 ?>%</div>
+                                         aria-valuemax="<?= MAX_XP ?>"><?= ($fighter->xp/MAX_XP)*100 ?>%</div>
                                 </div>
                             </dd>
                             <dt>Current health</dt>
@@ -78,12 +81,12 @@
                         </dl>
                         </p>
                         <p class="text-center">
-                        <button class="btn btn-info"
-                                type="button"
-                                data-toggle="collapse"
-                                data-target="#<?= $fighter->id ?>"
-                                aria-expanded="false"
-                                aria-controls="collapseExample">Show skills</button>
+                            <button class="btn btn-info"
+                                    type="button"
+                                    data-toggle="collapse"
+                                    data-target="#<?= $fighter->id ?>"
+                                    aria-expanded="false"
+                                    aria-controls="collapseExample">Show skills</button>
                         <div class="collapse" id="<?= $fighter->id ?>">
                             <ul class="m-auto skills">
                                 <li class="d-flex align-items-center">
