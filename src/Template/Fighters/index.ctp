@@ -107,8 +107,8 @@
 
         <?php endforeach; ?>
 
-        <?php
-            echo $this->Html->link(
+        <?php if(($fighter->xp)==4){?>
+            <?php echo $this->Html->link(
                 'Sight',
                 array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 1),
                 ['class' => 'button']
@@ -124,10 +124,10 @@
                 'Health',
                 array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 3),
                 ['class' => 'button']
-            );
-        ?>
+            );?>
+        <?php } else{?>
+
          <h2> Get <?= (4-($fighter->xp%4))?> more xp to level up </h2>
-
-
+        <?php } ?>
 </section>
 
