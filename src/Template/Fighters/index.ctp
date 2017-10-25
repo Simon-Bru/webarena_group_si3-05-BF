@@ -59,10 +59,10 @@
                                 <div class="progress">
                                     <div class="progress-bar bg-success progress-bar-striped"
                                          role="progressbar"
-                                         style="width:<?= $fighter->xp*10 ?>%;"
+                                         style="width:<?= ($fighter->xp/MAX_XP)*100 ?>%;"
                                          aria-valuenow="<?= $fighter->xp ?>"
                                          aria-valuemin="0"
-                                         aria-valuemax="10"><?= $fighter->xp*10 ?>%</div>
+                                         aria-valuemax="<?= MAX_XP ?>"><?= ($fighter->xp/MAX_XP)*100 ?>%</div>
                                 </div>
                             </dd>
                             <dt>Current health</dt>

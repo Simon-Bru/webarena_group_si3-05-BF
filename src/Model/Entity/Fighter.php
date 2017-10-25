@@ -49,34 +49,35 @@ class Fighter extends Entity
         'guild_id' => true
     ];
 
-
-    /*
+    /**
      * Function to run before insert in database so the data validation passes
      * */
     public function beforeInsert() {
-        //TODO Store values in static variables
-        $this->skill_health = 5;
-        $this->skill_sight = 2;
-        $this->skill_strength = 1;
+        $this->skill_health = DEFAULT_SKILL_HEALTH;
+        $this->skill_sight = DEFAULT_SKILL_SIGHT;
+        $this->skill_strength = DEFAULT_SKILL_STRENGTH;
         $this->level = 1;
         $this->xp = 0;
-        $this->current_health = 5;
-        $this->coordinate_x = rand(0, 15);
-        $this->coordinate_y = rand(0, 10);
+        $this->current_health = DEFAULT_SKILL_HEALTH;
+        $this->coordinate_x = rand(0, ARENA_WIDTH);
+        $this->coordinate_y = rand(0, ARENA_HEIGHT);
 
-        while(!$this->hasUniquePosition()) {
-            $this->coordinate_x = rand(0, 15);
-            $this->coordinate_y = rand(0, 10);
+        while(!Fighter::positionIsFree($this->coordinate_x, $this->coordinate_y)) {
+            $this->coordinate_x = rand(0, ARENA_WIDTH);
+            $this->coordinate_y = rand(0, ARENA_HEIGHT);
         }
     }
 
-    private function hasUniquePosition() {
+    /**
+     * Function to check wether fighter position is available
+     */
+    public static function positionIsFree($x, $y) {
         $fighters = TableRegistry::get("Fighters");
         $query = $fighters->find();
 
         foreach ($query as $row) {
-            if($this->coordinate_y == $row->coordinate_y
-                || $this->coordinate_x == $row->coordinate_x) {
+            if($y == $row->coordinate_y
+                || $x == $row->coordinate_x) {
                 return false;
             }
         }
