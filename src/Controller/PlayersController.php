@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use Cake\Event\Event;
+use Cake\Mailer\MailerAwareTrait;
 
 /**
  * Players Controller
@@ -12,6 +13,8 @@ use Cake\Event\Event;
  */
 class PlayersController extends AppController
 {
+
+    use MailerAwareTrait;
 
     /**
      * Index method
@@ -29,14 +32,16 @@ class PlayersController extends AppController
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
-        $this->Auth->allow(['login', 'add']);
+        $this->Auth->allow(['login', 'add', 'forgottenPwd']);
     }
 
     public function login()
     {
-        if ($this->request->is('post') && !($this->Auth->isAuthorized())) {
+        $this->request->allowMethod('post');
+
+        if (!($this->Auth->isAuthorized())) {
             $player = $this->Auth->identify();
-            var_dump($player);
+
             if ($player) {
                 $this->Auth->setUser($player);
                 return $this->redirect($this->Auth->redirectUrl());
@@ -49,6 +54,33 @@ class PlayersController extends AppController
     public function logout()
     {
         return $this->redirect($this->Auth->logout());
+    }
+
+
+    /**
+     *
+     * Route to reset password
+     *
+     * */
+    public function forgottenPwd() {
+        $this->request->allowMethod('post');
+
+        /** If variable email is present in the request */
+        if(!empty($this->request->getData('email'))) {
+            $email = $this->request->getData('email');
+            $pwd = $this->Players->resetPassword($email);
+
+            /** If player exists, display success message, or display error message */
+            if(!empty($pwd)) {
+                $this->getMailer('Players')->send('resetPassword', [$email, $pwd]);
+                $this->Flash->success('We just sent you your new password by mail !');
+            } else {
+                $this->Flash->error('Sorry, we don\'t have any user matching mail address...'.
+                                            ' Please try again');
+            }
+            /** Redirect to login */
+            $this->redirect('/login');
+        }
     }
 
     /**
