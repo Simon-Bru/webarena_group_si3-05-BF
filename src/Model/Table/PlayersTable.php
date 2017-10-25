@@ -1,9 +1,11 @@
 <?php
 namespace App\Model\Table;
 
-use Cake\ORM\Query;
+use Cake\Auth\DefaultPasswordHasher;
+use Cake\Mailer\Email;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Security;
 use Cake\Validation\Validator;
 
 /**
@@ -57,7 +59,11 @@ class PlayersTable extends Table
             ->email('email')
             ->requirePresence('email', 'create')
             ->notEmpty('email')
-            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->add('email', 'unique', [
+                'rule' => 'validateUnique',
+                'provider' => 'table',
+                'message' => 'This mail address already has an account'
+                ]);
 
         $validator
             ->scalar('password')
@@ -84,5 +90,30 @@ class PlayersTable extends Table
         $rules->add($rules->isUnique(['email']));
 
         return $rules;
+    }
+
+    public function resetPassword($email) {
+        $query = $this->find('all')->where([
+            'Players.email = ' => $email
+        ]);
+
+        $result = $query->toArray();
+        if(!empty($result)) {
+            $player = $result[0];
+            $player->password = $this->random_str(10);
+            return $this->save($player) ? $player->password : false;
+        } else {
+            return false;
+        }
+    }
+
+    private function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    {
+        $str = '';
+        $max = mb_strlen($keyspace, '8bit') - 1;
+        for ($i = 0; $i < $length; ++$i) {
+            $str .= $keyspace[random_int(0, $max)];
+        }
+        return $str;
     }
 }
