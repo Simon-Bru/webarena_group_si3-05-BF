@@ -59,7 +59,11 @@ class PlayersTable extends Table
             ->email('email')
             ->requirePresence('email', 'create')
             ->notEmpty('email')
-            ->add('email', 'unique', ['rule' => 'validateUnique', 'provider' => 'table']);
+            ->add('email', 'unique', [
+                'rule' => 'validateUnique',
+                'provider' => 'table',
+                'message' => 'This mail address already has an account'
+                ]);
 
         $validator
             ->scalar('password')
