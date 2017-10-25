@@ -125,7 +125,7 @@ class FightersTable extends Table
     public function shows($id){
         $allow=false;
         $temp=$this->get($id);
-        if(($temp->xp)/4 >= $temp->level){
+        if(($temp->xp)/4 == 1){
             $allow=true;
         }
         return $allow;
@@ -152,4 +152,16 @@ class FightersTable extends Table
         $temp->xp=0;
         $this->save($temp);
     }
+
+    public function remove($id){
+        $allow=false;
+        $temp=$this->get($id);
+        if($temp->current_health==0) {
+            $this->delete($temp);
+            $allow=true;
+        }
+        return $allow;
+    }
+
+
 }
