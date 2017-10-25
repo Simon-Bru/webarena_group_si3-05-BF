@@ -62,7 +62,9 @@
                                          style="width:<?= ($fighter->xp/MAX_XP)*100 ?>%;"
                                          aria-valuenow="<?= $fighter->xp ?>"
                                          aria-valuemin="0"
-                                         aria-valuemax="<?= MAX_XP ?>"><?= ($fighter->xp/MAX_XP)*100 ?>%</div>
+                                         aria-valuemax="<?= MAX_XP ?>">
+                                        <?= ($fighter->xp/MAX_XP)*100 ?>%
+                                    </div>
                                 </div>
                             </dd>
                             <dt>Current health</dt>
@@ -103,6 +105,56 @@
                                 </li>
                             </ul>
                         </div>
+
+                        <?php if(($fighter->hasFullXp())){?>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#levelUpModal">
+                            Level Up !
+                        </button>
+                        <div class="modal fade" id="levelUpModal" tabindex="-1" role="dialog" aria-labelledby="Choose a skill to level up" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Choose a skill to improve</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body d-flex justify-content-around align-items-center">
+                                        <?php echo $this->Html->link(
+                                            $this->Html->tag('i', '', [
+                                                'class' => 'icons8-iris-scan d-block display-4'
+                                            ]).'+1 Sight',
+                                            array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 1), [
+                                                'class' => 'btn btn-outline-info',
+                                                'escape' => false
+                                            ]
+                                        );
+
+                                        echo $this->Html->link(
+                                            $this->Html->tag('i', '', [
+                                                'class' => 'icons8-muscle-filled d-block display-4'
+                                            ]).'+1 Strendth',
+                                            array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 2), [
+                                                'class' => 'btn btn-outline-warning',
+                                                'escape' => false
+                                            ]
+                                        );
+
+                                        echo $this->Html->link(
+                                            $this->Html->tag('i', '', [
+                                                'class' => 'icons8-heart-filled d-block display-4'
+                                            ]).'+3 Health',
+                                            array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 3), [
+                                                'class' => 'btn btn-outline-danger',
+                                                'escape' => false
+                                            ]
+                                        );
+                                        }?>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         </p>
                     </div>
                 </div>
@@ -110,27 +162,5 @@
 
         <?php endforeach; ?>
 
-        <?php if(($fighter->xp)==4){?>
-            <?php echo $this->Html->link(
-                'Sight',
-                array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 1),
-                ['class' => 'button']
-            );
-
-            echo $this->Html->link(
-                'Strength',
-                array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 2),
-                ['class' => 'button']
-            );
-
-            echo $this->Html->link(
-                'Health',
-                array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 3),
-                ['class' => 'button']
-            );?>
-        <?php } else{?>
-
-         <h2> Get <?= (4-($fighter->xp%4))?> more xp to level up </h2>
-        <?php } ?>
 </section>
 
