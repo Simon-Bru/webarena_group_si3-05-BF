@@ -160,28 +160,22 @@ class FightersController extends AppController
     }
 
 
-    public function levelUp($id,$skill){
-        $this->loadModel('Fighters');
+    public function levelUp($id, $skill){
 
-        if($skill==1 && $this->Fighters->shows($id)){
-            $this->Fighters->moreSight($id);
-            $this->Flash->success(__('Success you gain a level'));
-        }
-        if($skill==2 && $this->Fighters->shows($id)){
-            $this->Flash->success(__('Success You gain a level'));
-            $this->Fighters->moreStrength($id);
-        }
+        $hasFullXp = $this->Fighters->hasFullXp($id);
 
-        if($skill==3 && $this->Fighters->shows($id)){
-            $this->Fighters->moreHealth($id);
-            $this->Flash->success(__('Success you gain a level'));
+        if($hasFullXp) {
+            if($this->Fighters->levelUp($id, $skill)) {
+                $this->Flash->success(__('Level Up ! Your player passed the next level'));
+            } else {
+                $this->Flash->error(__('Error! You must select a skill to improve'));
+            }
         }
 
-        $instance=$this->Fighters->get($id);
+        $instance = $this->Fighters->get($id);
         $this->set('fighter',$instance);
-        $this->set('show',$this->Fighters->shows($id));
+        $this->set('show', $hasFullXp);
         return $this->redirect(['action' => '/']);
-
     }
 
 

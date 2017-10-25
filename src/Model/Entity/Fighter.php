@@ -83,4 +83,11 @@ class Fighter extends Entity
 
         return true;
     }
+
+    public function levelUp() {
+        if($this->xp == 4) {
+            $this->level++;
+            $this->xp = 0;
+        }
+    }
 }

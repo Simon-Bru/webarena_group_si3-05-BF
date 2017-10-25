@@ -122,7 +122,7 @@ class FightersTable extends Table
         return $rules;
     }
 
-    public function shows($id){
+    public function hasFullXp($id){
         $allow=false;
         $temp=$this->get($id);
         if(($temp->xp)/4 == 1){
@@ -130,27 +130,27 @@ class FightersTable extends Table
         }
         return $allow;
     }
-    public function moreSight($id){
-        $temp=$this->get($id);
-        $temp->skill_sight++;
-        $temp->level++;
-        $temp->xp=0;
-        $this->save($temp);
 
-    }
-    public function moreHealth($id){
-        $temp=$this->get($id);
-        $temp->skill_health++;
-        $temp->level++;
-        $temp->xp=0;
-        $this->save($temp);
-    }
-    public function moreStrength($id){
-        $temp=$this->get($id);
-        $temp->skill_strength++;
-        $temp->level++;
-        $temp->xp=0;
-        $this->save($temp);
+    public function levelUp($id, $skill) {
+        $fighter=$this->get($id);
+
+        $fighter->levelUp();
+
+        switch($skill) {
+            case 1:
+                $fighter->skill_sight++;
+                break;
+            case 2:
+                $fighter->skill_strength++;
+                break;
+            case 3:
+                $fighter->skill_health++;
+                break;
+            default:
+                return false;
+        }
+
+        return $this->save($fighter);
     }
 
     public function remove($id){
