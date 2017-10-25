@@ -106,4 +106,28 @@
             </div>
 
         <?php endforeach; ?>
+
+        <?php
+            echo $this->Html->link(
+                'Sight',
+                array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 1),
+                ['class' => 'button']
+            );
+
+            echo $this->Html->link(
+                'Strength',
+                array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 2),
+                ['class' => 'button']
+            );
+
+            echo $this->Html->link(
+                'Health',
+                array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 3),
+                ['class' => 'button']
+            );
+        ?>
+         <h2> Get <?= (4-($fighter->xp%4))?> more xp to level up </h2>
+
+
 </section>
+

@@ -121,4 +121,35 @@ class FightersTable extends Table
 
         return $rules;
     }
+
+    public function shows($id){
+        $allow=false;
+        $temp=$this->get($id);
+        if(($temp->xp)/4 >= $temp->level){
+            $allow=true;
+        }
+        return $allow;
+    }
+    public function moreSight($id){
+        $temp=$this->get($id);
+        $temp->skill_sight++;
+        $temp->level++;
+        $temp->xp=0;
+        $this->save($temp);
+
+    }
+    public function moreHealth($id){
+        $temp=$this->get($id);
+        $temp->skill_health++;
+        $temp->level++;
+        $temp->xp=0;
+        $this->save($temp);
+    }
+    public function moreStrength($id){
+        $temp=$this->get($id);
+        $temp->skill_strength++;
+        $temp->level++;
+        $temp->xp=0;
+        $this->save($temp);
+    }
 }

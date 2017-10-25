@@ -130,6 +130,7 @@ class FightersController extends AppController
             ->where([
                 'Fighters.player_id = ' => $this->Auth->user('id')
             ]);
+        //var_dump($myid);
         $this->set('record', 'uploadAvatar'); //Setting View Variable
 
         if ($this->request->is('post')) {
@@ -146,6 +147,7 @@ class FightersController extends AppController
                     //where we are putting it
 
                     move_uploaded_file($file['tmp_name'], WWW_ROOT . '/img' . $myid. '.' . $ext);
+                    var_dump($file);
                     $this->Flash->success(__('Success'));
                 }
 
@@ -154,7 +156,34 @@ class FightersController extends AppController
 
 
         }
-        return $this->redirect(['action' => 'view/1']);
+        //return $this->redirect(['action' => 'view/1']);
     }
+
+
+    public function levelUp($id,$skill){
+        $this->loadModel('Fighters');
+
+        if($skill==1 && $this->Fighters->shows($id)){
+            $this->Fighters->moreSight($id);
+            $this->Flash->success(__('Success you gain a level'));
+        }
+        if($skill==2 && $this->Fighters->shows($id)){
+            $this->Flash->success(__('Success You gain a level'));
+            $this->Fighters->moreStrength($id);
+        }
+
+        if($skill==3 && $this->Fighters->shows($id)){
+            $this->Fighters->moreHealth($id);
+            $this->Flash->success(__('Success you gain a level'));
+        }
+
+        $instance=$this->Fighters->get($id);
+        $this->set('fighter',$instance);
+        $this->set('show',$this->Fighters->shows($id));
+        return $this->redirect(['action' => '/']);
+
+    }
+
+
 
 }
