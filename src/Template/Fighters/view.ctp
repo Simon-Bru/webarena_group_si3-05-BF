@@ -64,17 +64,32 @@
 
         <h2>My avatar</h2>
         <!--we will use $myid when using sessions-->
+        <?=$myid=$this->Number->format($fighter->id) ?>
         <?php
-        if (!file_exists(WWW_ROOT.'img'. DS . 'avatar' . DS .  $myid.'.jpg'))
+        if (!file_exists(WWW_ROOT.'img'.$myid.'.jpg'))
         {
             echo $this->Html->image('avatar.jpg',array("width"=>"200", "height"=>"200"));
         }else
         {
 
-            echo $this->Html->image('avatar/'.$myid.'.jpg',array("width"=>"200", "height"=>"200"));
+            echo $this->Html->image('img/'.$myid.'.jpg',array("width"=>"200", "height"=>"200"));
+
         }
         ?>
 
+
     </div>
-    <a href="#" class="button" onclick="" >Change my Avatar</a>
+    <div class="panel">
+        <h2>Change Avatar</h2>
+
+
+        <?= $this->Form->create('Fighters',['controller' => 'Fighters', 'action' => 'changeAvatar']);?>
+        <?= $this->Form->create($record,['enctype'=>'multipart/form-data']);?>
+        <?= $this->Form->control('avatar',['type'=>'file']);?>
+        <?= $this->Form->button('Upload Avatar',['class'=>'btn btn-success']);?>
+        <?= $this->Form->end();?>
+
+
+    </div>
+
 </div>

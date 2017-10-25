@@ -2,7 +2,7 @@
     <h1>Log in</h1>
     <hr class="my-4">
 
-    <?= $this->Form->create('Players', array('url' => 'Players/login')); ?>
+    <?= $this->Form->create('Players', array('url' => '/Players/login')); ?>
     <fieldset>
             <?= $this->Form->control('email') ?>
             <?= $this->Form->control('password') ?>

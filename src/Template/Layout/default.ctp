@@ -29,6 +29,7 @@ $cakeDescription = 'WebArena';
     <?= $this->Html->css('bootstrap.min') ?>
     <?= $this->Html->css('fighter') ?>
     <?= $this->Html->css('icons8.min') ?>
+    <?= $this->Html->css('Style.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
