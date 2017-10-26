@@ -1,22 +1,49 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        WebArena
-    </title>
-
-    <?= $this->Html->meta('icon') ?>
-    <link href="https://fonts.googleapis.com/css?family=Raleway:500i|Roboto:300,400,700|Roboto+Mono" rel="stylesheet">
-</head>
-<div class="main">
+    <div class="jumbotron">
         <h1>Welcome in Web Arena</h1>
         <p>Web arena is  an online gaming website, a typical multiplayer arena created with CakePHP</p>
 
-    <div class="container">
-                <h1>Rules</h1>
     </div>
+    <h1>Rules</h1>
+    <hr class="my-4">
+    <?php
+    if (is_null($this->request->session()->read('Auth.User.email'))) {
+        // the user not logged
+        echo "You're not logged";
+        echo"<br>";
+        echo $this->Html->link(
+            'Login',
+            array('controller' => 'Pages', 'action' => 'login'),
+            ['class' => 'btn btn-primary']
+        );
+            echo"<br>";
+
+        echo $this->Html->link(
+            'Sign Up',
+            array('controller' => 'Players', 'action' => 'add'),
+            ['class' => 'btn btn-primary']
+        );
+
+    } else {
+
+        // user logged
+        echo "You're logged";
+        echo "<br>";
+        echo $this->Html->link(
+            'Logout ',
+            array('controller' => 'Players', 'action' => 'logout'),
+            ['class' => 'button']
+        );
+        echo "<br>";
+
+        echo $this->Html->link(
+            'Go to the Arena',
+            array('controller' => 'Arenas', 'action' => 'index'),
+            ['class' => 'button']
+        );
+    }
+
+    ?>
+
         <ul>
                 <li>A fighter is in a board arena at a position X, Y. This position can not be outside the
                         dimensions of the arena. Only one fighter per square. One arena per website.
@@ -78,5 +105,3 @@
                     </li>
             </ul>
 </div>
-</body>
-</html>

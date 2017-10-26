@@ -1,16 +1,11 @@
- "Bienvenu <?php echo $myname;?> dans WebArena"
+<h1>Welcome in WebArena</h1>
 
- </table>
- <?php
- echo "<table>";
- for ($i = 0; $i < 10; $i++) {
-         echo "<tr>";
-     for ($j = 0; $j < 15; $j++) {
-         echo "<td>";
-                 echo "0";
-         echo "</td>";
-     }
-     echo "</tr>";
- }
- echo "</table>";
- ?>
+<div class="grid">
+    <?php for ($w=0; $w < ARENA_WIDTH; $w++): ?>
+        <div class="row">
+            <?php for ($h=0; $h < ARENA_HEIGHT; $h++): ?>
+                <span class="cell"></span>
+            <?php endfor ?>
+        </div>
+    <?php endfor ?>
+</div>

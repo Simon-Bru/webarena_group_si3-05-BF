@@ -24,9 +24,9 @@ class FightersController extends AppController
             'contain' => ['Players', 'Guilds']
         ];
         $fighters = $this->Fighters->find('all')
-                            ->where([
-                                'Fighters.player_id = ' => $this->Auth->user('id')
-                            ]);
+            ->where([
+                'Fighters.player_id = ' => $this->Auth->user('id')
+            ]);
 
         $this->set(compact('fighters'));
         $this->set('_serialize', ['fighters']);
@@ -121,4 +121,64 @@ class FightersController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+
+    public function changeAvatar()
+    {
+        $this->request->allowMethod('post');
+
+        $referer = $this->referer();
+        $split_url = explode('/', $referer);
+        $fighterId = $split_url[sizeof($split_url)-1];
+
+        $file = $this->request->getData('avatar'); //put the data into a var for easy use
+
+        if (!empty($file['name'])) {
+
+            $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+
+            $arr_ext = array('jpg', 'jpeg', 'gif', 'png'); //set allowed extensions
+
+
+            //only process if the extension is valid
+            if (in_array($extension, $arr_ext)) {
+                //uploading of the file. First arg is the tmp name, second arg is
+                //where we are putting it
+
+                $file_exists = glob(WWW_ROOT.'img/avatars/fighter_'.$fighterId.'.*');
+                if($file_exists){
+                    unlink($file_exists[0]);
+                }
+                move_uploaded_file($file['tmp_name'],
+                    WWW_ROOT . 'img/avatars/fighter_' . $fighterId. '.' . $extension);
+                $this->Flash->success(__('Success'));
+            }
+
+        } else {
+            $this->Flash->error(__('Please select a image file to upload'));
+        }
+        return $this->redirect(['action' => 'view/'.$fighterId]);
+    }
+
+
+    public function levelUp($id, $skill){
+
+        $hasFullXp = $this->Fighters->hasFullXp($id);
+
+        if($hasFullXp) {
+            if($this->Fighters->levelUp($id, $skill)) {
+                $this->Flash->success(__('Level Up ! Your player passed the next level'));
+            } else {
+                $this->Flash->error(__('Error! You must select a skill to improve'));
+            }
+        }
+
+        $instance = $this->Fighters->get($id);
+        $this->set('fighter',$instance);
+        $this->set('show', $hasFullXp);
+        return $this->redirect(['action' => '/']);
+    }
+
+
+
 }
