@@ -5,7 +5,9 @@
 ?>
 <div class="jumbotron">
     <h1><?= __('Sign up') ?></h1>
-    <?= $this->Form->create($player) ?>
+    <?= $this->Form->create($player, [
+            'class' => 'col-12 col-md-8 col-lg-6 m-auto text-center'
+    ]) ?>
     <fieldset>
         <legend><?= __('Enter your info to join the fight !') ?></legend>
         <hr class="my-3">
