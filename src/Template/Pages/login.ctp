@@ -3,7 +3,7 @@
     <hr class="my-4">
     <?= $this->Form->create('Players', [
         'url' => '/Players/login',
-        'class' => 'col-12 text-center']); ?>
+        'class' => 'col-12 col-md-8 col-lg-6 m-auto text-center']); ?>
     <fieldset>
         <?= $this->Form->control('email') ?>
         <?= $this->Form->control('password') ?>
