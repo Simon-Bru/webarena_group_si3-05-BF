@@ -1,19 +1,3 @@
-<head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <?= WebArena ?>
-    </title>
-
-    <?= $this->Html->meta('icon') ?>
-
-    <?= $this->Html->css('bootstrap.min') ?>
-    <?= $this->Html->css('icons8.min') ?>
-    <?= $this->Html->css('style') ?>
-    <link href="https://fonts.googleapis.com/css?family=Raleway:500i|Roboto:300,400,700|Roboto+Mono" rel="stylesheet">
-</head>
-<div class="container">
-
     <div class="jumbotron">
         <h1>Welcome in Web Arena</h1>
         <p>Web arena is  an online gaming website, a typical multiplayer arena created with CakePHP</p>
@@ -121,9 +105,3 @@
                     </li>
             </ul>
 </div>
-    <footer class="container-fluid d-flex justify-content-around mt-5">
-        <p class="d-inline-block">Groupe SII3</p>
-        <p class="d-inline-block">&copy Bruguerolle/ Molano/ Belluccin Options BF</p>
-        <p class="d-inline-block"> <a href="https://github.com/Simon-Bru/webarena_group_si3-05-BF">Lien versionning</a></p>
-    </footer>
-

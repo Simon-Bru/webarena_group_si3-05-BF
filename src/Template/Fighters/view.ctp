@@ -45,6 +45,23 @@
             <?= $this->Number->format($fighter->coordinate_x) ?> ;
             <?= $this->Number->format($fighter->coordinate_y) ?> (X;Y)
         </dd>
+        <dt>Skills</dt>
+        <dd>
+            <ul class="m-auto skills">
+                <li class="d-flex align-items-center">
+                    <i class="icons8-iris-scan mr-2"></i>
+                    Sight : <?= $fighter->skill_sight ?>
+                </li>
+                <li class="d-flex align-items-center">
+                    <i class="icons8-muscle mr-2"></i>
+                    Strength: <?= $fighter->skill_strength ?>
+                </li>
+                <li class="d-flex align-items-center">
+                    <i class="icons8-heart-filled mr-2"></i>
+                    Max health: <?= $fighter->skill_health ?>
+                </li>
+            </ul>
+        </dd>
         <dt><?= $fighter->has('guild') ? "Guild" : "" ?></dt>
         <dd><?= $fighter->has('guild') ? $this->Html->link($fighter->guild->name, ['controller' => 'Guilds', 'action' => 'view', $fighter->guild->id]) : '' ?></dd>
     </dl>

@@ -8,7 +8,7 @@
     <nav class="nav nav-pills nav-fill mb-4 text-center">
         <?= $this->Html->link(
             __('My Fighters'),
-            ['action' => 'add'],
+            ['action' => ''],
             ['class' => 'nav-item nav-link active col-12 col-sm-2 ml-auto']
         ) ?>
         <?= $this->Html->link(
