@@ -87,7 +87,8 @@
 
         <?= $this->Form->create('Fighters', [
             'url' => '/Fighters/changeAvatar',
-            'enctype' => 'multipart/form-data'
+            'enctype' => 'multipart/form-data',
+            'class' => 'd-flex justify-content-around align-items-center'
         ]);?>
         <?= $this->Form->file('avatar');?>
         <?= $this->Form->button('Upload Avatar',['class'=>'btn-success']);?>
