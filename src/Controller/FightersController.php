@@ -194,7 +194,7 @@ class FightersController extends AppController
             $direction=$this->request->getData('direction');
 
             $query = $this->Fighters->find('all')->where([
-                'fighters.player_id = ' => $playerId
+                'player_id = ' => $playerId
             ]);
             if(!empty($query->toArray())) {
                 $fighter = $query->toArray()[0];

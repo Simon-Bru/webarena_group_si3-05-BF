@@ -11,7 +11,9 @@
     <p class="lead">Create a new fighter to get more power in the Arena.</p>
     <hr class="my-4">
 
-    <?= $this->Form->create($fighter) ?>
+    <?= $this->Form->create($fighter, [
+            'class' => 'col-12 col-md-8 col-lg-6 m-auto text-center'
+    ]) ?>
     <fieldset>
         <?php
             echo $this->Form->control('name');

@@ -99,12 +99,6 @@ class BootstrapFormHelper extends FormHelper
         ]
     ];
 
-    public function create($context = null, array $options = [])
-    {
-        $options = $this->setClass($options, 'col-12 col-md-8 col-lg-6 m-auto text-center');
-        return parent::create($context, $options);
-    }
-
     public function control($fieldName, array $options = []){
         $options = $this->setClass($options, ' form-control');
         return parent::control($fieldName, $options);
