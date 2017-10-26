@@ -98,9 +98,11 @@
                         </div>
 
                         <?php if(($fighter->hasFullXp())){?>
-                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#levelUpModal">
-                            Level Up !
-                        </button>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#levelUpModal">
+                                Level Up !
+                            </button>
+                        </div>
                         <div class="modal fade" id="levelUpModal" tabindex="-1" role="dialog" aria-labelledby="Choose a skill to level up" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">

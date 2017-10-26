@@ -70,7 +70,7 @@
             echo $this->Html->image(
                 'avatars/fighter_'
                 .$fighter->id.'.'
-                .explode('.', $avatar_path[0])[1]. '?=',
+                .explode('.', $avatar_path[0])[1]. '?='.date('U'),
                 [
                     'class' => 'img-fluid',
                     'alt' => 'avatar'
