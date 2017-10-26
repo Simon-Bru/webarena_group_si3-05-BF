@@ -50,3 +50,11 @@ button {
 .icons8-edit-filled {
     font-size: 25px;
 }
+
+.custom-file-control:before{
+    content: "Browse";
+}
+.custom-file-control:after{
+    content: "Choose files..";
+    float: left;
+}

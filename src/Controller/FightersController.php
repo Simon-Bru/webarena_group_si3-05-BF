@@ -151,7 +151,9 @@ class FightersController extends AppController
                 }
                 move_uploaded_file($file['tmp_name'],
                     WWW_ROOT . 'img/avatars/fighter_' . $fighterId. '.' . $extension);
-                $this->Flash->success(__('Success'));
+                $this->Flash->success(__('Your avatar was just uploaded'));
+            } else {
+                $this->Flash->error('Please choose an image file, '.$extension.' is not supported');
             }
 
         } else {
