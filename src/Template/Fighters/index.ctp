@@ -11,7 +11,7 @@
     <h3><?= __('My Fighters') ?></h3>
     <hr class="my-4">
 
-    <ul class="row fightersList p-2">
+    <div class="row fightersList p-2">
         <?php if($fighters->isEmpty()) { ?>
             <h5>You have no fighters yet ! Please click the link above to create one</h5>
         <?php } ?>
@@ -43,7 +43,6 @@
                             ?>
                         </div>
                         <h4 class="card-title"><?= h($fighter->name) ?></h4>
-                        <p class="card-text">
                         <dl>
                             <dt>Level <?= $this->Number->format($fighter->level) ?></dt>
                             <dd>
@@ -72,7 +71,6 @@
                             <dt><?= $fighter->has('guild') ? "Guild" : "" ?></dt>
                             <dd><?= $fighter->has('guild') ? $this->Html->link($fighter->guild->name, ['controller' => 'Guilds', 'action' => 'view', $fighter->guild->id]) : '' ?></dd>
                         </dl>
-                        </p>
                         <p class="text-center">
                             <button class="btn btn-info"
                                     type="button"
@@ -80,6 +78,7 @@
                                     data-target="#<?= $fighter->id ?>"
                                     aria-expanded="false"
                                     aria-controls="collapseExample">Show skills</button>
+                        </p>
                         <div class="collapse" id="<?= $fighter->id ?>">
                             <ul class="m-auto skills">
                                 <li class="d-flex align-items-center">
@@ -96,7 +95,6 @@
                                 </li>
                             </ul>
                         </div>
-
                         <?php if(($fighter->hasFullXp())){?>
                         <div class="text-center">
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#levelUpModal">
@@ -142,13 +140,13 @@
                                                 'escape' => false
                                             ]
                                         );
-                                        }?>
+                                        ?>
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        </p>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
