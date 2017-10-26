@@ -89,11 +89,8 @@
             'url' => '/Fighters/changeAvatar',
             'enctype' => 'multipart/form-data'
         ]);?>
-        <?= $this->Form->control('avatar',[
-            'type'=>'file',
-            ''
-        ]);?>
-        <?= $this->Form->button('Upload Avatar',['class'=>'btn btn-success']);?>
+        <?= $this->Form->file('avatar');?>
+        <?= $this->Form->button('Upload Avatar',['class'=>'btn-success']);?>
         <?= $this->Form->end();?>
 
 

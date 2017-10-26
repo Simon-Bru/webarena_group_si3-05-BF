@@ -32,7 +32,7 @@ class BootstrapFormHelper extends FormHelper
         ],
         'templates' => [
             // Used for button elements in button().
-            'button' => '<button class="btn btn-primary" {{attrs}}>{{text}}</button>',
+            'button' => '<button {{attrs}}>{{text}}</button>',
             // Used for checkboxes in checkbox() and multiCheckbox().
             'checkbox' => '<input type="checkbox" name="{{name}}" value="{{value}}"{{attrs}}>',
             // Input group wrapper for checkboxes created via control().
@@ -48,7 +48,10 @@ class BootstrapFormHelper extends FormHelper
             // Error item wrapper.
             'errorItem' => '<li>{{text}}</li>',
             // File input used by file().
-            'file' => '<input type="file" name="{{name}}"{{attrs}}>',
+            'file' => '<label class="custom-file">
+                           <input type="file" class="custom-file-input" name="{{name}}" {{attrs}}>
+                           <span class="custom-file-control"></span>
+                       </label>',
             // Fieldset element used by allControls().
             'fieldset' => '<fieldset{{attrs}}>{{content}}</fieldset>',
             // Open tag used by create().
@@ -98,12 +101,25 @@ class BootstrapFormHelper extends FormHelper
 
     public function create($context = null, array $options = [])
     {
-        $options['class'] = 'col-12 col-md-8 col-lg-6 m-auto text-center';
+        $options = $this->setClass($options, 'col-12 col-md-8 col-lg-6 m-auto text-center');
         return parent::create($context, $options);
     }
 
     public function control($fieldName, array $options = []){
-        $options['class'] = 'form-control';
+        $options = $this->setClass($options, ' form-control');
         return parent::control($fieldName, $options);
+    }
+
+    public function button($title, array $options = [])
+    {
+        $options = $this->setClass($options, ' btn');
+        return parent::button($title, $options);
+    }
+
+    private function setClass($options, $className) {
+        $options['class'] = empty($options['class']) ?
+                            $className :
+                            $options['class'].' '.$className;
+        return $options;
     }
 }

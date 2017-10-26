@@ -61,3 +61,11 @@ button {
 .icons8-edit-filled {
     font-size: 25px;
 }
+
+.custom-file-control:before{
+    content: "Browse";
+}
+.custom-file-control:after{
+    content: "Add files..";
+    float: left;
+}
