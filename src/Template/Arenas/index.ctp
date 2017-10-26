@@ -36,7 +36,7 @@
     echo $this->Form->control('direction', array('default', 'type' => 'hidden','action' => 'move','value'=> 4));
     echo $this->Form->button($this->Html->tag('i', '', [
         'class' => 'icons8-drop-down-filled display-4'
-    ]), ['escape' => false, 'class' => 'btn-link text-dark d-inline-block p-0' ]);
+    ]), ['escape' => false, 'class' => 'btn-link text-dark d-inline-block mt-3 p-0' ]);
     echo $this->Form->end();
     ?>
 </div>
@@ -44,7 +44,7 @@
 
 <div class="grid">
     <?php for ($h=0; $h < ARENA_HEIGHT; $h++): ?>
-        <div class="row">
+        <div class="row d-flex justify-content-center">
             <?php for ($w=0; $w < ARENA_WIDTH; $w++): ?>
                 <span class="cell"></span>
             <?php endfor ?>
