@@ -9,14 +9,14 @@
         <?= $this->Form->control('password') ?>
     </fieldset>
 
-    <?= $this->Form->button(__('Log In')); ?>
+    <?= $this->Form->button(__('Log In'), ['class' => 'btn-success']); ?>
     <?= $this->Form->end() ?>
 
     <div class="col-12 text-center">
         <small class="d-block">Not a member yet? </small>
         <?php echo $this->Html->link('Sign Up',
             array('controller' => 'Players', 'action' => 'add'),
-            ['class' => 'btn btn-primary']); ?>
+            ['class' => 'btn btn-info btn-sm']); ?>
         <a class="d-block" data-toggle="collapse" href="#forgottenPwdForm" aria-expanded="false" aria-controls="collapseExample">
             Forgot your password ?
         </a>

@@ -15,13 +15,13 @@
         echo $this->Form->control('password_confirmation', ['type' => 'password']);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Sign Up'), ['class' => 'btn-success']) ?>
     <?= $this->Form->end() ?>
 
     <div class="col-12 text-center">
         <small class="d-block">Already a member? </small>
         <?php echo $this->Html->link('Log In',
             '/login',
-            ['class' => 'btn btn-primary']); ?>
+            ['class' => 'btn btn-info btn-sm']); ?>
     </div>
 </div>
