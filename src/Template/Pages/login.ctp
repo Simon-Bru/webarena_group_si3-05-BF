@@ -2,8 +2,8 @@
     <h1>Log in</h1>
     <hr class="my-4">
     <?= $this->Form->create('Players', [
-        'url' => '/Players/login',
-        'class' => 'col-12 col-md-8 col-lg-6 m-auto text-center']); ?>
+            'url' => '/Players/login'
+        ]); ?>
     <fieldset>
         <?= $this->Form->control('email') ?>
         <?= $this->Form->control('password') ?>
