@@ -77,7 +77,7 @@ class Fighter extends Entity
 
         foreach ($query as $row) {
             if($y == $row->coordinate_y
-                || $x == $row->coordinate_x) {
+                && $x == $row->coordinate_x) {
                 return false;
             }
         }
@@ -101,5 +101,41 @@ class Fighter extends Entity
         }
         return $allow;
     }
+
+
+    public function move($direction){
+
+            switch ($direction) {
+                //UP
+                case 1:
+                    $this->coordinate_y--;
+                    break;
+                //left
+                case 2:
+                    $this->coordinate_x--;
+                    break;
+                //right
+                case 3:
+                    $this->coordinate_x++;
+                    break;
+                //DOWN
+                case 4:
+                    $this->coordinate_y++;
+                    break;
+               default:
+                    return false;
+            }
+        if(self::positionIsFree($this->coordinate_x, $this->coordinate_y) &&
+            $this->coordinate_x>=0 &&
+            $this->coordinate_x<=ARENA_WIDTH &&
+            $this->coordinate_y>=0 &&
+            $this->coordinate_y<= ARENA_HEIGHT) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 
 }

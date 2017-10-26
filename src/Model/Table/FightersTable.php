@@ -158,6 +158,4 @@ class FightersTable extends Table
         }
         return $allow;
     }
-
-
 }
