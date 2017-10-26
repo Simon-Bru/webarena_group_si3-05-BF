@@ -4,7 +4,9 @@
  */
 ?>
 
-<div class="jumbotron">
+<div class="jumbotron pt-4">
+    <?= $this->element('Nav/fighters'); ?>
+
     <div class="float-right">
         <?= $this->Form->postLink(
             $this->Html->tag('i', '', [

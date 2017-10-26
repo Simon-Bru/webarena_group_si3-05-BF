@@ -5,18 +5,8 @@
  */
 ?>
 <section class="jumbotron pt-4">
-    <nav class="nav nav-pills nav-fill mb-4 text-center">
-        <?= $this->Html->link(
-            __('My Fighters'),
-            ['action' => 'add'],
-            ['class' => 'nav-item nav-link col-12 col-sm-2 ml-auto']
-        ) ?>
-        <?= $this->Html->link(
-            __('New Fighter'),
-            ['action' => 'add'],
-            ['class' => 'nav-item nav-link col-12 col-sm-2 mr-auto']
-        ) ?>
-    </nav>
+
+    <?= $this->element('Nav/fighters') ?>
 
     <h4 class="card-title"><h3><?= h($fighter->name) ?></h3></h4>
     <p class="card-text">

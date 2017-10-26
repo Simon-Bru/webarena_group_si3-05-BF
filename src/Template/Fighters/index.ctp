@@ -5,18 +5,9 @@
  */
 ?>
 <section class="jumbotron pt-4">
-    <nav class="nav nav-pills nav-fill mb-4 text-center">
-        <?= $this->Html->link(
-            __('My Fighters'),
-            ['action' => ''],
-            ['class' => 'nav-item nav-link active col-12 col-sm-2 ml-auto']
-        ) ?>
-        <?= $this->Html->link(
-            __('New Fighter'),
-            ['action' => 'add'],
-            ['class' => 'nav-item nav-link col-12 col-sm-2 mr-auto']
-        ) ?>
-    </nav>
+
+    <?= $this->element('Nav/fighters', ['isIndex' => true]); ?>
+
     <h3><?= __('My Fighters') ?></h3>
     <hr class="my-4">
 

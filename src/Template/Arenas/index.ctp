@@ -1,9 +1,9 @@
 <h1>Welcome in WebArena</h1>
 
 <div class="grid">
-    <?php for ($w=0; $w<15; $w++): ?>
+    <?php for ($w=0; $w < ARENA_WIDTH; $w++): ?>
         <div class="row">
-            <?php for ($h=0; $h<10; $h++): ?>
+            <?php for ($h=0; $h < ARENA_HEIGHT; $h++): ?>
                 <span class="cell"></span>
             <?php endfor ?>
         </div>
