@@ -56,8 +56,7 @@ class MessagesTable extends Table
 
         $validator
             ->dateTime('date')
-            ->requirePresence('date', 'create')
-            ->notEmpty('date');
+            ->allowEmpty('date');
 
         $validator
             ->scalar('title')
@@ -70,9 +69,9 @@ class MessagesTable extends Table
             ->notEmpty('message');
 
         $validator
-            ->integer('fighter_id_from')
-            ->requirePresence('fighter_id_from', 'create')
-            ->notEmpty('fighter_id_from');
+            ->integer('fighter_id')
+            ->requirePresence('fighter_id', 'create')
+            ->notEmpty('fighter_id');
 
         return $validator;
     }

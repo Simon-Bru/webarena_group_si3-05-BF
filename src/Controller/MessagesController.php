@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\I18n\Time;
 
 /**
  * Messages Controller
@@ -51,17 +52,61 @@ class MessagesController extends AppController
     public function add()
     {
 //        TODO SELEction des fighters
-        $message = $this->Messages->newEntity();
-        if ($this->request->is('post')) {
-            $message = $this->Messages->patchEntity($message, $this->request->getData());
-            if ($this->Messages->save($message)) {
-                $this->Flash->success(__('The message has been saved.'));
+        $fightersTable = $this->loadModel('Fighters');
+        $query = $fightersTable
+            ->find()
+            ->select(['id', 'name']);
 
-                return $this->redirect(['action' => 'index']);
+        $fighters = array_map(function ($fighters) {
+            return [
+                'value' => $fighters['id'],
+                'text' => $fighters['name']
+            ];
+        }, $query->toArray());
+
+
+        $message = $this->Messages->newEntity();
+
+
+
+
+            $time = Time::now();
+
+            $message->date = $time;
+            $message->fighter_id_from = $fightersTable
+                ->find('fighter_id_from')
+                ->select(['fighter_id_from'])
+                ->where(['player_id' == $this->Auth->user('id')]);
+            $fighterexist = $message;
+
+
+            if ($this->request->is('post')) {
+
+                if (!empty($fighterexist)) {
+                    //var_dump($fighterexist);
+                    $message = $this->Messages->patchEntity($message, $this->request->getData());
+                    if ($this->Messages->save($message)) {
+                        $this->Flash->success(__('The message has been saved.'));
+
+                        return $this->redirect(['action' => 'index']);
+                    }
+                    $this->Flash->error(__('The message could not be saved. Please, try again.'));
+
+                }
+
+                else {
+                    $this->Flash->error(__('Please create a fighter'));
+                    return $this->redirect(['controller' => 'Fighters', 'action' => 'add']);
+                }
+
+
+
             }
-            $this->Flash->error(__('The message could not be saved. Please, try again.'));
-        }
+        $this->Flash->error(__('Please complete all the mandatory fields'));
         $this->set(compact('message', 'fighters'));
+
+
+
     }
 
     /**
