@@ -51,7 +51,7 @@ class MessagesController extends AppController
      */
     public function add()
     {
-//        TODO SELEction des fighters
+//
         $fightersTable = $this->loadModel('Fighters');
         $query = $fightersTable
             ->find()
@@ -70,18 +70,19 @@ class MessagesController extends AppController
 
 
 
-            $time = Time::now();
-
-            $message->date = $time;
-            $message->fighter_id_from = $fightersTable
-                ->find('fighter_id_from')
-                ->select(['fighter_id_from'])
-                ->where(['player_id' == $this->Auth->user('id')]);
-            $fighterexist = $message;
+            
 
 
             if ($this->request->is('post')) {
 
+                $time = Time::now();
+
+                $message->date = $time;
+                $message->fighter_id_from = $fightersTable
+                    ->find()
+                    ->select(['fighter_id_from'])
+                    ->where(['player_id' == $this->Auth->user('id')]);
+                $fighterexist = $message;
                 if (!empty($fighterexist)) {
                     //var_dump($fighterexist);
                     $message = $this->Messages->patchEntity($message, $this->request->getData());
