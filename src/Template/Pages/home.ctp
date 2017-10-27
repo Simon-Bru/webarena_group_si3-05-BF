@@ -1,5 +1,5 @@
     <div class="jumbotron">
-        <h1>Welcome in Web Arena</h1>
+        <h1>Welcome to Web Arena</h1>
         <p>Web arena is  an online gaming website, a typical multiplayer arena created with CakePHP</p>
 
     </div>

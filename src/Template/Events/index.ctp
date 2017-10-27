@@ -5,15 +5,17 @@
  */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Event'), ['action' => 'add']) ?></li>
+    <ul class="nav nav-pills nav-fill justify-content-end">
+        <li class="nav-link active"><?= __('Actions') ?></li>
+        <li class="nav-link"><?= $this->Html->link(__('New Event'), ['action' => 'add']) ?></li>
     </ul>
 </nav>
+<div class="text-center"><h1>Diary</h1></div>
 <div class="events index large-9 medium-8 columns content">
-    <h3><?= __('Events') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
+
+    <table class="table table-responsive table-hover">
+        <caption><h4>Last 24 Hours events</h4></caption>
+        <thead class="thead-inverse">
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
@@ -40,14 +42,24 @@
             <?php endforeach; ?>
         </tbody>
     </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
-    </div>
+
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <?= $this->Paginator->prev('<<'.__('Previous'), [
+                            'class' => 'page-link'
+                    ]); ?>
+                </li>
+                <li class="page-item"><?= $this->Paginator->first('<< ' . __('first'), [
+                        'class' => 'page-link'
+                    ]) ?></li>
+                <li class="page-item"><?= $this->Paginator->numbers() ?></li>
+                <li class="page-item"><?= $this->Paginator->next(__('Next') . ' >>') ?></li>
+                <li class="page-item"><?= $this->Paginator->last(__('last') . ' >>') ?></li>
+            </ul>
+
+        </nav>
+    <p class="text-info"><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+
 </div>
