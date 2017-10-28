@@ -44,17 +44,17 @@
 
 <p>
 
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#screamForm" aria-expanded="false" aria-controls="screamForm">
         Scream
     </button>
 </p>
-<div class="collapse" id="collapseExample">
+<div class="collapse" id="screamForm">
     <div class="card card-body">
         <?= $this->Form->create('Scream', [
             'url' => '/events/scream',
             'class' => '']);?>
         <fieldset>
-        <?= $this->Form->control('name', array('default','controller' => 'events','action' => 'scream'));?>
+        <?= $this->Form->control('name', array('default','controller' => 'events','action' => 'scream', 'label' => 'Scream something'));?>
          </fieldset>
         <?= $this->Form->button(__('Submit'),['class' => 'btn-primary']);?>
         <?=$this->Form->end();?>
@@ -63,7 +63,7 @@
 </div>
 
 <div class="grid mt-4">
-    <?php for ($h=0; $h < ARENA_HEIGHT; $h++): ?>
+    <?php for ($y=0; $y < ARENA_HEIGHT; $y++): ?>
         <div class="row d-flex justify-content-center">
             <?php for ($x=0; $x < ARENA_WIDTH; $x++): ?>
                 <span class="cell">

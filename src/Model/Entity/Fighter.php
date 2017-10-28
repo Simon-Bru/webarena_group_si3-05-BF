@@ -144,9 +144,9 @@ class Fighter extends Entity
             }
         if(self::positionIsFree($this->coordinate_x, $this->coordinate_y) &&
             $this->coordinate_x>=0 &&
-            $this->coordinate_x<=ARENA_WIDTH &&
+            $this->coordinate_x<ARENA_WIDTH &&
             $this->coordinate_y>=0 &&
-            $this->coordinate_y<= ARENA_HEIGHT) {
+            $this->coordinate_y< ARENA_HEIGHT) {
             return true;
         }
         else{
