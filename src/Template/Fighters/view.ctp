@@ -10,7 +10,11 @@
 
     <h4 class="card-title"><h3><?= h($fighter->name) ?></h3></h4>
     <p class="card-text">
-    <?= $this->element('Component/levelUp', ['fighter' => $fighter]); ?>
+    <?php
+    if($isMine) {
+        echo $this->element('Component/levelUp', ['fighter' => $fighter]);
+    }
+    ?>
     <dl>
         <dt>Level <?= $this->Number->format($fighter->level) ?></dt>
         <dd>
@@ -26,16 +30,26 @@
             </div>
         </dd>
         <dt>Current health</dt>
-        <dd><?php
+        <dd>
+            <?php
             for($i=0; $i < $fighter->current_health; $i++) {
                 echo("<i class='icons8-heart-filled text-danger'></i>");
             }
-            ?></dd>
-        <dt>Position</dt>
-        <dd>
-            <?= $this->Number->format($fighter->coordinate_x) ?> ;
-            <?= $this->Number->format($fighter->coordinate_y) ?> (X;Y)
+            ?>
         </dd>
+
+        <?php
+        if($isMine) {
+            ?>
+            <dt>Position</dt>
+            <dd>
+                <?= $this->Number->format($fighter->coordinate_x) ?> ;
+                <?= $this->Number->format($fighter->coordinate_y) ?> (X;Y)
+            </dd>
+            <?php
+        }
+        ?>
+
         <dt>Skills</dt>
         <dd>
             <ul class="m-auto skills">
@@ -82,20 +96,23 @@
 
 
     </div>
-    <div class="panel">
-        <h2>Change Avatar</h2>
+    <?php
+    if($isMine) {
+        ?>
+        <div class="panel">
+            <h2>Change Avatar</h2>
 
 
-        <?= $this->Form->create('Fighters', [
-            'url' => '/Fighters/changeAvatar',
-            'enctype' => 'multipart/form-data',
-            'class' => 'd-flex justify-content-around align-items-center'
-        ]);?>
-        <?= $this->Form->file('avatar');?>
-        <?= $this->Form->button('Upload Avatar',['class'=>'btn-success']);?>
-        <?= $this->Form->end();?>
-
-
-    </div>
-
+            <?= $this->Form->create('Fighters', [
+                'url' => '/Fighters/changeAvatar',
+                'enctype' => 'multipart/form-data',
+                'class' => 'd-flex justify-content-around align-items-center'
+            ]);?>
+            <?= $this->Form->file('avatar');?>
+            <?= $this->Form->button('Upload Avatar',['class'=>'btn-success']);?>
+            <?= $this->Form->end();?>
+        </div>
+        <?php
+    }
+    ?>
 </section>
