@@ -16,16 +16,16 @@
     <table class="table table-responsive table-hover">
         <caption><h4><i class="icons8-arena-filled"></i> Last 24 Hours events</h4></caption>
         <thead class="thead-inverse">
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('name') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('date') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('coordinate_x') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('coordinate_y') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
+        <tr>
+            <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+            <th scope="col"><?= $this->Paginator->sort('date') ?></th>
+            <th scope="col"><?= $this->Paginator->sort('coordinate_x') ?></th>
+            <th scope="col"><?= $this->Paginator->sort('coordinate_y') ?></th>
+            <th scope="col" class="actions"><?= __('Actions') ?></th>
+        </tr>
         </thead>
         <tbody>
-            <?php foreach ($events as $event): ?>
+        <?php foreach ($events as $event): ?>
             <tr>
                 <td><?= h($event->name) ?></td>
                 <td><?= h($event->date) ?></td>
@@ -51,27 +51,27 @@
 
 
             </tr>
-            <?php endforeach; ?>
+        <?php endforeach; ?>
         </tbody>
     </table>
 
 
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <?= $this->Paginator->prev('<<'.__('Previous'), [
-                            'class' => 'page-link'
-                    ]); ?>
-                </li>
-                <li class="page-item"><?= $this->Paginator->first('<< ' . __('first'), [
-                        'class' => 'page-link'
-                    ]) ?></li>
-                <li class="page-item"><?= $this->Paginator->numbers() ?></li>
-                <li class="page-item"><?= $this->Paginator->next(__('Next') . ' >>') ?></li>
-                <li class="page-item"><?= $this->Paginator->last(__('last') . ' >>') ?></li>
-            </ul>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <?= $this->Paginator->prev('<<'.__('Previous'), [
+                    'class' => 'page-link'
+                ]); ?>
+            </li>
+            <li class="page-item"><?= $this->Paginator->first('<< ' . __('first'), [
+                    'class' => 'page-link'
+                ]) ?></li>
+            <li class="page-item"><?= $this->Paginator->numbers() ?></li>
+            <li class="page-item"><?= $this->Paginator->next(__('Next') . ' >>') ?></li>
+            <li class="page-item"><?= $this->Paginator->last(__('last') . ' >>') ?></li>
+        </ul>
 
-        </nav>
+    </nav>
     <p class="text-info"><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
 
 </div>

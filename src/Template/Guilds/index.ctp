@@ -30,11 +30,6 @@
                             ['class' => 'icons8-eye-filled text-dark mx-1']),
                         ['action' => 'view', $guild->id],
                         ['escape' => false]) ?>
-                    <?= $this->Html->link(
-                        $this->Html->tag('i', '',
-                            ['class' => 'icons8-edit-filled text-dark mx-1']),
-                        ['action' => 'edit', $guild->id],
-                        ['escape' => false]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
