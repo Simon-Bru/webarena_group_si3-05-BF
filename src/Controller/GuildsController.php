@@ -89,16 +89,6 @@ class GuildsController extends AppController
         $this->set('_serialize', ['guild']);
     }
 
-    public function join($id = null)
-    {
-
-        $guild = $this->Guilds->get($id);
-        $fightersTable = $this->loadModel('Fighters');
-        $fighter_->fighter_id_from =
-
-            $this->set(compact('guild'));
-        $this->set('_serialize', ['guild']);
-    }
 
     /**
      * Delete method

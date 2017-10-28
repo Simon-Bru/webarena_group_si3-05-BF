@@ -95,6 +95,24 @@
         <?= $this->Form->end();?>
 
 
+
     </div>
+    <div class="jumbotron ">
+            <fieldset>
+                <legend><?= __('Join Guild') ?></legend>
+                <?php
+
+                echo $this->Form->control('name', [
+                    'type' => 'select',
+                    'options' => $guilds
+                ]);
+
+                ?>
+            </fieldset>
+            <?= $this->Form->button(__('Join')) ?>
+            <?= $this->Form->end() ?>
+        </div>
+
+
 
 </section>

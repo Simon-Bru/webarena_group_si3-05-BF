@@ -68,11 +68,6 @@ class MessagesController extends AppController
         $message = $this->Messages->newEntity();
 
 
-
-
-            
-
-
             if ($this->request->is('post')) {
 
                 $time = Time::now();

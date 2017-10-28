@@ -47,6 +47,45 @@ class FightersController extends AppController
 
         $this->set('fighter', $fighter);
         $this->set('_serialize', ['fighter']);
+
+        $guildsTable = $this->loadModel('Guilds');
+        $guildquery = $guildsTable
+            ->find()
+            ->select(['id','name']);
+
+        $guilds = array_map(function ($guilds) {
+            return [
+                'value' => $guilds['id'],
+                'text' => $guilds['name']
+            ];
+        }, $guildquery->toArray());
+
+
+
+        if ($this->request->is('post')) {
+
+            $guildId = $this->Guilds->get($id);
+
+            $fighterId = $this->GetSelectedFightersId();
+
+            $fightersTable = $this->loadModel('Fighters');
+            $query = $fightersTable->query();
+                $query->update()
+                ->set(['guild_id' => $guildId])
+                ->where(['id' => $fighterId])
+                ->execute();
+
+            $fighters = array_map(function ($fighters) {
+                return [
+                    'value' => $fighters['id'],
+                    'text' => $fighters['name']
+                ];
+            }, $query->toArray());
+
+        }
+
+        $this->set(compact( 'guilds'));
+
     }
 
     /**
@@ -101,6 +140,8 @@ class FightersController extends AppController
         $this->set(compact('fighter', 'players', 'guilds'));
         $this->set('_serialize', ['fighter']);
     }
+
+
 
     /**
      * Delete method
