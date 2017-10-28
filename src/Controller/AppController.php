@@ -50,7 +50,7 @@ class AppController extends Controller
                 'action' => 'login'
             ],
             'loginRedirect' => [
-                'controller' => 'Arenas',
+                'controller' => 'Fighters',
                 'action' => 'index'
             ],
             'logoutRedirect' => [

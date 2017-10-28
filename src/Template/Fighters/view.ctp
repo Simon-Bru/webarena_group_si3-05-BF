@@ -10,6 +10,7 @@
 
     <h4 class="card-title"><h3><?= h($fighter->name) ?></h3></h4>
     <p class="card-text">
+    <?= $this->element('Component/levelUp', ['fighter' => $fighter]); ?>
     <dl>
         <dt>Level <?= $this->Number->format($fighter->level) ?></dt>
         <dd>

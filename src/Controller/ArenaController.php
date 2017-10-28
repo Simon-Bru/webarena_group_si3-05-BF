@@ -7,7 +7,7 @@ use Cake\Event\Event;
  * User personal interface
  *
  */
-class ArenasController  extends AppController
+class ArenaController  extends AppController
 {
     public function index()
     {
