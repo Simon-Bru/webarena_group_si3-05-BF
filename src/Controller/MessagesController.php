@@ -61,50 +61,57 @@ class MessagesController extends AppController
             return [
                 'value' => $fighters['id'],
                 'text' => $fighters['name']
+
             ];
-        }, $query->toArray());
+        }, $query->toArray() );
+
+        $fighters_from_query = $fightersTable
+            ->find()
+            ->select(['id','name'])
+            ->where(['player_id' => $this->Auth->user('id')]);
+
+        $fighters_from = array_map(function ($fighters) {
+            return [
+                'value' => $fighters['id'],
+                'text' => $fighters['name']
+
+            ];
+        }, $fighters_from_query->toArray());
+
 
 
         $message = $this->Messages->newEntity();
 
+        if ($this->request->is('post')) {
+
+            $time = Time::now();
+
+            $message->date = $time;
 
 
+            if (!empty($fighters_from_query)) {
+                //var_dump($fighterexist);
+                $message = $this->Messages->patchEntity($message, $this->request->getData());
+                if ($this->Messages->save($message)) {
+                    $this->Flash->success(__('The message has been saved.'));
 
-            
-
-
-            if ($this->request->is('post')) {
-
-                $time = Time::now();
-
-                $message->date = $time;
-                $message->fighter_id_from = $fightersTable
-                    ->find()
-                    ->select(['fighter_id_from'])
-                    ->where(['player_id' == $this->Auth->user('id')]);
-                $fighterexist = $message;
-                if (!empty($fighterexist)) {
-                    //var_dump($fighterexist);
-                    $message = $this->Messages->patchEntity($message, $this->request->getData());
-                    if ($this->Messages->save($message)) {
-                        $this->Flash->success(__('The message has been saved.'));
-
-                        return $this->redirect(['action' => 'index']);
-                    }
-                    $this->Flash->error(__('The message could not be saved. Please, try again.'));
-
+                    return $this->redirect(['action' => 'index']);
                 }
-
-                else {
-                    $this->Flash->error(__('Please create a fighter'));
-                    return $this->redirect(['controller' => 'Fighters', 'action' => 'add']);
-                }
-
-
+                $this->Flash->error(__('The message could not be saved. Please, try again.'));
 
             }
-        $this->Flash->error(__('Please complete all the mandatory fields'));
+
+            else {
+                $this->Flash->error(__('Please create a fighter'));
+                return $this->redirect(['controller' => 'Fighters', 'action' => 'add']);
+            }
+
+
+
+        }
+
         $this->set(compact('message', 'fighters'));
+        $this->set(compact('message', 'fighters_from'));
 
 
 

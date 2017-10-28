@@ -5,6 +5,7 @@
  */
 ?>
 <div class="jumbotron">
+
     <h3><?= h($message->title) ?></h3>
     <table class="vertical-table">
         <tr>
