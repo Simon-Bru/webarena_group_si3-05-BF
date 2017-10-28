@@ -5,32 +5,31 @@
  */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Guild'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Fighters'), ['controller' => 'Fighters', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Fighter'), ['controller' => 'Fighters', 'action' => 'add']) ?></li>
+    <ul class="navbar list-unstyled justify-content-end">
+        <li class="nav-item"><?= $this->Html->link(__('Create a Guild'), ['action' => 'add']) ?></li>
     </ul>
 </nav>
-<div class="guilds index large-9 medium-8 columns content">
-    <h3><?= __('Guilds') ?></h3>
-    <table cellpadding="0" cellspacing="0">
+
+<div class="events view large-9 medium-8 columns content">
+    <h1><i class="icons8-shield-filled"></i> Guilds List</h1>
+    <table class="table table-responsive table-hover">
         <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+            <tr class="table table-info">
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+                <th></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($guilds as $guild): ?>
             <tr>
-                <td><?= $this->Number->format($guild->id) ?></td>
                 <td><?= h($guild->name) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $guild->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $guild->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $guild->id], ['confirm' => __('Are you sure you want to delete # {0}?', $guild->id)]) ?>
+                <td> <?= $this->Html->link(
+                        $this->Html->tag('i', '',
+                            ['class' => 'icons8-eye-filled text-dark mx-1']),
+                        ['action' => 'view', $guild->id],
+                        ['escape' => false]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>
@@ -44,6 +43,6 @@
             <?= $this->Paginator->next(__('next') . ' >') ?>
             <?= $this->Paginator->last(__('last') . ' >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+        <p class="text-info"><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
 </div>

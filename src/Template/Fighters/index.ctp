@@ -17,28 +17,50 @@
         <?php } ?>
         <?php foreach ($fighters as $fighter): ?>
             <div class="col-sm-4 d-inline-block">
-                <div class="card">
+                <div class="card <?= $this->request->getSession()->read($fighter->player_id) == $fighter->id ? ' border-info' : '' ?>">
                     <div class="card-body">
-                        <div class="float-right">
-                            <?= $this->Html->link(
-                                $this->Html->tag('i', '',
-                                    ['class' => 'icons8-eye-filled text-dark mx-1']),
-                                ['action' => 'view', $fighter->id],
-                                ['escape' => false]) ?>
-                            <?= $this->Html->link(
-                                $this->Html->tag('i', '',
-                                    ['class' => 'icons8-edit-filled text-dark mx-1']),
-                                ['action' => 'edit', $fighter->id],
-                                ['escape' => false]) ?>
-                            <?= $this->Form->postLink(
-                                $this->Html->tag('i', '', [
-                                    'class' => 'icons8-delete-bin-filled text-danger mx-1'
-                                ]),
-                                ['action' => 'delete', $fighter->id],
+                        <div class="w-100 text-right">
+                            <?= $this->Html->link('Select', [
+                                'action' => 'select', $fighter->id
+                            ],
                                 [
-                                    'confirm' => __('Are you sure you want to delete {0}?', $fighter->name),
-                                    'escape' => false
-                                ]
+                                    'data-toggle' => "tooltip",
+                                    'data-placement' => "bottom",
+                                    'title'=>"Select"
+                                ]); ?>
+                            <?= $this->Html->link(
+                                    $this->Html->tag('i', '',
+                                        ['class' => 'icons8-eye-filled text-dark mx-1']),
+                                    ['action' => 'view', $fighter->id],
+                                    [
+                                        'escape' => false,
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "bottom",
+                                        'title'=>"View"
+                                ]);
+                            ?>
+                            <?= $this->Html->link(
+                                    $this->Html->tag('i', '',
+                                        ['class' => 'icons8-edit-filled text-dark mx-1']),
+                                    ['action' => 'edit', $fighter->id],
+                                    [
+                                        'escape' => false,
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "bottom",
+                                        'title'=>"Edit"
+                                    ]) ?>
+                            <?= $this->Form->postLink(
+                                    $this->Html->tag('i', '', [
+                                        'class' => 'icons8-delete-bin-filled text-danger mx-1'
+                                    ]),
+                                    ['action' => 'delete', $fighter->id],
+                                    [
+                                        'confirm' => __('Are you sure you want to delete {0}?', $fighter->name),
+                                        'escape' => false,
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "bottom",
+                                        'title'=>"Delete"
+                                    ]
                             )
                             ?>
                         </div>
@@ -53,7 +75,6 @@
                                          aria-valuenow="<?= $fighter->xp ?>"
                                          aria-valuemin="0"
                                          aria-valuemax="<?= MAX_XP ?>">
-                                        <?= ($fighter->xp/MAX_XP)*100 ?>%
                                     </div>
                                 </div>
                             </dd>
@@ -95,58 +116,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <?php if(($fighter->hasFullXp())){?>
-                        <div class="text-center">
-                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#levelUpModal">
-                                Level Up !
-                            </button>
-                        </div>
-                        <div class="modal fade" id="levelUpModal" tabindex="-1" role="dialog" aria-labelledby="Choose a skill to level up" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Choose a skill to improve</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body d-flex justify-content-around align-items-center">
-                                        <?php echo $this->Html->link(
-                                            $this->Html->tag('i', '', [
-                                                'class' => 'icons8-iris-scan d-block display-4'
-                                            ]).'+1 Sight',
-                                            array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 1), [
-                                                'class' => 'btn btn-outline-info',
-                                                'escape' => false
-                                            ]
-                                        );
-
-                                        echo $this->Html->link(
-                                            $this->Html->tag('i', '', [
-                                                'class' => 'icons8-muscle-filled d-block display-4'
-                                            ]).'+1 Strendth',
-                                            array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 2), [
-                                                'class' => 'btn btn-outline-warning',
-                                                'escape' => false
-                                            ]
-                                        );
-
-                                        echo $this->Html->link(
-                                            $this->Html->tag('i', '', [
-                                                'class' => 'icons8-heart-filled d-block display-4'
-                                            ]).'+3 Health',
-                                            array('controller' => 'Fighters', 'action' => 'levelUp', $fighter->id, 3), [
-                                                'class' => 'btn btn-outline-danger',
-                                                'escape' => false
-                                            ]
-                                        );
-                                        ?>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <?php } ?>
+                        <?= $this->element('Component/levelUp', ['fighter' => $fighter]);  ?>
                     </div>
                 </div>
             </div>

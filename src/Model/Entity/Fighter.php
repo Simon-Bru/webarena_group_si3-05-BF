@@ -85,12 +85,29 @@ class Fighter extends Entity
         return true;
     }
 
-    public function levelUp() {
-        if($this->xp / MAX_XP >= 1) {
+    public function levelUp($skill) {
+        if($this->hasFullXp()) {
+            switch($skill) {
+                case 1:
+                    $this->skill_sight++;
+                    break;
+                case 2:
+                    $this->skill_strength++;
+                    break;
+                case 3:
+                    $this->skill_health = $this->skill_health + 3;
+                    break;
+                default:
+                    return false;
+            }
+
             $this->level++;
             $this->xp = $this->xp - MAX_XP;
             $this->skill_health++;
             $this->current_health = $this->skill_health;
+            return true;
+        } else {
+            return false;
         }
     }
 

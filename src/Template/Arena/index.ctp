@@ -65,8 +65,14 @@
 <div class="grid mt-4">
     <?php for ($h=0; $h < ARENA_HEIGHT; $h++): ?>
         <div class="row d-flex justify-content-center">
-            <?php for ($w=0; $w < ARENA_WIDTH; $w++): ?>
-                <span class="cell"></span>
+            <?php for ($x=0; $x < ARENA_WIDTH; $x++): ?>
+                <span class="cell">
+                    <?php
+                    if($y == $activeFighter->coordinate_y && $x == $activeFighter->coordinate_x) {
+                        echo $this->element('Component/avatar', ['fighterId' => $activeFighter->id]);
+                    }
+                    ?>
+                </span>
             <?php endfor ?>
         </div>
     <?php endfor ?>
