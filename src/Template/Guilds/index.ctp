@@ -5,18 +5,16 @@
  */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Guild'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Fighters'), ['controller' => 'Fighters', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Fighter'), ['controller' => 'Fighters', 'action' => 'add']) ?></li>
+    <ul class="navbar list-unstyled justify-content-end">
+        <li class="nav-item"><?= $this->Html->link(__('Create a Guild'), ['action' => 'add']) ?></li>
     </ul>
 </nav>
-<div class="guilds index large-9 medium-8 columns content">
-    <h3><?= __('Guilds') ?></h3>
-    <table cellpadding="0" cellspacing="0">
+
+<div class="events view large-9 medium-8 columns content">
+    <table class="table table-responsive table-hover">
+        <caption><h4>Guilds List</h4></caption>
         <thead>
-            <tr>
+            <tr class="table table-info">
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
@@ -44,6 +42,6 @@
             <?= $this->Paginator->next(__('next') . ' >') ?>
             <?= $this->Paginator->last(__('last') . ' >>') ?>
         </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+        <p class="text-info"><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
     </div>
 </div>

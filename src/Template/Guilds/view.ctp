@@ -5,71 +5,71 @@
  */
 ?>
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Guild'), ['action' => 'edit', $guild->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Guild'), ['action' => 'delete', $guild->id], ['confirm' => __('Are you sure you want to delete # {0}?', $guild->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Guilds'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Guild'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Fighters'), ['controller' => 'Fighters', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Fighter'), ['controller' => 'Fighters', 'action' => 'add']) ?> </li>
+    <ul class="nav justify-content-end">
+        <li class="nav-link"><?= $this->Html->link(__('All Guilds'), ['action' => 'index']) ?> </li>
     </ul>
 </nav>
+
 <div class="guilds view large-9 medium-8 columns content">
-    <h3><?= h($guild->name) ?></h3>
-    <table class="vertical-table">
+
+    <table class="table table-responsive table-hover">
+        <caption> <h3>Guild Description</h3></caption>
+        <thead class="thead-inverse">
         <tr>
-            <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($guild->name) ?></td>
-        </tr>
-        <tr>
+            <th scope="col"><?= __('Guild Name') ?></th>
             <th scope="row"><?= __('Id') ?></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td><?= h($guild->name) ?></td>
             <td><?= $this->Number->format($guild->id) ?></td>
         </tr>
+        </tbody>
     </table>
-    <div class="related">
-        <h4><?= __('Related Fighters') ?></h4>
+</div>
+    <div class="events index large-9 medium-8 columns content">
+
         <?php if (!empty($guild->fighters)): ?>
-        <table cellpadding="0" cellspacing="0">
-            <tr>
-                <th scope="col"><?= __('Id') ?></th>
-                <th scope="col"><?= __('Name') ?></th>
-                <th scope="col"><?= __('Player Id') ?></th>
-                <th scope="col"><?= __('Coordinate X') ?></th>
-                <th scope="col"><?= __('Coordinate Y') ?></th>
-                <th scope="col"><?= __('Level') ?></th>
-                <th scope="col"><?= __('Xp') ?></th>
-                <th scope="col"><?= __('Skill Sight') ?></th>
-                <th scope="col"><?= __('Skill Strength') ?></th>
-                <th scope="col"><?= __('Skill Health') ?></th>
-                <th scope="col"><?= __('Current Health') ?></th>
-                <th scope="col"><?= __('Next Action Time') ?></th>
-                <th scope="col"><?= __('Guild Id') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-            <?php foreach ($guild->fighters as $fighters): ?>
-            <tr>
-                <td><?= h($fighters->id) ?></td>
-                <td><?= h($fighters->name) ?></td>
-                <td><?= h($fighters->player_id) ?></td>
-                <td><?= h($fighters->coordinate_x) ?></td>
-                <td><?= h($fighters->coordinate_y) ?></td>
-                <td><?= h($fighters->level) ?></td>
-                <td><?= h($fighters->xp) ?></td>
-                <td><?= h($fighters->skill_sight) ?></td>
-                <td><?= h($fighters->skill_strength) ?></td>
-                <td><?= h($fighters->skill_health) ?></td>
-                <td><?= h($fighters->current_health) ?></td>
-                <td><?= h($fighters->next_action_time) ?></td>
-                <td><?= h($fighters->guild_id) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['controller' => 'Fighters', 'action' => 'view', $fighters->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['controller' => 'Fighters', 'action' => 'edit', $fighters->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'Fighters', 'action' => 'delete', $fighters->id], ['confirm' => __('Are you sure you want to delete # {0}?', $fighters->id)]) ?>
-                </td>
-            </tr>
+
+            <div class="events index large-9 medium-8 columns content">
+
+                <table class="table table-responsive table-hover">
+                    <caption><h4>Related Fighters</h4></caption>
+                    <thead class="thead-inverse">
+                    <tr>
+                        <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+                        <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+                        <th scope="col"><?= $this->Paginator->sort('coordinate_x') ?></th>
+                        <th scope="col"><?= $this->Paginator->sort('coordinate_y') ?></th>
+                        <th scope="col"><?= $this->Paginator->sort('Level') ?></th>
+                        <th scope="col"><?= $this->Paginator->sort('Xp') ?></th>
+                        <th scope="col"><?= $this->Paginator->sort('Sight') ?></th>
+                        <th scope="col"><?= $this->Paginator->sort('Strength') ?></th>
+                        <th scope="col"><?= $this->Paginator->sort('Health') ?></th>
+                        <th scope="col"><?= $this->Paginator->sort('Current Health') ?></th>
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($guild->fighters as $fighters): ?>
+                <tr>
+                    <td><?= h($fighters->id) ?></td>
+                    <td><?= h($fighters->name) ?></td>
+                    <td><?= h($fighters->coordinate_x) ?></td>
+                    <td><?= h($fighters->coordinate_y) ?></td>
+                    <td><?= h($fighters->level) ?></td>
+                    <td><?= h($fighters->xp) ?></td>
+                    <td><?= h($fighters->skill_sight) ?></td>
+                    <td><?= h($fighters->skill_strength) ?></td>
+                    <td><?= h($fighters->skill_health) ?></td>
+                    <td><?= h($fighters->current_health) ?></td>
+
+                </tr>
             <?php endforeach; ?>
-        </table>
+                    </tbody>
+                   </table>
+            </div>
         <?php endif; ?>
     </div>
-</div>
