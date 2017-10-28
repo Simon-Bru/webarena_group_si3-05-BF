@@ -151,7 +151,9 @@ class FightersController extends AppController
                 }
                 move_uploaded_file($file['tmp_name'],
                     WWW_ROOT . 'img/avatars/fighter_' . $fighterId. '.' . $extension);
-                $this->Flash->success(__('Success'));
+                $this->Flash->success(__('Your avatar was just uploaded'));
+            } else {
+                $this->Flash->error('Please choose an image file, '.$extension.' is not supported');
             }
 
         } else {
@@ -180,5 +182,36 @@ class FightersController extends AppController
     }
 
 
+    /**
+     * Arenas function
+     */
 
+
+    public function move(){
+        $this->request->allowMethod('post');
+        if(!empty($this->request->getData()) && !empty($this->request->getData('direction'))){
+            $playerId = $this->Auth->user('id');
+            $direction=$this->request->getData('direction');
+
+            $query = $this->Fighters->find('all')->where([
+                'player_id = ' => $playerId
+            ]);
+            if(!empty($query->toArray())) {
+                $fighter = $query->toArray()[0];
+                if($fighter->move($direction)) {
+                    $this->Fighters->save($fighter);
+                    $this->Flash->success('Your fighter moved');
+                } else{
+                    $this->Flash->error('Impossible to move there');
+                }
+            } else {
+                $this->Flash->error('Error');
+            }
+        }
+        else{
+            $this->Flash->error('Error no direction detected');
+        }
+
+        return $this->redirect(['action' => '/']);
+    }
 }
