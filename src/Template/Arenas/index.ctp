@@ -42,7 +42,27 @@
 </div>
 
 
-<div class="grid">
+<p>
+
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+        Scream
+    </button>
+</p>
+<div class="collapse" id="collapseExample">
+    <div class="card card-body">
+        <?= $this->Form->create('Scream', [
+            'url' => '/events/scream',
+            'class' => '']);?>
+        <fieldset>
+        <?= $this->Form->control('name', array('default','controller' => 'events','action' => 'scream'));?>
+         </fieldset>
+        <?= $this->Form->button(__('Submit'),['class' => 'btn-primary']);?>
+        <?=$this->Form->end();?>
+
+    </div>
+</div>
+
+<div class="grid mt-4">
     <?php for ($h=0; $h < ARENA_HEIGHT; $h++): ?>
         <div class="row d-flex justify-content-center">
             <?php for ($w=0; $w < ARENA_WIDTH; $w++): ?>

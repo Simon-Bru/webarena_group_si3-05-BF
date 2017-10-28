@@ -137,5 +137,37 @@ class Fighter extends Entity
         }
     }
 
+  /*  public function attack($direction){
 
+        switch ($direction) {
+            //UP
+            case 1:
+                $this->coordinate_y--;
+                break;
+            //left
+            case 2:
+                $this->coordinate_x--;
+                break;
+            //right
+            case 3:
+                $this->coordinate_x++;
+                break;
+            //DOWN
+            case 4:
+                $this->coordinate_y++;
+                break;
+            default:
+                return false;
+        }
+        if(!self::positionIsFree($this->coordinate_x, $this->coordinate_y) &&
+            $this->coordinate_x>=0 &&
+            $this->coordinate_x<=ARENA_WIDTH &&
+            $this->coordinate_y>=0 &&
+            $this->coordinate_y<= ARENA_HEIGHT) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }*/
 }

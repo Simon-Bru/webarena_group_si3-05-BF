@@ -69,10 +69,7 @@ class FightersController extends AppController
             }
             $this->Flash->error(__('The fighter could not be saved. Please, try again.'));
         }
-        $players = $this->Fighters->Players->find('list', ['limit' => 200]);
-        $guilds = $this->Fighters->Guilds->find('list', ['limit' => 200]);
-        $this->set(compact('fighter', 'players', 'guilds'));
-        $this->set('_serialize', ['fighter']);
+        $this->set(compact('fighter'));
     }
 
     /**
@@ -214,4 +211,5 @@ class FightersController extends AppController
 
         return $this->redirect(['action' => '/']);
     }
+
 }
