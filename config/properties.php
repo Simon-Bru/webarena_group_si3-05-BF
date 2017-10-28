@@ -31,4 +31,8 @@ define('ARENA_WIDTH', 15);
  */
 define('ARENA_HEIGHT', 10);
 
+/**
+ * Default avatar image
+ */
+define('DEFAULT_AVATAR', 'default.png');
 ?>

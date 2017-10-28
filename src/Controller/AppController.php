@@ -50,7 +50,7 @@ class AppController extends Controller
                 'action' => 'login'
             ],
             'loginRedirect' => [
-                'controller' => 'Arenas',
+                'controller' => 'Fighters',
                 'action' => 'index'
             ],
             'logoutRedirect' => [
@@ -89,5 +89,9 @@ class AppController extends Controller
         ) {
             $this->set('_serialize', true);
         }
+    }
+
+    protected function getSelectedFighterId() {
+        return $this->request->getSession()->read($this->Auth->user('id'));
     }
 }

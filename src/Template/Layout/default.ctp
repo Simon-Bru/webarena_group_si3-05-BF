@@ -49,7 +49,7 @@ $cakeDescription = 'WebArena';
                     </li>
                     <li class="nav-item">
                         <?php echo $this->Html->link('Sight',
-                            array('controller' => 'Arenas', 'action' => ''),
+                            array('controller' => 'Arena', 'action' => ''),
                             ['class' => 'nav-link']); ?>
                     </li>
                     <li class="nav-item">
@@ -86,5 +86,6 @@ $cakeDescription = 'WebArena';
     <?= $this->Html->script('jquery.min') ?>
     <?= $this->Html->script('popper.min') ?>
     <?= $this->Html->script('bootstrap.min') ?>
+    <?= $this->Html->script('bootstrap_init') ?>
 </body>
 </html>

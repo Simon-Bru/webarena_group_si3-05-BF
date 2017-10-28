@@ -58,3 +58,6 @@ button {
     content: "Choose files..";
     float: left;
 }
+.border-info {
+    border-width:3px;
+}
