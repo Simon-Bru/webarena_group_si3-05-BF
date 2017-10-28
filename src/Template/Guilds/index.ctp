@@ -30,6 +30,7 @@
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $guild->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $guild->id]) ?>
+                    <?= $this->Html->link(__('Join'), ['action' => 'join', $guild->id]) ?>
                     <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $guild->id], ['confirm' => __('Are you sure you want to delete # {0}?', $guild->id)]) ?>
                 </td>
             </tr>
