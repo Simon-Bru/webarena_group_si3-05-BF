@@ -90,4 +90,8 @@ class AppController extends Controller
             $this->set('_serialize', true);
         }
     }
+
+    protected function getSelectedFighter() {
+        return $this->request->getSession()->read($this->Auth->user('id'));
+    }
 }

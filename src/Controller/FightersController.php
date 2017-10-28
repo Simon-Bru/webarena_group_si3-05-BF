@@ -196,7 +196,7 @@ class FightersController extends AppController
         $this->request->allowMethod('post');
         if(!empty($this->request->getData()) && !empty($this->request->getData('direction'))){
             $playerId = $this->Auth->user('id');
-            $activeFighterId = $this->request->getSession()->read($playerId);
+            $activeFighterId = $this->getSelectedFighter();
 
             $direction=$this->request->getData('direction');
 

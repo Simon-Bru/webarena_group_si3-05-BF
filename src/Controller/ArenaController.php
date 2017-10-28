@@ -11,11 +11,10 @@ class ArenaController  extends AppController
 {
     public function index()
     {
-        $fighterId = $this->Auth->user('id');
-        $session = $this->request->getSession();
-        if($session->read($fighterId)) {
+        $selectedFighterId = $this->getSelectedFighter();
+        if($selectedFighterId) {
             $fighterTable = $this->loadModel('Fighters');
-
+            $this->set('activeFighter', $fighterTable->get($selectedFighterId));
         }
         else {
             $this->Flash->error('Please select a fighter to enter the arena');
