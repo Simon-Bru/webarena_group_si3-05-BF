@@ -196,14 +196,13 @@ class FightersController extends AppController
         $this->request->allowMethod('post');
         if(!empty($this->request->getData()) && !empty($this->request->getData('direction'))){
             $playerId = $this->Auth->user('id');
+            $activeFighterId = $this->request->getSession()->read($playerId);
+
             $direction=$this->request->getData('direction');
 
-            //TODO Replace with active fighter
-            $query = $this->Fighters->find('all')->where([
-                'player_id = ' => $playerId
-            ]);
-            if(!empty($query->toArray())) {
-                $fighter = $query->toArray()[0];
+            $fighter = $this->Fighters->get($activeFighterId);
+            var_dump($fighter);
+            if(!empty($fighter)) {
                 if($fighter->move($direction)) {
                     $this->Fighters->save($fighter);
                     $this->Flash->success('Your fighter moved');
@@ -211,7 +210,7 @@ class FightersController extends AppController
                     $this->Flash->error('Impossible to move there');
                 }
             } else {
-                $this->Flash->error('Error');
+                $this->Flash->error('Error. You didn\'t select the active fighter');
             }
         }
         else{
@@ -220,6 +219,17 @@ class FightersController extends AppController
 
         return $this->redirect(['action' => '/']);
     }
+
+    public function select($fighterId) {
+        $fighter = $this->Fighters->get($fighterId);
+        if($this->isMine($fighter)) {
+            $session = $this->request->getSession();
+            $session->write($this->Auth->user('id'), $fighterId);
+            $this->Flash->success('You just selected '.$fighter->name);
+        }
+        $this->redirect('/fighters');
+    }
+
 
     private function isMine($fighter) {
         if($fighter->player_id != $this->Auth->user('id')) {

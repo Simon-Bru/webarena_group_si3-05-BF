@@ -86,5 +86,6 @@ $cakeDescription = 'WebArena';
     <?= $this->Html->script('jquery.min') ?>
     <?= $this->Html->script('popper.min') ?>
     <?= $this->Html->script('bootstrap.min') ?>
+    <?= $this->Html->script('bootstrap_init') ?>
 </body>
 </html>

@@ -17,28 +17,50 @@
         <?php } ?>
         <?php foreach ($fighters as $fighter): ?>
             <div class="col-sm-4 d-inline-block">
-                <div class="card">
+                <div class="card <?= $this->request->getSession()->read($fighter->player_id) == $fighter->id ? ' border-info' : '' ?>">
                     <div class="card-body">
-                        <div class="float-right">
-                            <?= $this->Html->link(
-                                $this->Html->tag('i', '',
-                                    ['class' => 'icons8-eye-filled text-dark mx-1']),
-                                ['action' => 'view', $fighter->id],
-                                ['escape' => false]) ?>
-                            <?= $this->Html->link(
-                                $this->Html->tag('i', '',
-                                    ['class' => 'icons8-edit-filled text-dark mx-1']),
-                                ['action' => 'edit', $fighter->id],
-                                ['escape' => false]) ?>
-                            <?= $this->Form->postLink(
-                                $this->Html->tag('i', '', [
-                                    'class' => 'icons8-delete-bin-filled text-danger mx-1'
-                                ]),
-                                ['action' => 'delete', $fighter->id],
+                        <div class="w-100 text-right">
+                            <?= $this->Html->link('Select', [
+                                'action' => 'select', $fighter->id
+                            ],
                                 [
-                                    'confirm' => __('Are you sure you want to delete {0}?', $fighter->name),
-                                    'escape' => false
-                                ]
+                                    'data-toggle' => "tooltip",
+                                    'data-placement' => "bottom",
+                                    'title'=>"Select"
+                                ]); ?>
+                            <?= $this->Html->link(
+                                    $this->Html->tag('i', '',
+                                        ['class' => 'icons8-eye-filled text-dark mx-1']),
+                                    ['action' => 'view', $fighter->id],
+                                    [
+                                        'escape' => false,
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "bottom",
+                                        'title'=>"View"
+                                ]);
+                            ?>
+                            <?= $this->Html->link(
+                                    $this->Html->tag('i', '',
+                                        ['class' => 'icons8-edit-filled text-dark mx-1']),
+                                    ['action' => 'edit', $fighter->id],
+                                    [
+                                        'escape' => false,
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "bottom",
+                                        'title'=>"Edit"
+                                    ]) ?>
+                            <?= $this->Form->postLink(
+                                    $this->Html->tag('i', '', [
+                                        'class' => 'icons8-delete-bin-filled text-danger mx-1'
+                                    ]),
+                                    ['action' => 'delete', $fighter->id],
+                                    [
+                                        'confirm' => __('Are you sure you want to delete {0}?', $fighter->name),
+                                        'escape' => false,
+                                        'data-toggle' => "tooltip",
+                                        'data-placement' => "bottom",
+                                        'title'=>"Delete"
+                                    ]
                             )
                             ?>
                         </div>
@@ -53,7 +75,6 @@
                                          aria-valuenow="<?= $fighter->xp ?>"
                                          aria-valuemin="0"
                                          aria-valuemax="<?= MAX_XP ?>">
-                                        <?= ($fighter->xp/MAX_XP)*100 ?>%
                                     </div>
                                 </div>
                             </dd>
@@ -92,7 +113,7 @@
                                 <li class="d-flex align-items-center">
                                     <i class="icons8-heart-filled mr-2"></i>
                                     Max health: <?= $fighter->skill_health ?>
-                                   </li>
+                                </li>
                             </ul>
                         </div>
                         <?= $this->element('Component/levelUp', ['fighter' => $fighter]);  ?>

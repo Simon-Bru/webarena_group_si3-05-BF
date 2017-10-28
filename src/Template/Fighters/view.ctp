@@ -25,7 +25,6 @@
                      aria-valuenow="<?= $fighter->xp ?>"
                      aria-valuemin="0"
                      aria-valuemax="<?= MAX_XP ?>">
-                    <?= ($fighter->xp/MAX_XP)*100 ?>%
                 </div>
             </div>
         </dd>
