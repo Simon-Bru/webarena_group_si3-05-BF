@@ -73,26 +73,7 @@
 
     <div>
 
-        <?php
-        $avatar_path = glob(WWW_ROOT.'img/avatars/fighter_'.$fighter->id.'.*');
-        if (!$avatar_path)
-        {
-            echo $this->Html->image('avatars/default.jpg',array("width"=>"200", "height"=>"200"));
-        }else
-        {
-
-            echo $this->Html->image(
-                'avatars/fighter_'
-                .$fighter->id.'.'
-                .explode('.', $avatar_path[0])[1]. '?='.date('U'),
-                [
-                    'class' => 'img-fluid',
-                    'alt' => 'avatar'
-                ]);
-
-        }
-        ?>
-
+        <?= $this->element('Component/avatar', ['fighterId' => $fighter->id]); ?>
 
     </div>
     <?php
