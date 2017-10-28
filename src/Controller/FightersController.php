@@ -45,6 +45,8 @@ class FightersController extends AppController
             'contain' => ['Players', 'Guilds', 'Messages']
         ]);
 
+        $isMine = $fighter->player_id == $this->Auth->user('id');
+        $this->set('isMine', $isMine);
         $this->set('fighter', $fighter);
         $this->set('_serialize', ['fighter']);
 
@@ -126,7 +128,8 @@ class FightersController extends AppController
         $fighter = $this->Fighters->get($id, [
             'contain' => []
         ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
+
+        if ($this->request->is(['patch', 'post', 'put']) && $this->isMine($fighter)) {
             $fighter = $this->Fighters->patchEntity($fighter, $this->request->getData());
             if ($this->Fighters->save($fighter)) {
                 $this->Flash->success(__('The fighter has been saved.'));
@@ -154,10 +157,12 @@ class FightersController extends AppController
     {
         $this->request->allowMethod(['post', 'delete']);
         $fighter = $this->Fighters->get($id);
-        if ($this->Fighters->delete($fighter)) {
-            $this->Flash->success(__('The fighter has been deleted.'));
-        } else {
-            $this->Flash->error(__('The fighter could not be deleted. Please, try again.'));
+        if($this->isMine($fighter)) {
+            if ($this->Fighters->delete($fighter)) {
+                $this->Flash->success(__('The fighter has been deleted.'));
+            } else {
+                $this->Flash->error(__('The fighter could not be deleted. Please, try again.'));
+            }
         }
 
         return $this->redirect(['action' => 'index']);
@@ -172,9 +177,11 @@ class FightersController extends AppController
         $split_url = explode('/', $referer);
         $fighterId = $split_url[sizeof($split_url)-1];
 
+        $fighter = $this->Fighters->get($fighterId);
+
         $file = $this->request->getData('avatar'); //put the data into a var for easy use
 
-        if (!empty($file['name'])) {
+        if (!empty($file['name']) && $this->isMine($fighter)) {
 
             $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
 
@@ -206,19 +213,18 @@ class FightersController extends AppController
 
     public function levelUp($id, $skill){
 
-        $hasFullXp = $this->Fighters->hasFullXp($id);
+        $fighter = $this->Fighters->get($id);
 
-        if($hasFullXp) {
-            if($this->Fighters->levelUp($id, $skill)) {
+        if($fighter->hasFullXp() && $this->isMine($fighter)) {
+            if($fighter->levelUp($skill)) {
+                $this->Fighters->save($fighter);
                 $this->Flash->success(__('Level Up ! Your player passed the next level'));
             } else {
                 $this->Flash->error(__('Error! You must select a skill to improve'));
             }
+        } else {
+            $this->Flash->error('You haven\'t enough XP to level up');
         }
-
-        $instance = $this->Fighters->get($id);
-        $this->set('fighter',$instance);
-        $this->set('show', $hasFullXp);
         return $this->redirect(['action' => '/']);
     }
 
@@ -227,18 +233,17 @@ class FightersController extends AppController
      * Arenas function
      */
 
-
     public function move(){
         $this->request->allowMethod('post');
         if(!empty($this->request->getData()) && !empty($this->request->getData('direction'))){
             $playerId = $this->Auth->user('id');
+            $activeFighterId = $this->getSelectedFighterId();
+
             $direction=$this->request->getData('direction');
 
-            $query = $this->Fighters->find('all')->where([
-                'player_id = ' => $playerId
-            ]);
-            if(!empty($query->toArray())) {
-                $fighter = $query->toArray()[0];
+            $fighter = $this->Fighters->get($activeFighterId);
+            var_dump($fighter);
+            if(!empty($fighter)) {
                 if($fighter->move($direction)) {
                     $this->Fighters->save($fighter);
                     $this->Flash->success('Your fighter moved');
@@ -246,7 +251,7 @@ class FightersController extends AppController
                     $this->Flash->error('Impossible to move there');
                 }
             } else {
-                $this->Flash->error('Error');
+                $this->Flash->error('Error. You didn\'t select the active fighter');
             }
         }
         else{
@@ -254,5 +259,24 @@ class FightersController extends AppController
         }
 
         return $this->redirect(['action' => '/']);
+    }
+
+    public function select($fighterId) {
+        $fighter = $this->Fighters->get($fighterId);
+        if($this->isMine($fighter)) {
+            $session = $this->request->getSession();
+            $session->write($this->Auth->user('id'), $fighterId);
+            $this->Flash->success('You just selected '.$fighter->name);
+        }
+        $this->redirect('/fighters');
+    }
+
+
+    private function isMine($fighter) {
+        if($fighter->player_id != $this->Auth->user('id')) {
+            $this->Flash->error('Access denied');
+            $this->redirect('/fighters');
+        }
+        return true;
     }
 }

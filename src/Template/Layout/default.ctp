@@ -49,7 +49,7 @@ $cakeDescription = 'WebArena';
                     </li>
                     <li class="nav-item">
                         <?php echo $this->Html->link('Sight',
-                            array('controller' => 'Arenas', 'action' => ''),
+                            array('controller' => 'Arena', 'action' => ''),
                             ['class' => 'nav-link']); ?>
                     </li>
                     <li class="nav-item">
@@ -78,13 +78,14 @@ $cakeDescription = 'WebArena';
     </div>
 
     <footer class="container-fluid d-flex justify-content-around mt-5">
-        <p class="d-inline-block">Groupe SII3</p>
-        <p class="d-inline-block">&copy Bruguerolle/ Molano/ Belluccin Options BF</p>
-        <p class="d-inline-block"> <a href="https://github.com/Simon-Bru/webarena_group_si3-05-BF">Lien versionning</a></p>
+        <p class="d-inline-block">Group SII3</p>
+        <p class="d-inline-block">&copy Bruguerolle/ Molano/ Belluccini Options ABF</p>
+        <p class="d-inline-block"> <a href="https://github.com/Simon-Bru/webarena_group_si3-05-BF">Link Versionning</a></p>
     </footer>
 
     <?= $this->Html->script('jquery.min') ?>
     <?= $this->Html->script('popper.min') ?>
     <?= $this->Html->script('bootstrap.min') ?>
+    <?= $this->Html->script('bootstrap_init') ?>
 </body>
 </html>

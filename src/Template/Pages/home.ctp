@@ -1,5 +1,5 @@
     <div class="jumbotron">
-        <h1>Welcome in Web Arena</h1>
+        <h1>Welcome to Web Arena</h1>
         <p>Web arena is  an online gaming website, a typical multiplayer arena created with CakePHP</p>
 
     </div>
@@ -37,7 +37,7 @@
 
         echo $this->Html->link(
             'Go to the Arena',
-            array('controller' => 'Arenas', 'action' => 'index'),
+            array('controller' => 'Arena', 'action' => 'index'),
             ['class' => 'button']
         );
     }
