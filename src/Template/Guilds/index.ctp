@@ -11,24 +11,30 @@
 </nav>
 
 <div class="events view large-9 medium-8 columns content">
+    <h1><i class="icons8-shield-filled"></i> Guilds List</h1>
     <table class="table table-responsive table-hover">
-        <caption><h4>Guilds List</h4></caption>
         <thead>
             <tr class="table table-info">
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
+                <th></th>
                 <th scope="col" class="actions"><?= __('Actions') ?></th>
             </tr>
         </thead>
         <tbody>
             <?php foreach ($guilds as $guild): ?>
             <tr>
-                <td><?= $this->Number->format($guild->id) ?></td>
                 <td><?= h($guild->name) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $guild->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $guild->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $guild->id], ['confirm' => __('Are you sure you want to delete # {0}?', $guild->id)]) ?>
+                <td> <?= $this->Html->link(
+                        $this->Html->tag('i', '',
+                            ['class' => 'icons8-eye-filled text-dark mx-1']),
+                        ['action' => 'view', $guild->id],
+                        ['escape' => false]) ?>
+                    <?= $this->Html->link(
+                        $this->Html->tag('i', '',
+                            ['class' => 'icons8-edit-filled text-dark mx-1']),
+                        ['action' => 'edit', $guild->id],
+                        ['escape' => false]) ?>
                 </td>
             </tr>
             <?php endforeach; ?>

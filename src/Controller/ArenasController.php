@@ -19,4 +19,16 @@ class ArenasController  extends AppController
         ]);
 
     }
+
+    private function getActiveFighter(){
+        $playerId = $this->Auth->user('id');
+        $query = $this->Fighters->find('all')->where([
+            'fighters.player_id = ' => $playerId
+        ]);
+        if(!empty($query->toArray())) {
+            $fighter = $query->toArray()[0];
+        }else {
+            $this->Flash->error('Error');
+        }
+    }
 }

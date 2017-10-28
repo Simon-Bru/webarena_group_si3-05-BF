@@ -14,10 +14,9 @@
 <div class="events index large-9 medium-8 columns content">
 
     <table class="table table-responsive table-hover">
-        <caption><h4>Last 24 Hours events</h4></caption>
+        <caption><h4><i class="icons8-arena-filled"></i> Last 24 Hours events</h4></caption>
         <thead class="thead-inverse">
             <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('name') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('date') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('coordinate_x') ?></th>
@@ -28,16 +27,29 @@
         <tbody>
             <?php foreach ($events as $event): ?>
             <tr>
-                <td><?= $this->Number->format($event->id) ?></td>
                 <td><?= h($event->name) ?></td>
                 <td><?= h($event->date) ?></td>
                 <td><?= $this->Number->format($event->coordinate_x) ?></td>
                 <td><?= $this->Number->format($event->coordinate_y) ?></td>
                 <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $event->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $event->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $event->id], ['confirm' => __('Are you sure you want to delete # {0}?', $event->id)]) ?>
+                    <?= $this->Html->link(
+                        $this->Html->tag('i', '',
+                            ['class' => 'icons8-eye-filled text-dark mx-1']),
+                        ['action' => 'view', $event->id],
+                        ['escape' => false]) ?>
+                    <?= $this->Form->postLink(
+                        $this->Html->tag('i', '', [
+                            'class' => 'icons8-delete-bin-filled text-danger mx-1'
+                        ]),
+                        ['action' => 'delete', $event->id],
+                        [
+                            'confirm' => __('Are you sure you want to delete {0}?', $event->name),
+                            'escape' => false
+                        ]
+                    )?>
                 </td>
+
+
             </tr>
             <?php endforeach; ?>
         </tbody>
