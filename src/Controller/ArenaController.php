@@ -11,7 +11,7 @@ class ArenaController  extends AppController
 {
     public function index()
     {
-        $selectedFighterId = $this->getSelectedFighter();
+        $selectedFighterId = $this->getSelectedFighterId();
         if($selectedFighterId) {
             $fighterTable = $this->loadModel('Fighters');
             $this->set('activeFighter', $fighterTable->get($selectedFighterId));

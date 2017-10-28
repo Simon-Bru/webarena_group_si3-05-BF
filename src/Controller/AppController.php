@@ -91,7 +91,7 @@ class AppController extends Controller
         }
     }
 
-    protected function getSelectedFighter() {
+    protected function getSelectedFighterId() {
         return $this->request->getSession()->read($this->Auth->user('id'));
     }
 }
