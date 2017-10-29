@@ -7,7 +7,6 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
     <ul class="nav nav-pills nav-fill justify-content-end">
         <li class="nav-link active"><?= __('Actions') ?></li>
-        <li class="nav-link"><?= $this->Html->link(__('New Event'), ['action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="text-center"><h1>Diary</h1></div>
@@ -37,16 +36,6 @@
                             ['class' => 'icons8-eye-filled text-dark mx-1']),
                         ['action' => 'view', $event->id],
                         ['escape' => false]) ?>
-                    <?= $this->Form->postLink(
-                        $this->Html->tag('i', '', [
-                            'class' => 'icons8-delete-bin-filled text-danger mx-1'
-                        ]),
-                        ['action' => 'delete', $event->id],
-                        [
-                            'confirm' => __('Are you sure you want to delete {0}?', $event->name),
-                            'escape' => false
-                        ]
-                    )?>
                 </td>
 
 
@@ -54,7 +43,6 @@
         <?php endforeach; ?>
         </tbody>
     </table>
-
 
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">

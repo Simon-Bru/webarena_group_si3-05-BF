@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\I18n\Time;
 
 /**
  * Fighters Controller
@@ -71,10 +72,7 @@ class FightersController extends AppController
             }
             $this->Flash->error(__('The fighter could not be saved. Please, try again.'));
         }
-        $players = $this->Fighters->Players->find('list', ['limit' => 200]);
-        $guilds = $this->Fighters->Guilds->find('list', ['limit' => 200]);
-        $this->set(compact('fighter', 'players', 'guilds'));
-        $this->set('_serialize', ['fighter']);
+        $this->set(compact('fighter'));
     }
 
     /**
@@ -194,6 +192,8 @@ class FightersController extends AppController
 
     public function move(){
         $this->request->allowMethod('post');
+        $eventsTable = $this->loadModel('Events');
+        $event = $eventsTable->newEntity();
         if(!empty($this->request->getData()) && !empty($this->request->getData('direction'))){
             $playerId = $this->Auth->user('id');
             $activeFighterId = $this->getSelectedFighterId();
@@ -201,11 +201,18 @@ class FightersController extends AppController
             $direction=$this->request->getData('direction');
 
             $fighter = $this->Fighters->get($activeFighterId);
-            var_dump($fighter);
+
             if(!empty($fighter)) {
                 if($fighter->move($direction)) {
                     $this->Fighters->save($fighter);
-                    $this->Flash->success('Your fighter moved');
+                    $this->Flash->success('Your fighter moved '.$direction);
+
+                    $event['name'].=$fighter->name." moved ".$direction;
+                    $event['date']=Time::now();
+                    $event['coordinate_x']=$fighter->coordinate_x;
+                    $event['coordinate_y']=$fighter->coordinate_y;
+                    $this->Events->save($event);
+
                 } else{
                     $this->Flash->error('Impossible to move there');
                 }
@@ -217,7 +224,7 @@ class FightersController extends AppController
             $this->Flash->error('Error no direction detected');
         }
 
-        return $this->redirect(['action' => '/']);
+        return $this->redirect(['controller' => 'Arena','action' => '/']);
     }
 
     public function select($fighterId) {
@@ -237,5 +244,52 @@ class FightersController extends AppController
             $this->redirect('/fighters');
         }
         return true;
+    }
+
+
+    public function attack($fighter)
+    {
+        $this->request->allowMethod('post');
+        $eventsTable = $this->loadModel('Events');
+        $event = $eventsTable->newEntity();
+        if (!empty($this->request->getData())) {
+            $playerId = $this->Auth->user('id');
+            $activeFighterId = $this->getSelectedFighterId();
+            $fighter = $this->Fighters->get($activeFighterId);
+            $attacked = false;
+            //Vérification de la présence d'un Fighter sur la case cible
+            $defenser = $this->attack($fighter);// fighter attacked
+            // if attacked
+            if (is_array($defenser)) {
+                $attacked = true;
+                //Test attack
+                $rand = rand(1, 20);// random value between 1 and 20
+                //Conditions of success attack
+                if ($rand > (10 + $defenser['Fighter']['level'] - $fighter->level)) {
+                    //Decrease the current health of the attacked fighter
+                    $defenser['Fighter']['current_health'] -= $fighter->skill_strength;
+                    if ($defenser['Fighter']['current_health'] == 0) {
+                        $fighter->xp += $defenser['Fighter']['level'];
+                    } else {
+                        $fighter->xp++;
+                    }
+                    $this->Fighters->save($fighter);
+                    $this->Fighters->save($defenser);
+                    $event['name'].=$fighter->name." attacked ".$defenser['Fighter']['name'];
+                    $event['date']=Time::now();
+                    $event['coordinate_x']=$defenser->coordinate_x;
+                    $event['coordinate_y']=$defenser->coordinate_y;
+                    $this->Events->save($event);
+                    $this->Flash->success('Attack successful');
+
+                }
+                else{
+                    $this->Flash->error('Attack failed');
+                }
+            } else {
+                $this->Flash->error('Error occured');
+            }
+            return $this->redirect(['controller' => 'Arena', 'action' => '/']);
+        }
     }
 }
