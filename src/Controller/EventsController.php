@@ -21,8 +21,8 @@ class EventsController extends AppController
      */
     public function index()
     {
-        $events = $this->paginate($this->Events);
-
+        $lim_date = date ("Y-m-d H:i:s", mktime(date("H"),date("i"),date("s"),date("m"),date("d")-1,date("Y")));
+        $events = $this->paginate($this->Events->find('all',array('conditions' => array ("date >" => $lim_date))));
         $this->set(compact('events'));
         $this->set('_serialize', ['events']);
     }
