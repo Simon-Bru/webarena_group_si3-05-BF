@@ -43,13 +43,24 @@
 
 
 <div class="grid">
-    <?php for ($y=0; $y < ARENA_HEIGHT; $y++): ?>
+    <?php
+    $i = 0;
+    for ($y=0; $y < ARENA_HEIGHT; $y++):
+    ?>
         <div class="row d-flex justify-content-center">
             <?php for ($x=0; $x < ARENA_WIDTH; $x++): ?>
                 <span class="cell">
                     <?php
                     if($y == $activeFighter->coordinate_y && $x == $activeFighter->coordinate_x) {
                         echo $this->element('Component/avatar', ['fighterId' => $activeFighter->id]);
+                    }
+                    if(!empty($fighters[$i]) &&
+                        $y == $fighters[$i]->coordinate_y &&
+                        $x == $fighters[$i]->coordinate_x) {
+                        if($activeFighter->hasInSight($fighters[$i])) {
+                            echo $this->element('Component/avatar', ['fighterId' => $fighters[$i]->id]);
+                        }
+                        $i++;
                     }
                     ?>
                 </span>

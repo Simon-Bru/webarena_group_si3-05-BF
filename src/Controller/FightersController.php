@@ -201,7 +201,7 @@ class FightersController extends AppController
             $direction=$this->request->getData('direction');
 
             $fighter = $this->Fighters->get($activeFighterId);
-            var_dump($fighter);
+
             if(!empty($fighter)) {
                 if($fighter->move($direction)) {
                     $this->Fighters->save($fighter);
@@ -217,7 +217,7 @@ class FightersController extends AppController
             $this->Flash->error('Error no direction detected');
         }
 
-        return $this->redirect(['action' => '/']);
+        return $this->redirect(['controller' => 'Arena', 'action' => '/']);
     }
 
     public function select($fighterId) {
