@@ -9,12 +9,16 @@
     <?= $this->element('Nav/fighters') ?>
 
     <h4 class="card-title"><h3><?= h($fighter->name) ?></h3></h4>
+    <div class="float-left col-lg-4 col-12 ">
+        <?= $this->element('Component/avatar', ['fighterId' => $fighter->id]); ?>
+    </div>
+
     <p class="card-text">
-    <?php
-    if($isMine) {
-        echo $this->element('Component/levelUp', ['fighter' => $fighter]);
-    }
-    ?>
+        <?php
+        if($isMine) {
+            echo $this->element('Component/levelUp', ['fighter' => $fighter]);
+        }
+        ?>
     <dl>
         <dt>Level <?= $this->Number->format($fighter->level) ?></dt>
         <dd>
@@ -48,7 +52,6 @@
             <?php
         }
         ?>
-
         <dt>Skills</dt>
         <dd>
             <ul class="m-auto skills">
@@ -71,11 +74,6 @@
     </dl>
     </p>
 
-    <div>
-
-        <?= $this->element('Component/avatar', ['fighterId' => $fighter->id]); ?>
-
-    </div>
     <?php
     if($isMine) {
         ?>
@@ -95,33 +93,56 @@
         <?php
     }
     ?>
-        <?= $this->Form->create('Fighters', [
-            'url' => '/Fighters/changeAvatar',
-            'enctype' => 'multipart/form-data',
-            'class' => 'd-flex justify-content-around align-items-center'
-        ]);?>
-        <?= $this->Form->file('avatar');?>
-        <?= $this->Form->button('Upload Avatar',['class'=>'btn-success']);?>
-        <?= $this->Form->end();?>
 
+    <?php
+    if($isMine) {
+        ?>
+        <div class="form-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <?= $this->Form->create('joinGuild', ['url' => '/Fighters/join']) ?>
+                        <?php
+                        if(!empty($fighter->guild_id)) {
+                            ?>
+                            <legend data-toggle="collapse" href="#collapse1">
+                                Change Guild
+                            </legend>
+                            <?php
+                        } else {
+                        ?>
+                            <legend data-toggle="collapse" href="#collapse1">
+                                Join a Guild
+                        </legend>
+                        <?php
+                        }
+                        ?>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body"><fieldset>
+                            <?php
 
+                            echo $this->Form->control('id', [
+                                'label' => 'Name',
+                                'type' => 'select',
+                                'options' => $guilds,
+                            ]);
 
-    </div>
-    <div class="jumbotron ">
-            <fieldset>
-                <legend><?= __('Join Guild') ?></legend>
-                <?php
-
-                echo $this->Form->control('name', [
-                    'type' => 'select',
-                    'options' => $guilds
-                ]);
-
-                ?>
-            </fieldset>
-            <?= $this->Form->button(__('Join')) ?>
-            <?= $this->Form->end() ?>
+                            ?>
+                        </fieldset>
+                        <p class="text-center"><?= $this->Form->button(__('Join')) ?></p>
+                        <?= $this->Form->end() ?>
+                    </div>
+                </div>
+            </div>
         </div>
+        <?php
+    }
+    ?>
+
+
+
 
 
 

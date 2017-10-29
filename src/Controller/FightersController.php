@@ -45,15 +45,11 @@ class FightersController extends AppController
             'contain' => ['Players', 'Guilds', 'Messages']
         ]);
 
-        $isMine = $fighter->player_id == $this->Auth->user('id');
-        $this->set('isMine', $isMine);
-        $this->set('fighter', $fighter);
-        $this->set('_serialize', ['fighter']);
-
         $guildsTable = $this->loadModel('Guilds');
+
         $guildquery = $guildsTable
             ->find()
-            ->select(['id','name']);
+            ->select(['id', 'name']);
 
         $guilds = array_map(function ($guilds) {
             return [
@@ -62,34 +58,42 @@ class FightersController extends AppController
             ];
         }, $guildquery->toArray());
 
+        $isMine = $fighter->player_id == $this->Auth->user('id');
+        $this->set('isMine', $isMine);
+        $this->set('fighter', $fighter);
+        $this->set('_serialize', ['fighter']);
+        $this->set(compact('guilds'));
 
-
-        if ($this->request->is('post')) {
-
-            $guildId = $this->Guilds->get($id);
-
-            $fighterId = $this->GetSelectedFightersId();
-
-            $fightersTable = $this->loadModel('Fighters');
-            $query = $fightersTable->query();
-                $query->update()
-                ->set(['guild_id' => $guildId])
-                ->where(['id' => $fighterId])
-                ->execute();
-
-            $fighters = array_map(function ($fighters) {
-                return [
-                    'value' => $fighters['id'],
-                    'text' => $fighters['name']
-                ];
-            }, $query->toArray());
-
-        }
-
-        $this->set(compact( 'guilds'));
 
     }
 
+    public function join()
+    {
+        $this->request->allowMethod('post');
+
+        //var_dump($guildId);
+        $referer = $this->referer();
+        $split_url = explode('/', $referer);
+        $fighterId = $split_url[sizeof($split_url) - 1];
+        $fighter = $this->Fighters->get($fighterId);
+
+        if ($this->isMine($fighter)) {
+
+            $guildId = $this->request->getData("id");
+            $fighter->guild_id = $guildId;
+            $this->Fighters->save($fighter);
+
+
+            $this->Flash->success(__('You can join the guild'));
+        }
+
+        else {
+            $this->Flash->error(__('You can not join the guild'));
+        }
+
+        return $this->redirect(['action' => '/']);
+
+    }
     /**
      * Add method
      *
@@ -279,4 +283,8 @@ class FightersController extends AppController
         }
         return true;
     }
+
+
+
+
 }
