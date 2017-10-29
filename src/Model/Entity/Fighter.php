@@ -124,19 +124,19 @@ class Fighter extends Entity
 
             switch ($direction) {
                 //UP
-                case 1:
+                case "up":
                     $this->coordinate_y--;
                     break;
                 //left
-                case 2:
+                case "left":
                     $this->coordinate_x--;
                     break;
                 //right
-                case 3:
+                case "right":
                     $this->coordinate_x++;
                     break;
                 //DOWN
-                case 4:
+                case "down":
                     $this->coordinate_y++;
                     break;
                default:
@@ -154,9 +154,9 @@ class Fighter extends Entity
         }
     }
 
-  /*  public function attack($direction){
+  /*  public function attack($attackdirection){
 
-        switch ($direction) {
+        switch ($attackdirection) {
             //UP
             case 1:
                 $this->coordinate_y--;

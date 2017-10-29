@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\I18n\Time;
 
 /**
  * Fighters Controller
@@ -191,6 +192,8 @@ class FightersController extends AppController
 
     public function move(){
         $this->request->allowMethod('post');
+        $eventsTable = $this->loadModel('Events');
+        $event = $eventsTable->newEntity();
         if(!empty($this->request->getData()) && !empty($this->request->getData('direction'))){
             $playerId = $this->Auth->user('id');
             $activeFighterId = $this->getSelectedFighterId();
@@ -202,7 +205,14 @@ class FightersController extends AppController
             if(!empty($fighter)) {
                 if($fighter->move($direction)) {
                     $this->Fighters->save($fighter);
-                    $this->Flash->success('Your fighter moved');
+                    $this->Flash->success('Your fighter moved '.$direction);
+
+                    $event['name'].=$fighter->name." moved ".$direction;
+                    $event['date']=Time::now();
+                    $event['coordinate_x']=$fighter->coordinate_x;
+                    $event['coordinate_y']=$fighter->coordinate_y;
+                    $this->Events->save($event);
+
                 } else{
                     $this->Flash->error('Impossible to move there');
                 }
@@ -234,5 +244,41 @@ class FightersController extends AppController
             $this->redirect('/fighters');
         }
         return true;
+    }
+
+
+    public function attack($fighter)
+    {
+        $this->request->allowMethod('post');
+        if (!empty($this->request->getData())) {
+            $playerId = $this->Auth->user('id');
+            $activeFighterId = $this->getSelectedFighterId();
+            $fighter = $this->Fighters->get($activeFighterId);
+            $attacked = false;
+            //Vérification de la présence d'un Fighter sur la case cible
+            $defenser = $this->attack($fighter);// fighter attacked
+            // if attacked
+            if (is_array($defenser)) {
+                $attacked = true;
+                //Test attack
+                $rand = rand(1, 20);// random value between 1 and 20
+                //Conditions of success attack
+                if ($rand > (10 + $defenser['Fighter']['level'] - $fighter->level)) {
+                    //Decrease the current health of the attacked fighter
+                    $defenser['Fighter']['current_health'] -= $fighter->skill_strength;
+                    if ($defenser['Fighter']['current_health'] == 0) {
+                        $fighter->xp = $fighter->xp + $defenser['Fighter']['level'];
+                    } else {
+                        $fighter->xp++;
+                    }
+                    $this->save($fighter);
+                    $this->save($defenser);
+                    $this->Flash->success('You gained some xp Congratulations');
+                }
+            } else {
+                $this->Flash->error('Error occured');
+            }
+            return $this->redirect(['controller' => 'Arena', 'action' => '/']);
+        }
     }
 }
