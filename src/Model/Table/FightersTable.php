@@ -122,6 +122,12 @@ class FightersTable extends Table
         return $rules;
     }
 
+    public function kill($fighter)
+    {
+        $killed = $this->delete($fighter->id);
+        return $killed;
+    }
+
     //TODO
     public function remove($id){
         $allow=false;

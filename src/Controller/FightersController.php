@@ -250,6 +250,8 @@ class FightersController extends AppController
     public function attack($fighter)
     {
         $this->request->allowMethod('post');
+        $eventsTable = $this->loadModel('Events');
+        $event = $eventsTable->newEntity();
         if (!empty($this->request->getData())) {
             $playerId = $this->Auth->user('id');
             $activeFighterId = $this->getSelectedFighterId();
@@ -267,13 +269,22 @@ class FightersController extends AppController
                     //Decrease the current health of the attacked fighter
                     $defenser['Fighter']['current_health'] -= $fighter->skill_strength;
                     if ($defenser['Fighter']['current_health'] == 0) {
-                        $fighter->xp = $fighter->xp + $defenser['Fighter']['level'];
+                        $fighter->xp += $defenser['Fighter']['level'];
                     } else {
                         $fighter->xp++;
                     }
-                    $this->save($fighter);
-                    $this->save($defenser);
-                    $this->Flash->success('You gained some xp Congratulations');
+                    $this->Fighters->save($fighter);
+                    $this->Fighters->save($defenser);
+                    $event['name'].=$fighter->name." attacked ".$defenser['Fighter']['name'];
+                    $event['date']=Time::now();
+                    $event['coordinate_x']=$defenser->coordinate_x;
+                    $event['coordinate_y']=$defenser->coordinate_y;
+                    $this->Events->save($event);
+                    $this->Flash->success('Attack successful');
+
+                }
+                else{
+                    $this->Flash->error('Attack failed');
                 }
             } else {
                 $this->Flash->error('Error occured');

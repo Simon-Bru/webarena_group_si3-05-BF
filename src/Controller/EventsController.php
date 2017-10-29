@@ -47,27 +47,27 @@ class EventsController extends AppController
     public function scream(){
         $event = $this->Events->newEntity();
         $fighterTable=$this->loadModel('Fighters');
-        if ($this->request->is('post')) {
-            $event->player_id = $this->Auth->user('id');
-            $screamData = $this->request->getData();
-            $screamData['date'] = Time::now();
+        $this->request->allowMethod('post');
+        $event->player_id = $this->Auth->user('id');
+        $screamData = $this->request->getData();
+        $screamData['date'] = Time::now();
 
-            //récupére l'id du figher sélectionné
-            $id=$this->getSelectedFighterId();
-            $fighter=$fighterTable->get($id);
-            $screamData['coordinate_x'] = $fighter->coordinate_x;
-            $screamData['coordinate_y']=$fighter->coordinate_y;
+        //récupére l'id du figher sélectionné
+        $id=$this->getSelectedFighterId();
+        $fighter=$fighterTable->get($id);
+        $screamData['coordinate_x'] = $fighter->coordinate_x;
+        $screamData['coordinate_y']=$fighter->coordinate_y;
 
-            $event = $this->Events->patchEntity($event, $screamData);
-            if ($this->Events->save($event)) {
-                $this->Flash->success(($fighter['name']).' screams '.$screamData['name']);
+        $event = $this->Events->patchEntity($event, $screamData);
+        if ($this->Events->save($event)) {
+            $this->Flash->success(($fighter['name']).' screams '.$screamData['name']);
 
-            }
-            else {
-                $this->Flash->error(__('Scream not saved. Please, try again.'));
-                return $this->redirect(['action' => '/']);
-            }
         }
+        else {
+            $this->Flash->error(__('Scream not saved. Please, try again.'));
+            return $this->redirect(['action' => '/']);
+        }
+
         $this->set(compact('event'));
         return $this->redirect(['controller' => 'Arena', 'action' => '/']);
 
