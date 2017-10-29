@@ -154,5 +154,15 @@ class Fighter extends Entity
         }
     }
 
-
+    /**
+     * Returns true if the provided param $item is in Sight of the fighter
+     * @param $item
+     * @return bool
+     */
+    public function hasInSight($item) {
+        return  abs($this->coordinate_y - $item->coordinate_y) +
+                abs($this->coordinate_x - $item->coordinate_x) <= $this->skill_sight &&
+                abs($this->coordinate_y - $item->coordinate_y) +
+                abs($this->coordinate_x - $item->coordinate_x) >= 0;
+    }
 }
