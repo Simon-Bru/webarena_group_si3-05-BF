@@ -60,14 +60,16 @@ class EventsController extends AppController
 
             $event = $this->Events->patchEntity($event, $screamData);
             if ($this->Events->save($event)) {
-                $this->Flash->success(__('The Message has been saved.'));
+                $this->Flash->success(($fighter['name']).' screams '.$screamData['name']);
 
-                return $this->redirect(['action' => 'index']);
             }
-            $this->Flash->error(__('Scream not saved. Please, try again.'));
+            else {
+                $this->Flash->error(__('Scream not saved. Please, try again.'));
+                return $this->redirect(['action' => '/']);
+            }
         }
         $this->set(compact('event'));
-        return $this->redirect(['action' => '/']);
+        return $this->redirect(['controller' => 'Arena', 'action' => '/']);
 
     }
 
