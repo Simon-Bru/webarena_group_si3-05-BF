@@ -41,6 +41,25 @@
     ?>
 </div>
 
+<!--Need to add the condition to display only if 0 tools on the map?-->
+<section class="mt-3">
+
+    <h3><?= __('Generate tools') ?></h3>
+    <p class="lead">Tools generator</p>
+    <hr class="my-4">
+
+    <?= $this->Form->create('Tools', [
+            'url'=>'/Arena/addTools',
+        'class' => 'col-3 col-md-2 col-lg-2 text-center'
+    ]) ?>
+    <fieldset>
+        <?php
+        echo $this->Form->control('tools',array('default','type'=>'hidden','action'=>'addTools'));
+        ?>
+    </fieldset>
+    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->end() ?>
+</section>
 
 <div class="grid">
     <?php for ($y=0; $y < ARENA_HEIGHT; $y++): ?>
