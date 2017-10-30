@@ -6,7 +6,11 @@
 ?>
 <section class="jumbotron pt-4">
 
-    <?= $this->element('Nav/fighters') ?>
+    <?php
+    if($userIsLogged) {
+        echo $this->element('Nav/fighters');
+    }
+    ?>
 
     <h4 class="card-title"><h3><?= h($fighter->name) ?></h3></h4>
     <p class="card-text">

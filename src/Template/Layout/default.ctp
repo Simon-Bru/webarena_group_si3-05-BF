@@ -59,7 +59,12 @@ $cakeDescription = 'WebArena';
                     </li>
                     <li class="nav-item">
                         <?php echo $this->Html->link('Diary',
-                            array('controller' => 'Events', 'action' => '/'),
+                            array('controller' => 'Events', 'action' => '/', 'sort' => 'date', 'direction' => 'desc'),
+                            ['class' => 'nav-link']); ?>
+                    </li>
+                    <li class="nav-item">
+                        <?php echo $this->Html->link('Rank',
+                            array('controller' => 'Guilds', 'action' => '/', 'sort' => 'power', 'direction' => 'desc'),
                             ['class' => 'nav-link']); ?>
                     </li>
                     <?php
