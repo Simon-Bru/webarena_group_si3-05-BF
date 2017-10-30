@@ -14,7 +14,14 @@ class ArenaController  extends AppController
         $selectedFighterId = $this->getSelectedFighterId();
         if($selectedFighterId) {
             $fighterTable = $this->loadModel('Fighters');
-            $this->set('activeFighter', $fighterTable->get($selectedFighterId));
+            $activeFighter = $fighterTable->get($selectedFighterId);
+            $fighters = $fighterTable->find("all")
+                ->where(["id != " => $activeFighter->id ])
+                ->orderAsc('coordinate_y')
+                ->orderAsc('coordinate_x');
+
+            $this->set('activeFighter', $activeFighter);
+            $this->set('fighters', $fighters->toArray());
         }
         else {
             $this->Flash->error('Please select a fighter to enter the arena');

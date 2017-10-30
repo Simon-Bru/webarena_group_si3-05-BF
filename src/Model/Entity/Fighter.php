@@ -59,12 +59,12 @@ class Fighter extends Entity
         $this->level = 1;
         $this->xp = 0;
         $this->current_health = DEFAULT_SKILL_HEALTH;
-        $this->coordinate_x = rand(0, ARENA_WIDTH);
-        $this->coordinate_y = rand(0, ARENA_HEIGHT);
+        $this->coordinate_x = rand(0, ARENA_WIDTH-1);
+        $this->coordinate_y = rand(0, ARENA_HEIGHT-1);
 
         while(!Fighter::positionIsFree($this->coordinate_x, $this->coordinate_y)) {
-            $this->coordinate_x = rand(0, ARENA_WIDTH);
-            $this->coordinate_y = rand(0, ARENA_HEIGHT);
+            $this->coordinate_x = rand(0, ARENA_WIDTH-1);
+            $this->coordinate_y = rand(0, ARENA_HEIGHT-1);
         }
     }
 
@@ -154,5 +154,15 @@ class Fighter extends Entity
         }
     }
 
-
+    /**
+     * Returns true if the provided param $item is in Sight of the fighter
+     * @param $item
+     * @return bool
+     */
+    public function hasInSight($item) {
+        return  abs($this->coordinate_y - $item->coordinate_y) +
+                abs($this->coordinate_x - $item->coordinate_x) <= $this->skill_sight &&
+                abs($this->coordinate_y - $item->coordinate_y) +
+                abs($this->coordinate_x - $item->coordinate_x) >= 0;
+    }
 }
