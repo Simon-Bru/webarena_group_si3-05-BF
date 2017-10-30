@@ -1,7 +1,7 @@
 <div class="jumbotron">
     <h1>Log in</h1>
     <hr class="my-4">
-    <?= $this->Form->create('Players', [
+    <?= $this->Form->create($player, [
             'url' => '/Players/login',
             'class' => 'col-12 col-md-8 col-lg-6 m-auto text-center'
         ]); ?>

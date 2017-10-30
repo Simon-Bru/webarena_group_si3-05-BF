@@ -37,25 +37,33 @@ class PlayersController extends AppController
 
     public function login()
     {
-        $this->request->allowMethod('post');
+        $player = $this->Players->newEntity();
+        $this->set(compact("player"));
+        $this->set('_serialize', ['player']);
+        if(empty($this->Auth->user('id'))) {
+            if ($this->request->is('post')) {
+                $player = $this->Auth->identify();
 
-        if (!($this->Auth->isAuthorized())) {
-            $player = $this->Auth->identify();
-
-            if ($player) {
-                $this->Auth->setUser($player);
-                return $this->redirect($this->Auth->redirectUrl());
+                if ($player) {
+                    $this->Auth->setUser($player);
+                    return $this->redirect($this->Auth->redirectUrl());
+                }
+                $this->Flash->error(__('Invalid username or password, try again'));
+                $this->set(compact('player'));
+                return $this->redirect($this->Auth->redirectUrl("/Players/login"));
             }
-            $this->Flash->error(__('Invalid username or password, try again'));
-            return $this->redirect($this->Auth->redirectUrl("/login "));
         }
+        else {
+            $this->Flash->error('You are already logged in');
+            $this->redirect('/fighters');
+        }
+
     }
 
     public function logout()
     {
         return $this->redirect($this->Auth->logout());
     }
-
 
     /**
      *
@@ -108,15 +116,22 @@ class PlayersController extends AppController
     public function add()
     {
         $player = $this->Players->newEntity();
-        if ($this->request->is('post') && !($this->Auth->isAuthorized())) {
-            $player = $this->Players->patchEntity($player, $this->request->getData());
-            if ($this->Players->save($player)) {
-                $this->Flash->success(__('The player has been saved.'));
 
-                return $this->redirect('/login');
+        if(empty($this->Auth->user('id'))) {
+            if ($this->request->is('post') && !($this->Auth->isAuthorized())) {
+                $player = $this->Players->patchEntity($player, $this->request->getData());
+                if ($this->Players->save($player)) {
+                    $this->Flash->success(__('The player has been saved.'));
+
+                    return $this->redirect('/login');
+                }
+                $this->Flash->error(__('The player could not be saved. Please, try again.'));
             }
-            $this->Flash->error(__('The player could not be saved. Please, try again.'));
+        } else {
+            $this->Flash->error('You are already logged in');
+            $this->redirect('/fighters');
         }
+
         $this->set(compact('player'));
         $this->set('_serialize', ['player']);
     }
