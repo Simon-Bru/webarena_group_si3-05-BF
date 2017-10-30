@@ -224,7 +224,7 @@ class FightersController extends AppController
             $this->Flash->error('Error no direction detected');
         }
 
-        return $this->redirect(['controller' => 'Arena','action' => '/']);
+        return $this->redirect(['controller' => 'Arena', 'action' => '/']);
     }
 
     public function select($fighterId) {
