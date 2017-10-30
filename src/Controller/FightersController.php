@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 use Cake\I18n\Time;
 
 /**
@@ -31,6 +32,17 @@ class FightersController extends AppController
 
         $this->set(compact('fighters'));
         $this->set('_serialize', ['fighters']);
+    }
+
+    /**
+     * Allow of routes for non logged users
+     * @param Event $event
+     * @return \Cake\Http\Response|null
+     */
+    public function beforeFilter(Event $event)
+    {
+        $this->Auth->allow(['view']);
+        return parent::beforeFilter($event);
     }
 
     /**

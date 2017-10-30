@@ -29,10 +29,15 @@ class PlayersController extends AppController
         $this->set('_serialize', ['players']);
     }
 
+    /**
+     * Allowed routes for non logged users
+     * @param Event $event
+     * @return \Cake\Http\Response|null
+     */
     public function beforeFilter(Event $event)
     {
-        parent::beforeFilter($event);
         $this->Auth->allow(['login', 'add', 'forgottenPwd']);
+        return parent::beforeFilter($event);
     }
 
     public function login()

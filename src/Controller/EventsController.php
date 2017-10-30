@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 use Cake\I18n\Time;
 
 /**
@@ -22,10 +23,25 @@ class EventsController extends AppController
     public function index()
     {
         $lim_date = date ("Y-m-d H:i:s", mktime(date("H"),date("i"),date("s"),date("m"),date("d")-1,date("Y")));
-        $events = $this->paginate($this->Events->find('all',array('conditions' => array ("date >" => $lim_date))));
+        $events = $this->paginate($this->Events->find('all', [
+            'conditions' => [
+                "date >" => $lim_date
+            ]
+        ]));
 
         $this->set(compact('events'));
         $this->set('_serialize', ['events']);
+    }
+
+    /**
+     * Allow routes for non logged users
+     * @param Event $event
+     * @return \Cake\Http\Response|null
+     */
+    public function beforeFilter(Event $event)
+    {
+        $this->Auth->allow(['index', 'view']);
+        return parent::beforeFilter($event);
     }
 
     /**
