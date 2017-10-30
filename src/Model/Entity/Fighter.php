@@ -59,12 +59,12 @@ class Fighter extends Entity
         $this->level = 1;
         $this->xp = 0;
         $this->current_health = DEFAULT_SKILL_HEALTH;
-        $this->coordinate_x = rand(0, ARENA_WIDTH);
-        $this->coordinate_y = rand(0, ARENA_HEIGHT);
+        $this->coordinate_x = rand(0, ARENA_WIDTH-1);
+        $this->coordinate_y = rand(0, ARENA_HEIGHT-1);
 
         while(!Fighter::positionIsFree($this->coordinate_x, $this->coordinate_y)) {
-            $this->coordinate_x = rand(0, ARENA_WIDTH);
-            $this->coordinate_y = rand(0, ARENA_HEIGHT);
+            $this->coordinate_x = rand(0, ARENA_WIDTH-1);
+            $this->coordinate_y = rand(0, ARENA_HEIGHT-1);
         }
     }
 
@@ -74,14 +74,20 @@ class Fighter extends Entity
     public static function positionIsFree($x, $y) {
         $fighters = TableRegistry::get("Fighters");
         $query = $fighters->find();
-
         foreach ($query as $row) {
-            if($y == $row->coordinate_y
+            if ($y == $row->coordinate_y
                 && $x == $row->coordinate_x) {
                 return false;
             }
         }
-
+        $tools=TableRegistry::get('Tools');
+        $query1=$tools->find();
+        foreach($query1 as $row){
+            if($y==$row->coordinate_y
+            && $x==$row->coordinate_x){
+                return false;
+            }
+        }
         return true;
     }
 
@@ -144,9 +150,9 @@ class Fighter extends Entity
             }
         if(self::positionIsFree($this->coordinate_x, $this->coordinate_y) &&
             $this->coordinate_x>=0 &&
-            $this->coordinate_x<=ARENA_WIDTH &&
+            $this->coordinate_x<ARENA_WIDTH &&
             $this->coordinate_y>=0 &&
-            $this->coordinate_y<= ARENA_HEIGHT) {
+            $this->coordinate_y< ARENA_HEIGHT) {
             return true;
         }
         else{
