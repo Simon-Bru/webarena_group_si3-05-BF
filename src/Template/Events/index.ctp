@@ -12,7 +12,7 @@
 <div class="text-center"><h1>Diary</h1></div>
 <div class="events index large-9 medium-8 columns content">
 
-    <table class="table table-responsive table-hover">
+    <table class="table table-responsive table-hover table-striped">
         <caption><h4><i class="icons8-arena-filled"></i> Last 24 Hours events</h4></caption>
         <thead class="thead-inverse">
         <tr>
