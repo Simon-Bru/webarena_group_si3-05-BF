@@ -42,13 +42,19 @@
 </div>
 
 
-<p>
-
-    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#screamForm" aria-expanded="false" aria-controls="screamForm">
-        Scream
-    </button>
-</p>
-<div class="collapse" id="screamForm">
+<button class="btn btn-light"
+        data-toggle="popover"
+        data-title="Scream something so other fighters can hear your voice"
+        data-content='<?= $this->Form->create("Scream", ["url" => "/events/scream","class" => "container"]);?>
+                        <fieldset>
+                            <?= $this->Form->control("name", ["label" => "", "placeholder" => "Your scream"]);?>
+                        </fieldset>
+                        <?= $this->Form->button(__("Submit"),["class" => "btn-primary"]);?>
+                    <?=$this->Form->end();?>'>
+    <i class="icons8-edvard-munch display-4 d-block"></i>
+    Scream
+</button>
+<div class="d-none popover-content" id="screamForm">
     <div class="card card-body">
         <?= $this->Form->create('Scream', [
             'url' => '/events/scream',

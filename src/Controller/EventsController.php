@@ -62,10 +62,12 @@ class EventsController extends AppController
     }
 
     public function scream(){
+        $this->request->allowMethod('post');
+
         $event = $this->Events->newEntity();
         $fighterTable=$this->loadModel('Fighters');
-        $this->request->allowMethod('post');
         $event->player_id = $this->Auth->user('id');
+
         $screamData = $this->request->getData();
         $screamData['date'] = Time::now();
 
@@ -73,7 +75,7 @@ class EventsController extends AppController
         $id=$this->getSelectedFighterId();
         $fighter=$fighterTable->get($id);
         $screamData['coordinate_x'] = $fighter->coordinate_x;
-        $screamData['coordinate_y']=$fighter->coordinate_y;
+        $screamData['coordinate_y'] = $fighter->coordinate_y;
 
         $event = $this->Events->patchEntity($event, $screamData);
         if ($this->Events->save($event)) {
