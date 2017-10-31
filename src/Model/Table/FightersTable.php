@@ -122,14 +122,30 @@ class FightersTable extends Table
         return $rules;
     }
 
-    //TODO
     public function remove($id){
-        $allow=false;
-        $temp=$this->get($id);
-        if($temp->current_health==0) {
-            $this->delete($temp);
-            $allow=true;
+        $temp = $this->get($id);
+        if($temp->current_health <= 0) {
+            return $this->delete($temp);
+        } else {
+            return false;
         }
-        return $allow;
+    }
+
+    public function attack($fighter, $target) {
+        if(!$fighter->isInContact($target)) {
+            return false;
+        }
+        if($fighter->attack($target)) {
+
+            $this->save($target);
+
+            if($target->current_health <= 0) {
+                $this->remove($target->id);
+            }
+
+            return $this->save($fighter);
+        } else {
+            return false;
+        }
     }
 }

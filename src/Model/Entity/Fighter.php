@@ -130,19 +130,19 @@ class Fighter extends Entity
 
             switch ($direction) {
                 //UP
-                case 1:
+                case "up":
                     $this->coordinate_y--;
                     break;
                 //left
-                case 2:
+                case "left":
                     $this->coordinate_x--;
                     break;
                 //right
-                case 3:
+                case "right":
                     $this->coordinate_x++;
                     break;
                 //DOWN
-                case 4:
+                case "down":
                     $this->coordinate_y++;
                     break;
                default:
@@ -160,5 +160,40 @@ class Fighter extends Entity
         }
     }
 
+    /**
+     * Returns true if the provided param $item is in Sight of the fighter
+     * @param $item
+     * @return bool
+     */
+    public function hasInSight($item) {
+        return  abs($this->coordinate_y - $item->coordinate_y) +
+                abs($this->coordinate_x - $item->coordinate_x) <= $this->skill_sight &&
+                abs($this->coordinate_y - $item->coordinate_y) +
+                abs($this->coordinate_x - $item->coordinate_x) >= 0;
+    }
 
+    public function attack($target) {
+        $rand = rand(1, 20);// random value between 1 and 20
+        //Conditions of success attack
+        if ($rand > (ATTACK_THRESHOLD + $target->level - $this->level)) {
+
+            $target->current_health -= $this->skill_strength;
+
+            if ($target->current_health <= 0) {
+                $this->xp += $target->level;
+            } else {
+                $this->xp++;
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isInContact($item) {
+        return abs($this->coordinate_x - $item->coordinate_x) == 1
+                || abs($this->coordinate_y - $item->coordinate_y) == 1;
+
+    }
 }

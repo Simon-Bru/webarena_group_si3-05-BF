@@ -35,4 +35,9 @@ define('ARENA_HEIGHT', 10);
  * Default avatar image
  */
 define('DEFAULT_AVATAR', 'default.png');
+
+/**
+ * Attack threshold
+ */
+define('ATTACK_THRESHOLD', 10);
 ?>
