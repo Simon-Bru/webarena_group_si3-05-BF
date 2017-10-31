@@ -67,7 +67,7 @@ class FightersController extends AppController
 
     }
 
-    public function join()
+    public function joinGuild()
     {
         $this->request->allowMethod('post');
 
@@ -85,10 +85,6 @@ class FightersController extends AppController
 
 
             $this->Flash->success(__('You can join the guild'));
-        }
-
-        else {
-            $this->Flash->error(__('You can not join the guild'));
         }
 
         return $this->redirect(['action' => '/']);
@@ -283,8 +279,4 @@ class FightersController extends AppController
         }
         return true;
     }
-
-
-
-
 }

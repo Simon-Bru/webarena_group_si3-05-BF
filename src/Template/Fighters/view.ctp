@@ -79,8 +79,6 @@
         ?>
         <div class="panel">
             <h2>Change Avatar</h2>
-
-
             <?= $this->Form->create('Fighters', [
                 'url' => '/Fighters/changeAvatar',
                 'enctype' => 'multipart/form-data',
@@ -89,6 +87,7 @@
             <?= $this->Form->file('avatar');?>
             <?= $this->Form->button('Upload Avatar',['class'=>'btn-success']);?>
             <?= $this->Form->end();?>
+            </br>
         </div>
         <?php
     }
@@ -97,53 +96,49 @@
     <?php
     if($isMine) {
         ?>
-        <div class="form-group">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <?= $this->Form->create('joinGuild', ['url' => '/Fighters/join']) ?>
-                        <?php
-                        if(!empty($fighter->guild_id)) {
-                            ?>
-                            <legend data-toggle="collapse" href="#collapse1">
-                                Change Guild
-                            </legend>
-                            <?php
-                        } else {
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <?= $this->Form->create('joinGuild', [
+                        'class' => ' col-sm-6  ',
+                        'url' => '/Fighters/join',
+                    ]) ?>
+                    <button type="button" class="btn btn-secondary btn-sm ">
+                    <?php
+                    if(!empty($fighter->guild_id)) {
                         ?>
-                            <legend data-toggle="collapse" href="#collapse1">
-                                Join a Guild
+                        <legend data-toggle="collapse" href="#collapse1">
+                            Change Guild
                         </legend>
                         <?php
-                        }
+                    } else {
                         ?>
-                    </h4>
-                </div>
-                <div id="collapse1" class="panel-collapse collapse">
-                    <div class="panel-body"><fieldset>
-                            <?php
+                        <legend data-toggle="collapse" href="#collapse1">
+                            Join a Guild
+                        </legend>
+                        <?php
+                    }
+                    ?>
+                    </button>
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse">
+                <div class="panel-body"><fieldset>
+                        <?php
 
-                            echo $this->Form->control('id', [
-                                'label' => 'Name',
-                                'type' => 'select',
-                                'options' => $guilds,
-                            ]);
+                        echo $this->Form->control('id', [
+                            'label' => 'Name',
+                            'class' => 'col-12 col-md-8 col-lg-6 m-auto text-center',
+                            'type' => 'select',
+                            'options' => $guilds,
+                        ]);
 
-                            ?>
-                        </fieldset>
-                        <p class="text-center"><?= $this->Form->button(__('Join')) ?></p>
-                        <?= $this->Form->end() ?>
-                    </div>
+                        ?>
+                    </fieldset>
+                    <p class="text-center"><?= $this->Form->button(__('Join')) ?></p>
+                    <?= $this->Form->end() ?>
                 </div>
             </div>
-        </div>
         <?php
     }
     ?>
-
-
-
-
-
-
 </section>
