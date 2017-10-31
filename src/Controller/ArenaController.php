@@ -14,14 +14,22 @@ class ArenaController  extends AppController
         $selectedFighterId = $this->getSelectedFighterId();
         if($selectedFighterId) {
             $fighterTable = $this->loadModel('Fighters');
+            $toolsTable = $this->loadModel('Tools');
+
             $activeFighter = $fighterTable->get($selectedFighterId);
             $fighters = $fighterTable->find("all")
                 ->where(["id != " => $activeFighter->id ])
                 ->orderAsc('coordinate_y')
                 ->orderAsc('coordinate_x');
 
+            $tools = $toolsTable->find('all')
+                ->where(['fighter_id IS NULL'])
+                ->orderAsc('coordinate_y')
+                ->orderAsc('coordinate_x');
+
             $this->set('activeFighter', $activeFighter);
             $this->set('fighters', $fighters->toArray());
+            $this->set('tools', $tools->toArray());
         }
         else {
             $this->Flash->error('Please select a fighter to enter the arena');
@@ -32,15 +40,23 @@ class ArenaController  extends AppController
     // works
     public function addTools(){
         $this->request->allowMethod('post');
-        $toolsTable=$this->loadModel('Tools');
-        for($i=0;$i<12;$i++){
-            $tools = $toolsTable->newEntity();
-            // We initialize our object
-            $tools->beforeInsert();
-            $this->Tools->save($tools);
+        $toolsTable = $this->loadModel('Tools');
+        $availableTools = $toolsTable->find('all')->where(['fighter_id IS NULL']);
 
+//        GENERATE TOOLS ONLY IF THERE ARE LESS THAN 3 ON THE MAP
+        if(sizeof($availableTools) > 3) {
+            $this->Flash->error('There are too many tools on the map');
         }
-        $this->Flash->success('Enjoy the tools :)');
+        else {
+            for($i=0; $i < NUMBER_OF_TOOLS; $i++){
+                $tools = $toolsTable->newEntity();
+                // We initialize our object
+                $tools->initialize();
+                $this->Tools->save($tools);
+            }
+            $this->Flash->success('Enjoy the tools :)');
+        }
+
         return $this->redirect(['action' => '/']);
 
     }

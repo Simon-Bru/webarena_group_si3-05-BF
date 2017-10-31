@@ -37,35 +37,12 @@ class Tool extends Entity
     ];
 
     // We give conditions to the insert of tools in the DB
-    public function beforeInsert() {
-        $type= $this->type= rand(0,6);
-        switch($type){
-            case 0:
-                $this->type='Sword';
-                break;
-            case 1:
-                $this->type='Shield';
-                break;
-            case 2:
-                $this->type='Axe';
-                break;
-            case 3:
-                $this->type='Helmet';
-                break;
-            case 4:
-                $this->type='Armor';
-                break;
-            case 5:
-                $this->type='Gloves';
-                break;
-            case 6:
-                $this->type='Boots';
-                break;
-        }
-        $this->bonus = rand(1,3);
+    public function initialize() {
+        $this->type = rand(0, 8);
+
+        $this->bonus = rand(1, 3);
         $this->coordinate_x = rand(0, ARENA_WIDTH-1);
         $this->coordinate_y = rand(0, ARENA_HEIGHT-1);
-        $this->fighter_id=NULL;
 
         while(!Fighter::positionIsFree($this->coordinate_x, $this->coordinate_y)) {
             $this->coordinate_x = rand(0, ARENA_WIDTH-1);

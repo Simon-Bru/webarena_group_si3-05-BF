@@ -101,7 +101,7 @@ $cakeDescription = 'WebArena';
         <?= $this->fetch('content') ?>
     </div>
 
-    <footer class="container-fluid d-flex justify-content-around mt-5">
+    <footer class="container-fluid d-flex justify-content-around mt-5 pt-5">
         <p class="d-inline-block">Group SII3</p>
         <p class="d-inline-block">&copy Bruguerolle/ Molano/ Belluccini Options ABF</p>
         <p class="d-inline-block"> <a href="https://github.com/Simon-Bru/webarena_group_si3-05-BF">Link Versionning</a></p>
