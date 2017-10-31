@@ -274,8 +274,9 @@ class FightersController extends AppController
                 $eventsTable = $this->loadModel('Events');
                 $event = $eventsTable->newEntity();
 
+                $action = $target->current_health > 0 ? 'attacked' : 'killed';
                 $event = $eventsTable->patchEntity($event, [
-                    'name' => $myFighter->name." attacked ".$target->name,
+                    'name' => $myFighter->name." ".$action." ".$target->name,
                     'date' => Time::now(),
                     'coordinate_x' => $target->coordinate_x,
                     'coordinate_y' => $target->coordinate_y
