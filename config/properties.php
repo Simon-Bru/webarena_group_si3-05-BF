@@ -50,39 +50,48 @@ define('NUMBER_OF_TOOLS', 12);
  * Tools definition
  */
 define('TOOLS_TABLE', [
-    'Sword' => [
+    [
+        'name' => 'Sword',
         'icon' => 'icons8-sword',
         'bonus' => 'skill_strength'
     ],
-    'Shield' => [
+    [
+        'name' => 'Shield',
         'icon' => 'icons8-defense',
         'bonus' => 'skill_health'
     ],
-    'Gun' => [
+    [
+        'name' => 'Gun',
         'icon' => 'icons8-crime',
         'bonus' => 'skill_sight'
     ],
-    'Tomahawk' => [
+    [
+        'name' => 'Tomahawk',
         'icon' => 'icons8-tomahawk',
         'bonus' => 'skill_strength'
     ],
-    'Helmet' => [
+    [
+        'name' => 'Helmet',
         'icon' => 'icons8-knight-helmet',
         'bonus' => 'skill_health'
     ],
-    'NightVision' => [
+    [
+        'name' => 'NightVision',
         'icon' => 'icons8-goggles',
         'bonus' => 'skill_sight'
     ],
-    'Armor' => [
+    [
+        'name' => 'Armor',
         'icon' => 'icons8-body-armor',
         'bonus' => 'skill_health'
     ],
-    'Gloves' => [
+    [
+        'name' => 'Gloves',
         'icon' => 'icons8-gauntlet-gloves',
         'bonus' => 'skill_strength'
     ],
-    'Bow' => [
+    [
+        'name' => 'Bow',
         'icon' => 'icons8-archers-bow',
         'bonus' => 'skill_sight'
     ]
