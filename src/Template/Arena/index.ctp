@@ -1,6 +1,6 @@
 <h1>Welcome in WebArena</h1>
 
-<div class="text-center w-25 m-auto">
+<div class="text-center col-8 col-sm-5 col-md-4 col-lg-3 m-auto fixed-bottom">
 
     <?php
     echo $this->Form->create('MoveFighter', [
@@ -44,30 +44,17 @@
 
 <button class="btn btn-light"
         data-toggle="popover"
+        data-placement="bottom"
         data-title="Scream something so other fighters can hear your voice"
-        data-content='<?= $this->Form->create("Scream", ["url" => "/events/scream","class" => "container"]);?>
+        data-content='<?= $this->Form->create("Scream", ["url" => "/events/scream","class" => "container text-center"]);?>
                         <fieldset>
                             <?= $this->Form->control("name", ["label" => "", "placeholder" => "Your scream"]);?>
                         </fieldset>
-                        <?= $this->Form->button(__("Submit"),["class" => "btn-primary"]);?>
+                        <?= $this->Form->button(__("Submit"),["class" => "btn btn-warning"]);?>
                     <?=$this->Form->end();?>'>
     <i class="icons8-edvard-munch display-4 d-block"></i>
     Scream
 </button>
-<div class="d-none popover-content" id="screamForm">
-    <div class="card card-body">
-        <?= $this->Form->create('Scream', [
-            'url' => '/events/scream',
-            'class' => '']);?>
-        <fieldset>
-        <?= $this->Form->control('name', array('default','controller' => 'events','action' => 'scream', 'label' => 'Scream something'));?>
-         </fieldset>
-        <?= $this->Form->button(__('Submit'),['class' => 'btn-primary']);?>
-        <?=$this->Form->end();?>
-
-    </div>
-</div>
-
 <div class="grid">
     <?php
     $i = 0;
@@ -75,7 +62,7 @@
     ?>
         <div class="row d-flex justify-content-center">
             <?php for ($x=0; $x < ARENA_WIDTH; $x++): ?>
-                <span class="cell">
+                <span class="cell d-flex align-items-center">
                     <?php
                     if($y == $activeFighter->coordinate_y && $x == $activeFighter->coordinate_x) {
                         echo $this->element('Component/avatar', ['fighterId' => $activeFighter->id]);
@@ -84,7 +71,24 @@
                         $y == $fighters[$i]->coordinate_y &&
                         $x == $fighters[$i]->coordinate_x) {
                         if($activeFighter->hasInSight($fighters[$i])) {
-                            echo $this->element('Component/avatar', ['fighterId' => $fighters[$i]->id]);
+
+                            if($fighters[$i]->player_id != $activeFighter->player_id &&
+                                $activeFighter->isInContact($fighters[$i])) {
+                                echo $this->Form->postLink(
+                                    $this->element('Component/avatar', ['fighterId' => $fighters[$i]->id]).
+                                    $this->Html->tag('span', $fighters[$i]->level, [
+                                        'class' => 'badge badge-success level-badge'
+                                    ]),
+                                    ['controller' => 'Fighters', 'action' => 'attack', $fighters[$i]->id],
+                                    ['escape' => false, 'class' => 'enemy']
+                                );
+                            }
+                            else {
+                                echo $this->element('Component/avatar', ['fighterId' => $fighters[$i]->id]);
+                                echo $this->Html->tag('span', $fighters[$i]->level, [
+                                    'class' => 'badge badge-success level-badge'
+                                ]);
+                            }
                         }
                         $i++;
                     }

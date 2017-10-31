@@ -259,49 +259,37 @@ class FightersController extends AppController
     }
 
 
-    public function attack($fighter)
+    public function attack($targetId)
     {
         $this->request->allowMethod('post');
-        $eventsTable = $this->loadModel('Events');
-        $event = $eventsTable->newEntity();
-        if (!empty($this->request->getData())) {
-            $playerId = $this->Auth->user('id');
-            $activeFighterId = $this->getSelectedFighterId();
-            $fighter = $this->Fighters->get($activeFighterId);
-            $attacked = false;
-            //Vérification de la présence d'un Fighter sur la case cible
-            $defenser = $this->attack($fighter);// fighter attacked
-            // if attacked
-            if (is_array($defenser)) {
-                $attacked = true;
-                //Test attack
-                $rand = rand(1, 20);// random value between 1 and 20
-                //Conditions of success attack
-                if ($rand > (10 + $defenser['Fighter']['level'] - $fighter->level)) {
-                    //Decrease the current health of the attacked fighter
-                    $defenser['Fighter']['current_health'] -= $fighter->skill_strength;
-                    if ($defenser['Fighter']['current_health'] == 0) {
-                        $fighter->xp += $defenser['Fighter']['level'];
-                    } else {
-                        $fighter->xp++;
-                    }
-                    $this->Fighters->save($fighter);
-                    $this->Fighters->save($defenser);
-                    $event['name'].=$fighter->name." attacked ".$defenser['Fighter']['name'];
-                    $event['date']=Time::now();
-                    $event['coordinate_x']=$defenser->coordinate_x;
-                    $event['coordinate_y']=$defenser->coordinate_y;
-                    $this->Events->save($event);
-                    $this->Flash->success('Attack successful');
 
-                }
-                else{
-                    $this->Flash->error('Attack failed');
-                }
-            } else {
-                $this->Flash->error('Error occured');
+        $target = $this->Fighters->get($targetId);
+        if (!empty($target)) {
+
+            $activeFighterId = $this->getSelectedFighterId();
+            $myFighter = $this->Fighters->get($activeFighterId);
+
+            if ($this->Fighters->attack($myFighter, $target)) {
+
+                $eventsTable = $this->loadModel('Events');
+                $event = $eventsTable->newEntity();
+
+                $event = $eventsTable->patchEntity($event, [
+                    'name' => $myFighter->name." attacked ".$target->name,
+                    'date' => Time::now(),
+                    'coordinate_x' => $target->coordinate_x,
+                    'coordinate_y' => $target->coordinate_y
+                ]);
+                $eventsTable->save($event);
+
+                $this->Flash->success('Attack successful');
             }
-            return $this->redirect(['controller' => 'Arena', 'action' => '/']);
+            else{
+                $this->Flash->error('Attack failed');
+            }
+        } else {
+            $this->Flash->error('Error occured');
         }
+        return $this->redirect(['controller' => 'Arena', 'action' => '/']);
     }
 }
