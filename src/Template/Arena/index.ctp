@@ -120,7 +120,7 @@ echo $this->Form->postLink('Generate Tools', ['controller' => 'Arena', 'action' 
                                 echo $this->Form->postLink(
                                     $this->Html->tag('i', '',
                                         ['class' => TOOLS_TABLE[$tools[$j]->type]['icon']]),
-                                    ['controller' => 'Arena', 'action' => 'pickTool'],
+                                    ['controller' => 'Arena', 'action' => 'pickTool', $tools[$j]->id],
                                     ['escape' => false, 'class' => 'tool text-dark  ']);
                             }
                             else {

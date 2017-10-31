@@ -38,8 +38,9 @@ class Tool extends Entity
 
     // We give conditions to the insert of tools in the DB
     public function initialize() {
-        $this->type = rand(0, 8);
+        $type = rand(0, 8);
 
+        $this->type = array_keys(TOOLS_TABLE)[$type];
         $this->bonus = rand(1, 3);
         $this->coordinate_x = rand(0, ARENA_WIDTH-1);
         $this->coordinate_y = rand(0, ARENA_HEIGHT-1);

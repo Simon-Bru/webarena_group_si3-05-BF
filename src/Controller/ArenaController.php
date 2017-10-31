@@ -41,72 +41,36 @@ class ArenaController  extends AppController
     public function addTools(){
         $this->request->allowMethod('post');
         $toolsTable = $this->loadModel('Tools');
-        $availableTools = $toolsTable->find('all')->where(['fighter_id IS NULL']);
 
-//        GENERATE TOOLS ONLY IF THERE ARE LESS THAN 3 ON THE MAP
-        if(sizeof($availableTools) > 3) {
-            $this->Flash->error('There are too many tools on the map');
+        if($this->loadModel('Tools')->generateTools()) {
+            $this->Flash->success('Enjoy the tools :)');
         }
         else {
-            for($i=0; $i < NUMBER_OF_TOOLS; $i++){
-                $tools = $toolsTable->newEntity();
-                // We initialize our object
-                $tools->initialize();
-                $this->Tools->save($tools);
-            }
-            $this->Flash->success('Enjoy the tools :)');
+            $this->Flash->error('There are too many tools on the map');
         }
 
         return $this->redirect(['action' => '/']);
 
     }
 
-    // TO test when we can click on the tool in the arena
-    public function checkTool(){
-        $toolsTable=$this->loadModel('Tools');
-        $fightersTable=$this->loadModel('Fighters');
-        $activeFighterId = $fightersTable->getSelectedFighterId();
-        $fighter = $fightersTable->get($activeFighterId);
-        $toolId=$this->getSelectedToolId();
-        $tool=$toolsTable->get($toolId);
-        $type=$this->type;
-        switch($type){
-            case "Sword":
-                $fighter->skill_strength+=$tool->bonus;
-                break;
-            case "Shield":
-                $fighter->skill_health+=$tool->bonus;
-                break;
-            case "Axe":
-                $fighter->skill_health+=$tool->bonus;
-                break;
-            case "Helmet":
-                $fighter->skill_health+=$tool->bonus;
-                break;
-            case "Armor":
-                $fighter->skill_heath+=$tool->bonus;
-                break;
-            case "Gloves":
-                $fighter->skill_sight+=$tool->bonus;
-                break;
-            case "Boots":
-                $fighter->skill_strength+=$tool->bonus;
-                break;
-        }
-    }
-    //To test
-    public function equipTool(){
-        $this->request->allowMethod('post');
-        $toolsTable=$this->loadModel('Tools');
-        $fightersTable=$this->loadModel('Fighters');
-        $activeFighterId = $fightersTable->getSelectedFighterId();
-        $fighter = $fightersTable->get($activeFighterId);
-        $toolId=$this->getSelectedToolId();
-        $tool=$toolsTable->get($toolId);
-        $this->checkTool();
-        $tool->fighter_id=$fighter->id;
-        $this->Fighters->save($fighter);
-        $this->Tools->save($tool);
+    public function pickTool($toolId){
+        $toolsTable = $this->loadModel('Tools');
+        $fightersTable = $this->loadModel('Fighters');
 
+        $activeFighterId = $this->getSelectedFighterId();
+        $fighter = $fightersTable->get($activeFighterId);
+        $tool=$toolsTable->get($toolId);
+
+        if(!empty($tool) && $fighter->isInContact($tool)) {
+            $fighter->pick($tool);
+            $fightersTable->save($fighter);
+            $toolsTable->save($tool);
+            $this->Flash->success($fighter->name.' picked a new '.$tool->type.' with a +'.$tool->bonus.' bonus in '.TOOLS_TABLE[$tool->type]['bonus']);
+        }
+        else {
+            $this->Flash->error("You can't pick a tool which is not next to you!");
+        }
+
+        return $this->redirect(['action' => '/']);
     }
 }

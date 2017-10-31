@@ -87,4 +87,23 @@ class ToolsTable extends Table
 
         return $rules;
     }
+
+    public function generateTools() {
+        $availableTools = $this->find('all')->where(['fighter_id IS NULL']);
+
+//        GENERATE TOOLS ONLY IF THERE ARE LESS THAN 3 ON THE MAP
+        if(sizeof($availableTools) > 3) {
+            return false;
+        }
+        else {
+            for($i=0; $i < NUMBER_OF_TOOLS; $i++){
+                $tools = $this->newEntity();
+                // We initialize our object
+                $tools->initialize();
+                $this->save($tools);
+            }
+        }
+
+        return true;
+    }
 }

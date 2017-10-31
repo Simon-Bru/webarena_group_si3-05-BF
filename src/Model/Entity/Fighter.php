@@ -197,6 +197,10 @@ class Fighter extends Entity
                 && abs($this->coordinate_y - $item->coordinate_y) == 0
                 || abs($this->coordinate_y - $item->coordinate_y) == 1
                 && abs($this->coordinate_x - $item->coordinate_x) == 0;
+    }
 
+    public function pick($tool) {
+        $this[TOOLS_TABLE[$tool->type]['bonus']] += $tool->bonus;
+        $tool->fighter_id = $this->id;
     }
 }
