@@ -2,6 +2,8 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
+use Cake\I18n\Time;
 
 /**
  * Fighters Controller
@@ -30,6 +32,17 @@ class FightersController extends AppController
 
         $this->set(compact('fighters'));
         $this->set('_serialize', ['fighters']);
+    }
+
+    /**
+     * Allow of routes for non logged users
+     * @param Event $event
+     * @return \Cake\Http\Response|null
+     */
+    public function beforeFilter(Event $event)
+    {
+        $this->Auth->allow(['view']);
+        return parent::beforeFilter($event);
     }
 
     /**
@@ -71,10 +84,7 @@ class FightersController extends AppController
             }
             $this->Flash->error(__('The fighter could not be saved. Please, try again.'));
         }
-        $players = $this->Fighters->Players->find('list', ['limit' => 200]);
-        $guilds = $this->Fighters->Guilds->find('list', ['limit' => 200]);
-        $this->set(compact('fighter', 'players', 'guilds'));
-        $this->set('_serialize', ['fighter']);
+        $this->set(compact('fighter'));
     }
 
     /**
@@ -194,6 +204,8 @@ class FightersController extends AppController
 
     public function move(){
         $this->request->allowMethod('post');
+        $eventsTable = $this->loadModel('Events');
+        $event = $eventsTable->newEntity();
         if(!empty($this->request->getData()) && !empty($this->request->getData('direction'))){
             $playerId = $this->Auth->user('id');
             $activeFighterId = $this->getSelectedFighterId();
@@ -205,7 +217,14 @@ class FightersController extends AppController
             if(!empty($fighter)) {
                 if($fighter->move($direction)) {
                     $this->Fighters->save($fighter);
-                    $this->Flash->success('Your fighter moved');
+                    $this->Flash->success('Your fighter moved '.$direction);
+
+                    $event['name'].=$fighter->name." moved ".$direction;
+                    $event['date']=Time::now();
+                    $event['coordinate_x']=$fighter->coordinate_x;
+                    $event['coordinate_y']=$fighter->coordinate_y;
+                    $this->Events->save($event);
+
                 } else{
                     $this->Flash->error('Impossible to move there');
                 }
@@ -237,5 +256,41 @@ class FightersController extends AppController
             $this->redirect('/fighters');
         }
         return true;
+    }
+
+
+    public function attack($targetId)
+    {
+        $this->request->allowMethod('post');
+
+        $target = $this->Fighters->get($targetId);
+        if (!empty($target)) {
+
+            $activeFighterId = $this->getSelectedFighterId();
+            $myFighter = $this->Fighters->get($activeFighterId);
+
+            if ($this->Fighters->attack($myFighter, $target)) {
+
+                $eventsTable = $this->loadModel('Events');
+                $event = $eventsTable->newEntity();
+
+                $action = $target->current_health > 0 ? 'attacked' : 'killed';
+                $event = $eventsTable->patchEntity($event, [
+                    'name' => $myFighter->name." ".$action." ".$target->name,
+                    'date' => Time::now(),
+                    'coordinate_x' => $target->coordinate_x,
+                    'coordinate_y' => $target->coordinate_y
+                ]);
+                $eventsTable->save($event);
+
+                $this->Flash->success('Attack successful');
+            }
+            else{
+                $this->Flash->error('Attack failed');
+            }
+        } else {
+            $this->Flash->error('Error occured');
+        }
+        return $this->redirect(['controller' => 'Arena', 'action' => '/']);
     }
 }

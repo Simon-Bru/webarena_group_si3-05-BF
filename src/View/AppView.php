@@ -39,5 +39,9 @@ class AppView extends View
         $this->loadHelper('Form', [
             'className' => 'BootstrapForm'
         ]);
+
+        $this->loadHelper('Paginator', [
+            'className' => 'BootstrapPaginator'
+        ]);
     }
 }

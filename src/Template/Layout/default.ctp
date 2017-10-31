@@ -59,14 +59,38 @@ $cakeDescription = 'WebArena';
                     </li>
                     <li class="nav-item">
                         <?php echo $this->Html->link('Diary',
-                            array('controller' => 'Events', 'action' => '/'),
+                            array('controller' => 'Events', 'action' => '/', 'sort' => 'date', 'direction' => 'desc'),
                             ['class' => 'nav-link']); ?>
                     </li>
                     <li class="nav-item">
-                        <?php echo $this->Html->link('Sign in',
-                            '/login',
+                        <?php echo $this->Html->link('Rank',
+                            array('controller' => 'Guilds', 'action' => '/', 'sort' => 'power', 'direction' => 'desc'),
                             ['class' => 'nav-link']); ?>
                     </li>
+                    <?php
+                    if(!$userIsLogged) {
+                        ?>
+                        <li class="nav-item">
+                            <?php echo $this->Html->link('Sign in',
+                                ['controller' => 'Players', 'action' => 'login'],
+                                ['class' => 'nav-link']); ?>
+                        </li>
+                        <li class="nav-item">
+                            <?php echo $this->Html->link('Sign up',
+                                ['controller' => 'Players', 'action' => 'add'],
+                                ['class' => 'nav-link']); ?>
+                        </li>
+                        <?php
+                    } else {
+                        ?>
+                        <li class="nav-item">
+                            <?php echo $this->Html->link('Log out',
+                                ['controller' => 'Players', 'action' => 'logout'],
+                                ['class' => 'nav-link']); ?>
+                        </li>
+                        <?php
+                    }
+                    ?>
                 </ul>
             </div>
         </nav>

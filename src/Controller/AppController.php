@@ -46,7 +46,7 @@ class AppController extends Controller
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
             'loginAction' => [
-                'controller' => 'Pages',
+                'controller' => 'Players',
                 'action' => 'login'
             ],
             'loginRedirect' => [
@@ -54,7 +54,7 @@ class AppController extends Controller
                 'action' => 'index'
             ],
             'logoutRedirect' => [
-                'controller' => 'Pages',
+                'controller' => 'Players',
                 'action' => 'login'
             ],
             'authenticate' => [
@@ -71,6 +71,8 @@ class AppController extends Controller
          */
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
+
+        $this->set('userIsLogged', !empty($this->Auth->user('id')));
     }
 
     /**
