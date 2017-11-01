@@ -26,7 +26,7 @@ class BootstrapPaginatorHelper extends PaginatorHelper
             'first' => '<li class="page-item first"><a href="{{url}}" class="page-link">{{text}}</a></li>',
             'last' => '<li class="page-item last"><a href="{{url}}" class="page-link">{{text}}</a></li>',
             'number' => '<li class="page-item"><a href="{{url}}" class="page-link">{{text}}</a></li>',
-            'current' => '<li class="page-item disabled"><a href="" class="page-link">{{text}}</a></li>',
+            'current' => '<li class="page-item active"><a href="" class="page-link">{{text}}</a></li>',
             'ellipsis' => '<li class="ellipsis">&hellip;</li>',
             'sort' => '<a href="{{url}}" class="text-white">{{text}}</a>',
             'sortAsc' => '<a class="text-white" href="{{url}}">
