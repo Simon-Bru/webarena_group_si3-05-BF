@@ -213,7 +213,8 @@ class FightersController extends AppController
         if($fighter->hasFullXp() && $this->isMine($fighter)) {
             if($fighter->levelUp($skill)) {
                 $this->Fighters->save($fighter);
-                $this->Flash->success(__('Level Up ! Your player passed the next level'));
+                $newLevel=$fighter->level;
+                $this->Flash->success(__('Level Up ! Your fighter '.$fighter->name.' is now level '.$newLevel));
             } else {
                 $this->Flash->error(__('Error! You must select a skill to improve'));
             }
@@ -321,7 +322,7 @@ class FightersController extends AppController
                 $eventsTable = $this->loadModel('Events');
                 $event = $eventsTable->newEntity();
 
-                $action = $target->current_health > 0 ? 'attacked' : 'killed';
+                $action = $target->current_health > 0 ? 'attacked and hit' : 'killed';
                 $event = $eventsTable->patchEntity($event, [
                     'name' => $myFighter->name." ".$action." ".$target->name,
                     'date' => Time::now(),
@@ -333,6 +334,15 @@ class FightersController extends AppController
                 $this->Flash->success('Attack successful');
             }
             else{
+                $eventsTable = $this->loadModel('Events');
+                $event = $eventsTable->newEntity();
+                $event = $eventsTable->patchEntity($event, [
+                    'name' => $myFighter->name." failed attacking ".$target->name,
+                    'date' => Time::now(),
+                    'coordinate_x' => $target->coordinate_x,
+                    'coordinate_y' => $target->coordinate_y
+                ]);
+                $eventsTable->save($event);
                 $this->Flash->error('Attack failed');
             }
         } else {
