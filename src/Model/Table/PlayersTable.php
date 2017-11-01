@@ -58,7 +58,7 @@ class PlayersTable extends Table
         $validator
             ->email('email')
             ->requirePresence('email', 'create')
-            ->notEmpty('email')
+            ->notEmpty('email', 'Please provide a valid mail address')
             ->add('email', 'unique', [
                 'rule' => 'validateUnique',
                 'provider' => 'table',
@@ -68,7 +68,7 @@ class PlayersTable extends Table
         $validator
             ->scalar('password')
             ->requirePresence('password', 'create')
-            ->notEmpty('password');
+            ->notEmpty('password', 'Please provide a valid password');
 
         $validator
             ->scalar('password_confirmation')

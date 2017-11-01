@@ -101,20 +101,7 @@
                                     aria-controls="collapseExample">Show skills</button>
                         </p>
                         <div class="collapse" id="<?= $fighter->id ?>">
-                            <ul class="m-auto skills">
-                                <li class="d-flex align-items-center">
-                                    <i class="icons8-iris-scan mr-2"></i>
-                                    Sight : <?= $fighter->skill_sight ?>
-                                </li>
-                                <li class="d-flex align-items-center">
-                                    <i class="icons8-muscle mr-2"></i>
-                                    Strength: <?= $fighter->skill_strength ?>
-                                </li>
-                                <li class="d-flex align-items-center">
-                                    <i class="icons8-heart-filled mr-2"></i>
-                                    Max health: <?= $fighter->skill_health ?>
-                                </li>
-                            </ul>
+                            <?= $this->element('Component/skillsList', ['fighter' => $fighter]); ?>
                         </div>
                         <?= $this->element('Component/levelUp', ['fighter' => $fighter]);  ?>
                     </div>

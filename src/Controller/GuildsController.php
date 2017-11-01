@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Guilds Controller
@@ -20,10 +21,24 @@ class GuildsController extends AppController
      */
     public function index()
     {
-        $guilds = $this->paginate($this->Guilds);
+        $guilds = $this->paginate($this->Guilds->find('all', [
+            'contain' => ['Fighters']
+        ]));
 
         $this->set(compact('guilds'));
         $this->set('_serialize', ['guilds']);
+    }
+
+
+    /**
+     * Allowed route to non logged users
+     * @param Event $event
+     * @return \Cake\Http\Response|null
+     */
+    public function beforeFilter(Event $event)
+    {
+        $this->Auth->allow(['index', 'view']);
+        return parent::beforeFilter($event);
     }
 
     /**

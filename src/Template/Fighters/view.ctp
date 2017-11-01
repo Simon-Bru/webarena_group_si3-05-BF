@@ -6,7 +6,11 @@
 ?>
 <section class="jumbotron pt-4">
 
-    <?= $this->element('Nav/fighters') ?>
+    <?php
+    if($userIsLogged) {
+        echo $this->element('Nav/fighters');
+    }
+    ?>
 
     <h4 class="card-title"><h3><?= h($fighter->name) ?></h3></h4>
     <div class="float-left col-lg-4 col-12 ">
@@ -54,20 +58,7 @@
         ?>
         <dt>Skills</dt>
         <dd>
-            <ul class="m-auto skills">
-                <li class="d-flex align-items-center">
-                    <i class="icons8-iris-scan mr-2"></i>
-                    Sight : <?= $fighter->skill_sight ?>
-                </li>
-                <li class="d-flex align-items-center">
-                    <i class="icons8-muscle mr-2"></i>
-                    Strength: <?= $fighter->skill_strength ?>
-                </li>
-                <li class="d-flex align-items-center">
-                    <i class="icons8-heart-filled mr-2"></i>
-                    Max health: <?= $fighter->skill_health ?>
-                </li>
-            </ul>
+            <?= $this->element('Component/skillsList', ['fighter' => $fighter]) ?>
         </dd>
         <dt><?= $fighter->has('guild') ? "Guild" : "" ?></dt>
         <dd><?= $fighter->has('guild') ? $this->Html->link($fighter->guild->name, ['controller' => 'Guilds', 'action' => 'view', $fighter->guild->id]) : '' ?></dd>
