@@ -316,11 +316,10 @@ class FightersController extends AppController
 
             $activeFighterId = $this->getSelectedFighterId();
             $myFighter = $this->Fighters->get($activeFighterId);
+            $eventsTable = $this->loadModel('Events');
+            $event = $eventsTable->newEntity();
 
             if ($this->Fighters->attack($myFighter, $target)) {
-
-                $eventsTable = $this->loadModel('Events');
-                $event = $eventsTable->newEntity();
 
                 $action = $target->current_health > 0 ? 'attacked and hit' : 'killed';
                 $event = $eventsTable->patchEntity($event, [
@@ -329,22 +328,19 @@ class FightersController extends AppController
                     'coordinate_x' => $target->coordinate_x,
                     'coordinate_y' => $target->coordinate_y
                 ]);
-                $eventsTable->save($event);
-
                 $this->Flash->success('Attack successful');
             }
             else{
-                $eventsTable = $this->loadModel('Events');
-                $event = $eventsTable->newEntity();
+
                 $event = $eventsTable->patchEntity($event, [
                     'name' => $myFighter->name." failed attacking ".$target->name,
                     'date' => Time::now(),
                     'coordinate_x' => $target->coordinate_x,
                     'coordinate_y' => $target->coordinate_y
                 ]);
-                $eventsTable->save($event);
                 $this->Flash->error('Attack failed');
             }
+            $eventsTable->save($event);
         } else {
             $this->Flash->error('Error occured');
         }
