@@ -9,6 +9,7 @@ class PlayersMailer extends Mailer
         $this
             ->to($player->email)
             ->setSubject(sprintf('Welcome !'))
+            ->setEmailFormat('html')
             ->setTemplate('default')
             ->set(['content' => 'Welcome to webarena! You can now login to fight to death !!']);
     }
@@ -17,6 +18,7 @@ class PlayersMailer extends Mailer
     {
         $this
             ->to($email)
+            ->setEmailFormat('html')
             ->setSubject('WebArena - Password reinitialization')
             ->set(['password' => $pwd]);
     }
