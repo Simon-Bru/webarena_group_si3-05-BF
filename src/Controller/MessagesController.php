@@ -21,7 +21,9 @@ class MessagesController extends AppController
      */
     public function index()
     {
-        $messages = $this->Messages;
+        $messages = $this->Messages->find('all', [
+            'contain' => 'Fighters'
+        ]);
 
         $this->set(compact('messages'));
         $this->set('_serialize', ['messages']);
