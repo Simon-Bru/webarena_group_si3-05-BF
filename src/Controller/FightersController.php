@@ -90,29 +90,6 @@ class FightersController extends AppController
         $this->set('_serialize', ['fighters']);
     }
 
-    public function joinGuild()
-    {
-        $this->request->allowMethod('post');
-
-        $referer = $this->referer();
-        $split_url = explode('/', $referer);
-        $fighterId = $split_url[sizeof($split_url) - 1];
-        $fighter = $this->Fighters->get($fighterId);
-
-        if ($this->isMine($fighter)) {
-
-            $guildId = $this->request->getData("guild_id");
-            $fighter->guild_id = $guildId;
-            $this->Fighters->save($fighter);
-
-            $this->Flash->success(__($fighter->name.' just joined the guild.'));
-        } else {
-            $this->Flash->error("You can't join a guild with another player's user");
-        }
-
-        return $this->redirect(['action' => 'view', $fighter->id]);
-
-    }
     /**
      * Add method
      *
@@ -247,9 +224,30 @@ class FightersController extends AppController
     }
 
 
-    /**
-     * Arenas function
-     */
+    public function joinGuild()
+    {
+        $this->request->allowMethod('post');
+
+        $referer = $this->referer();
+        $split_url = explode('/', $referer);
+        $fighterId = $split_url[sizeof($split_url) - 1];
+        $fighter = $this->Fighters->get($fighterId);
+
+        if ($this->isMine($fighter)) {
+
+            $guildId = $this->request->getData("guild_id");
+            $fighter->guild_id = $guildId;
+            $this->Fighters->save($fighter);
+
+            $this->Flash->success(__($fighter->name.' just joined the guild.'));
+        } else {
+            $this->Flash->error("You can't join a guild with another player's user");
+        }
+
+        return $this->redirect(['action' => 'view', $fighter->id]);
+
+    }
+
 
     public function move(){
         $this->request->allowMethod('post');
