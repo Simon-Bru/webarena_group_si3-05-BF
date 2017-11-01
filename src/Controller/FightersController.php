@@ -23,7 +23,7 @@ class FightersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Players', 'Guilds']
+            'contain' => ['Guilds']
         ];
         $fighters = $this->Fighters->find('all')
             ->where([
@@ -41,7 +41,7 @@ class FightersController extends AppController
      */
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['view']);
+        $this->Auth->allow(['view', 'ranking']);
         return parent::beforeFilter($event);
     }
 
@@ -55,13 +55,22 @@ class FightersController extends AppController
     public function view($id = null)
     {
         $fighter = $this->Fighters->get($id, [
-            'contain' => ['Players', 'Guilds', 'Messages']
+            'contain' => ['Players', 'Guilds']
         ]);
 
         $isMine = $fighter->player_id == $this->Auth->user('id');
         $this->set('isMine', $isMine);
         $this->set('fighter', $fighter);
         $this->set('_serialize', ['fighter']);
+    }
+
+    public function ranking() {
+        $fighters = $this->paginate($this->Fighters->find('all', [
+                'contain' => ['Players']
+            ]));
+
+        $this->set(compact('fighters'));
+        $this->set('_serialize', ['fighters']);
     }
 
     /**
