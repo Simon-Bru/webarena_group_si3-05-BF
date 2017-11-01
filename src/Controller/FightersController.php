@@ -58,10 +58,27 @@ class FightersController extends AppController
             'contain' => ['Players', 'Guilds']
         ]);
 
+        $guildsTable = $this->loadModel('Guilds');
+
+        $guildquery = $guildsTable
+            ->find()
+            ->select(['id', 'name'])
+            ->where(['id != ' => $fighter->guild_id]);
+
+        $guilds = array_map(function ($guilds) {
+            return [
+                'value' => $guilds['id'],
+                'text' => $guilds['name']
+            ];
+        }, $guildquery->toArray());
+
         $isMine = $fighter->player_id == $this->Auth->user('id');
         $this->set('isMine', $isMine);
         $this->set('fighter', $fighter);
         $this->set('_serialize', ['fighter']);
+        $this->set(compact('guilds'));
+
+
     }
 
     public function ranking() {
@@ -207,9 +224,30 @@ class FightersController extends AppController
     }
 
 
-    /**
-     * Arenas function
-     */
+    public function joinGuild()
+    {
+        $this->request->allowMethod('post');
+
+        $referer = $this->referer();
+        $split_url = explode('/', $referer);
+        $fighterId = $split_url[sizeof($split_url) - 1];
+        $fighter = $this->Fighters->get($fighterId);
+
+        if ($this->isMine($fighter)) {
+
+            $guildId = $this->request->getData("guild_id");
+            $fighter->guild_id = $guildId;
+            $this->Fighters->save($fighter);
+
+            $this->Flash->success(__($fighter->name.' just joined the guild.'));
+        } else {
+            $this->Flash->error("You can't join a guild with another player's user");
+        }
+
+        return $this->redirect(['action' => 'view', $fighter->id]);
+
+    }
+
 
     public function move(){
         $this->request->allowMethod('post');
