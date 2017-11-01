@@ -49,7 +49,7 @@ define('NUMBER_OF_TOOLS', 12);
 /**
  * Tools definition
  */
-define('TOOLS_TABLE', [
+const TOOLS_TABLE = [
     'Sword' => [
         'icon' => 'icons8-sword',
         'bonus' => 'skill_strength'
@@ -86,5 +86,5 @@ define('TOOLS_TABLE', [
         'icon' => 'icons8-archers-bow',
         'bonus' => 'skill_sight'
     ]
-]);
+];
 ?>

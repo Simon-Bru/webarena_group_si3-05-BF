@@ -213,7 +213,8 @@ class FightersController extends AppController
         if($fighter->hasFullXp() && $this->isMine($fighter)) {
             if($fighter->levelUp($skill)) {
                 $this->Fighters->save($fighter);
-                $this->Flash->success(__('Level Up ! Your player passed the next level'));
+                $newLevel=$fighter->level;
+                $this->Flash->success(__('Level Up ! Your fighter '.$fighter->name.' is now level '.$newLevel));
             } else {
                 $this->Flash->error(__('Error! You must select a skill to improve'));
             }
@@ -315,29 +316,28 @@ class FightersController extends AppController
 
             $activeFighterId = $this->getSelectedFighterId();
             $myFighter = $this->Fighters->get($activeFighterId);
+            $eventsTable = $this->loadModel('Events');
+            $event = $eventsTable->newEntity();
+            $event['date'] = Time::now();
+            $event['coordinate_x'] =$target->coordinate_x;
+            $event['coordinate_y'] = $target->coordinate_y;
+
 
             if ($this->Fighters->attack($myFighter, $target)) {
 
-                $eventsTable = $this->loadModel('Events');
-                $event = $eventsTable->newEntity();
-
-                $action = $target->current_health > 0 ? 'attacked' : 'killed';
-                $event = $eventsTable->patchEntity($event, [
-                    'name' => $myFighter->name." ".$action." ".$target->name,
-                    'date' => Time::now(),
-                    'coordinate_x' => $target->coordinate_x,
-                    'coordinate_y' => $target->coordinate_y
-                ]);
-                $eventsTable->save($event);
-
+                $action = $target->current_health > 0 ? 'attacked and hit' : 'killed';
+                $event['name'] = $myFighter->name." ".$action." ".$target->name;
                 $this->Flash->success('Attack successful');
             }
             else{
+
+                $event['name'] = $myFighter->name." failed attacking ".$target->name;
                 $this->Flash->error('Attack failed');
             }
+            $eventsTable->save($event);
         } else {
             $this->Flash->error('Error occured');
         }
-        return $this->redirect(['controller' => 'Arena', 'action' => '/']);
-    }
+return $this->redirect(['controller' => 'Arena', 'action' => '/']);
+}
 }
