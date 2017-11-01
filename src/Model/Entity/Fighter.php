@@ -86,7 +86,7 @@ class Fighter extends Entity
         $query1 = $toolsTable->find()->where(['fighter_id IS NULL']);
         foreach($query1 as $row){
             if($y==$row->coordinate_y
-            && $x==$row->coordinate_x){
+                && $x==$row->coordinate_x){
                 return false;
             }
         }
@@ -130,26 +130,26 @@ class Fighter extends Entity
 
     public function move($direction){
 
-            switch ($direction) {
-                //UP
-                case "up":
-                    $this->coordinate_y--;
-                    break;
-                //left
-                case "left":
-                    $this->coordinate_x--;
-                    break;
-                //right
-                case "right":
-                    $this->coordinate_x++;
-                    break;
-                //DOWN
-                case "down":
-                    $this->coordinate_y++;
-                    break;
-               default:
-                    return false;
-            }
+        switch ($direction) {
+            //UP
+            case "up":
+                $this->coordinate_y--;
+                break;
+            //left
+            case "left":
+                $this->coordinate_x--;
+                break;
+            //right
+            case "right":
+                $this->coordinate_x++;
+                break;
+            //DOWN
+            case "down":
+                $this->coordinate_y++;
+                break;
+            default:
+                return false;
+        }
         if(self::positionIsFree($this->coordinate_x, $this->coordinate_y) &&
             $this->coordinate_x>=0 &&
             $this->coordinate_x<ARENA_WIDTH &&
@@ -169,13 +169,17 @@ class Fighter extends Entity
      */
     public function hasInSight($item) {
         return  abs($this->coordinate_y - $item->coordinate_y) +
-                abs($this->coordinate_x - $item->coordinate_x) <= $this->skill_sight &&
-                abs($this->coordinate_y - $item->coordinate_y) +
-                abs($this->coordinate_x - $item->coordinate_x) >= 0;
+            abs($this->coordinate_x - $item->coordinate_x) <= $this->skill_sight &&
+            abs($this->coordinate_y - $item->coordinate_y) +
+            abs($this->coordinate_x - $item->coordinate_x) >= 0;
     }
 
     public function attack($target) {
-        $rand = rand(1, 20);// random value between 1 and 20
+        $bonus=0;
+        if($this->guild_id !=NULL) {
+            $bonus = $this->guildAttackBonus($target);
+        }
+        $rand=rand(1,20)+$bonus;// random value between 1 and 20
         //Conditions of success attack
         if ($rand > (ATTACK_THRESHOLD + $target->level - $this->level)) {
 
@@ -192,12 +196,26 @@ class Fighter extends Entity
             return false;
         }
     }
+    public function guildAttackBonus($target){
+        $fighters = TableRegistry::get("Fighters");
+        $query=$fighters->find('all',
+            array('conditions'=>
+                array('guild_id'=>$this->guild_id, 'id !='=>$this->id)));
+        $bonus=0;
+
+        foreach($query as $guildFighter){
+            if($target->isInContact($guildFighter)){
+                $bonus++;
+            }
+        }
+        return $bonus;
+    }
 
     public function isInContact($item) {
         return abs($this->coordinate_x - $item->coordinate_x) == 1
-                && abs($this->coordinate_y - $item->coordinate_y) == 0
-                || abs($this->coordinate_y - $item->coordinate_y) == 1
-                && abs($this->coordinate_x - $item->coordinate_x) == 0;
+            && abs($this->coordinate_y - $item->coordinate_y) == 0
+            || abs($this->coordinate_y - $item->coordinate_y) == 1
+            && abs($this->coordinate_x - $item->coordinate_x) == 0;
     }
 
     public function pick($tool) {

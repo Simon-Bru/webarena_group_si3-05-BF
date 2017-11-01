@@ -213,7 +213,8 @@ class FightersController extends AppController
         if($fighter->hasFullXp() && $this->isMine($fighter)) {
             if($fighter->levelUp($skill)) {
                 $this->Fighters->save($fighter);
-                $this->Flash->success(__('Level Up ! Your player passed the next level'));
+                $newLevel=$fighter->level;
+                $this->Flash->success(__('Level Up ! Your fighter '.$fighter->name.' is now level '.$newLevel));
             } else {
                 $this->Flash->error(__('Error! You must select a skill to improve'));
             }
