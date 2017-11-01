@@ -62,7 +62,8 @@ class FightersController extends AppController
 
         $guildquery = $guildsTable
             ->find()
-            ->select(['id', 'name']);
+            ->select(['id', 'name'])
+            ->where(['id != ' => $fighter->guild_id]);
 
         $guilds = array_map(function ($guilds) {
             return [
@@ -100,7 +101,7 @@ class FightersController extends AppController
             $this->Flash->error("You can't join a guild with another player's user");
         }
 
-        return $this->redirect(['action' => '/']);
+        return $this->redirect(['action' => 'view', $fighter->id]);
 
     }
     /**
