@@ -63,7 +63,7 @@ class FightersController extends AppController
         $guildquery = $guildsTable
             ->find()
             ->select(['id', 'name'])
-            ->where(['id != ' => $fighter->guild_id]);
+            ->where(['id IS NOT ' => $fighter->guild_id]);
 
         $guilds = array_map(function ($guilds) {
             return [
