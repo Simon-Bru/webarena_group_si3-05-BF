@@ -116,7 +116,7 @@
                 <div class="panel-body"><fieldset>
                         <?php
 
-                        echo $this->Form->control('id', [
+                        echo $this->Form->control('guild_id', [
                             'label' => 'Name',
                             'class' => 'col-12 col-md-8 col-lg-6 m-auto text-center',
                             'type' => 'select',

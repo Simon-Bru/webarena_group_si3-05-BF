@@ -84,7 +84,6 @@ class FightersController extends AppController
     {
         $this->request->allowMethod('post');
 
-        //var_dump($guildId);
         $referer = $this->referer();
         $split_url = explode('/', $referer);
         $fighterId = $split_url[sizeof($split_url) - 1];
@@ -92,12 +91,13 @@ class FightersController extends AppController
 
         if ($this->isMine($fighter)) {
 
-            $guildId = $this->request->getData("id");
+            $guildId = $this->request->getData("guild_id");
             $fighter->guild_id = $guildId;
             $this->Fighters->save($fighter);
 
-
-            $this->Flash->success(__('You can join the guild'));
+            $this->Flash->success(__($fighter->name.' just joined the guild.'));
+        } else {
+            $this->Flash->error("You can't join a guild with another player's user");
         }
 
         return $this->redirect(['action' => '/']);
