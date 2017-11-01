@@ -4,33 +4,18 @@
  * @var \App\Model\Entity\Event $event
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
+<nav class="nav">
 
-    <ul class="navbar list-unstyled justify-content-end">
+    <ul class="navbar">
         <li class="nav-item"><?= $this->Html->link(__('All Events'), ['action' => 'index']) ?> </li>
     </ul>
 </nav>
-<div class="events view large-9 medium-8 columns content">
-    <h4><i class="icons8-arena-filled"></i> Description of the event</h4>
-    <table class="table table-responsive table-bordered table-hover">
-        <tr class="table-info">
-            <th scope="row"><?= __('Name') ?></th>
-            <td><?= h($event->name) ?></td>
-        </tr>
-
-        <tr>
-            <th scope="row"><?= __('Coordinate X') ?></th>
-            <td><?= $this->Number->format($event->coordinate_x) ?></td>
-        </tr>
-
-        <tr>
-            <th scope="row"><?= __('Coordinate Y') ?></th>
-            <td><?= $this->Number->format($event->coordinate_y) ?></td>
-        </tr>
-
-        <tr>
-            <th scope="row"><?= __('Date') ?></th>
-            <td><?= h($event->date) ?></td>
-        </tr>
-    </table>
-</div>
+<h1><i class="icons8-calendar mr-2"></i>Details of the event</h1>
+<dl>
+    <dt><?= __('Name') ?></dt>
+    <dd><?= h($event->name) ?></dd>
+    <dt><?= __('Coordinates (X;Y)') ?></dt>
+    <dd><?= $this->Number->format($event->coordinate_x) ?>; <?= $this->Number->format($event->coordinate_y) ?></dd>
+    <dt><?= __('Date') ?></dt>
+    <dd><?= h($event->date) ?></dd>
+</dl>

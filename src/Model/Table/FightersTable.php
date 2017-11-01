@@ -122,40 +122,30 @@ class FightersTable extends Table
         return $rules;
     }
 
-    public function hasFullXp($id) {
-        return $this->get($id)->hasFullXp();
-
-    }
-
-    public function levelUp($id, $skill) {
-        $fighter=$this->get($id);
-
-        switch($skill) {
-            case 1:
-                $fighter->skill_sight++;
-                break;
-            case 2:
-                $fighter->skill_strength++;
-                break;
-            case 3:
-                $fighter->skill_health = $fighter->skill_health + 3;
-                break;
-            default:
-                return false;
-        }
-
-        $fighter->levelUp();
-
-        return $this->save($fighter);
-    }
-
     public function remove($id){
-        $allow=false;
-        $temp=$this->get($id);
-        if($temp->current_health==0) {
-            $this->delete($temp);
-            $allow=true;
+        $temp = $this->get($id);
+        if($temp->current_health <= 0) {
+            return $this->delete($temp);
+        } else {
+            return false;
         }
-        return $allow;
+    }
+
+    public function attack($fighter, $target) {
+        if(!$fighter->isInContact($target)) {
+            return false;
+        }
+        if($fighter->attack($target)) {
+
+            $this->save($target);
+
+            if($target->current_health <= 0) {
+                $this->remove($target->id);
+            }
+
+            return $this->save($fighter);
+        } else {
+            return false;
+        }
     }
 }

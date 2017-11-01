@@ -37,7 +37,7 @@
 
         echo $this->Html->link(
             'Go to the Arena',
-            array('controller' => 'Arenas', 'action' => 'index'),
+            array('controller' => 'Arena', 'action' => 'index'),
             ['class' => 'button']
         );
     }

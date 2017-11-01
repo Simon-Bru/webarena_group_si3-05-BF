@@ -59,38 +59,62 @@ class Fighter extends Entity
         $this->level = 1;
         $this->xp = 0;
         $this->current_health = DEFAULT_SKILL_HEALTH;
-        $this->coordinate_x = rand(0, ARENA_WIDTH);
-        $this->coordinate_y = rand(0, ARENA_HEIGHT);
+        $this->coordinate_x = rand(0, ARENA_WIDTH-1);
+        $this->coordinate_y = rand(0, ARENA_HEIGHT-1);
 
         while(!Fighter::positionIsFree($this->coordinate_x, $this->coordinate_y)) {
-            $this->coordinate_x = rand(0, ARENA_WIDTH);
-            $this->coordinate_y = rand(0, ARENA_HEIGHT);
+            $this->coordinate_x = rand(0, ARENA_WIDTH-1);
+            $this->coordinate_y = rand(0, ARENA_HEIGHT-1);
         }
     }
 
     /**
-     * Function to check wether fighter position is available
+     * Function to check wether a position is available
      */
     public static function positionIsFree($x, $y) {
         $fighters = TableRegistry::get("Fighters");
         $query = $fighters->find();
-
         foreach ($query as $row) {
-            if($y == $row->coordinate_y
+            if ($y == $row->coordinate_y
                 && $x == $row->coordinate_x) {
                 return false;
             }
         }
 
+        $tools=TableRegistry::get('Tools');
+        $query1=$tools->find();
+        foreach($query1 as $row){
+            if($y==$row->coordinate_y
+            && $x==$row->coordinate_x){
+                return false;
+            }
+        }
         return true;
     }
 
-    public function levelUp() {
-        if($this->xp / MAX_XP >= 1) {
+    public function levelUp($skill) {
+        if($this->hasFullXp()) {
+            switch($skill) {
+                case 1:
+                    $this->skill_sight++;
+                    break;
+                case 2:
+                    $this->skill_strength++;
+                    break;
+                case 3:
+                    $this->skill_health = $this->skill_health + 3;
+                    break;
+                default:
+                    return false;
+            }
+
             $this->level++;
             $this->xp = $this->xp - MAX_XP;
             $this->skill_health++;
             $this->current_health = $this->skill_health;
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -107,19 +131,19 @@ class Fighter extends Entity
 
             switch ($direction) {
                 //UP
-                case 1:
+                case "up":
                     $this->coordinate_y--;
                     break;
                 //left
-                case 2:
+                case "left":
                     $this->coordinate_x--;
                     break;
                 //right
-                case 3:
+                case "right":
                     $this->coordinate_x++;
                     break;
                 //DOWN
-                case 4:
+                case "down":
                     $this->coordinate_y++;
                     break;
                default:
@@ -127,9 +151,9 @@ class Fighter extends Entity
             }
         if(self::positionIsFree($this->coordinate_x, $this->coordinate_y) &&
             $this->coordinate_x>=0 &&
-            $this->coordinate_x<=ARENA_WIDTH &&
+            $this->coordinate_x<ARENA_WIDTH &&
             $this->coordinate_y>=0 &&
-            $this->coordinate_y<= ARENA_HEIGHT) {
+            $this->coordinate_y< ARENA_HEIGHT) {
             return true;
         }
         else{
@@ -137,5 +161,46 @@ class Fighter extends Entity
         }
     }
 
+    /**
+     * Returns true if the provided param $item is in Sight of the fighter
+     * @param $item
+     * @return bool
+     */
+    public function hasInSight($item) {
+        return  abs($this->coordinate_y - $item->coordinate_y) +
+                abs($this->coordinate_x - $item->coordinate_x) <= $this->skill_sight &&
+                abs($this->coordinate_y - $item->coordinate_y) +
+                abs($this->coordinate_x - $item->coordinate_x) >= 0;
+    }
 
+    public function attack($target) {
+        $rand = rand(1, 20);// random value between 1 and 20
+        //Conditions of success attack
+        if ($rand > (ATTACK_THRESHOLD + $target->level - $this->level)) {
+
+            $target->current_health -= $this->skill_strength;
+
+            if ($target->current_health <= 0) {
+                $this->xp += $target->level;
+            } else {
+                $this->xp++;
+            }
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isInContact($item) {
+        return abs($this->coordinate_x - $item->coordinate_x) == 1
+                && abs($this->coordinate_y - $item->coordinate_y) == 0
+                || abs($this->coordinate_y - $item->coordinate_y) == 1
+                && abs($this->coordinate_x - $item->coordinate_x) == 0;
+    }
+
+    public function pick($tool) {
+        $this[TOOLS_TABLE[$tool->type]['bonus']] += $tool->bonus;
+        $tool->fighter_id = $this->id;
+    }
 }
