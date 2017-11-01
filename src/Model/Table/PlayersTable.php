@@ -100,8 +100,9 @@ class PlayersTable extends Table
         $result = $query->toArray();
         if(!empty($result)) {
             $player = $result[0];
-            $player->password = $this->random_str(10);
-            return $this->save($player) ? $player->password : false;
+            $pwd = $this->random_str(10);
+            $player->password = $pwd;
+            return $this->save($player) ? $pwd : false;
         } else {
             return false;
         }
