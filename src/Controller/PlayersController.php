@@ -92,7 +92,7 @@ class PlayersController extends AppController
                                             ' Please try again');
             }
             /** Redirect to login */
-            $this->redirect('/login');
+            $this->redirect(['action' => 'login']);
         }
     }
 
