@@ -23,7 +23,7 @@ class FightersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Players', 'Guilds']
+            'contain' => ['Guilds']
         ];
         $fighters = $this->Fighters->find('all')
             ->where([
@@ -41,7 +41,7 @@ class FightersController extends AppController
      */
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['view']);
+        $this->Auth->allow(['view', 'ranking']);
         return parent::beforeFilter($event);
     }
 
@@ -55,7 +55,7 @@ class FightersController extends AppController
     public function view($id = null)
     {
         $fighter = $this->Fighters->get($id, [
-            'contain' => ['Players', 'Guilds', 'Messages']
+            'contain' => ['Players', 'Guilds']
         ]);
 
         $guildsTable = $this->loadModel('Guilds');
@@ -79,6 +79,15 @@ class FightersController extends AppController
         $this->set(compact('guilds'));
 
 
+    }
+
+    public function ranking() {
+        $fighters = $this->paginate($this->Fighters->find('all', [
+                'contain' => ['Players']
+            ]));
+
+        $this->set(compact('fighters'));
+        $this->set('_serialize', ['fighters']);
     }
 
     public function joinGuild()
@@ -154,8 +163,6 @@ class FightersController extends AppController
         $this->set(compact('fighter', 'players', 'guilds'));
         $this->set('_serialize', ['fighter']);
     }
-
-
 
     /**
      * Delete method

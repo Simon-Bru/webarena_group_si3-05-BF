@@ -63,8 +63,13 @@ $cakeDescription = 'WebArena';
                             ['class' => 'nav-link']); ?>
                     </li>
                     <li class="nav-item">
-                        <?php echo $this->Html->link('Rank',
+                        <?php echo $this->Html->link('Guilds',
                             array('controller' => 'Guilds', 'action' => '/', 'sort' => 'power', 'direction' => 'desc'),
+                            ['class' => 'nav-link']); ?>
+                    </li>
+                    <li class="nav-item">
+                        <?php echo $this->Html->link('Ranking',
+                            array('controller' => 'Fighters', 'action' => 'ranking', 'sort' => 'level', 'direction' => 'desc'),
                             ['class' => 'nav-link']); ?>
                     </li>
                     <?php
