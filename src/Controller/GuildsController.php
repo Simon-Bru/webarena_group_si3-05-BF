@@ -104,6 +104,7 @@ class GuildsController extends AppController
         $this->set('_serialize', ['guild']);
     }
 
+
     /**
      * Delete method
      *

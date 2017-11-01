@@ -81,8 +81,9 @@ class Fighter extends Entity
             }
         }
 
-        $tools=TableRegistry::get('Tools');
-        $query1=$tools->find();
+        $toolsTable = TableRegistry::get('Tools');
+
+        $query1 = $toolsTable->find()->where(['fighter_id IS NULL']);
         foreach($query1 as $row){
             if($y==$row->coordinate_y
             && $x==$row->coordinate_x){
@@ -175,10 +176,17 @@ class Fighter extends Entity
 
     public function attack($target) {
         $rand = rand(1, 20);// random value between 1 and 20
+
         //Conditions of success attack
         if ($rand > (ATTACK_THRESHOLD + $target->level - $this->level)) {
+            if($this->guild_id !=NULL) {
+                $bonus = $this->guildAttackBonus($target);
+                $target->current_health -= $this->skill_strength+$bonus;
+            }
 
-            $target->current_health -= $this->skill_strength;
+           else {
+               $target->current_health -= $this->skill_strength;
+           }
 
             if ($target->current_health <= 0) {
                 $this->xp += $target->level;
@@ -191,6 +199,22 @@ class Fighter extends Entity
             return false;
         }
     }
+
+    public function guildAttackBonus($target){
+        $fighters = TableRegistry::get("Fighters");
+        $query = $fighters->find('all',
+            array('conditions'=>
+                array('guild_id'=>$this->guild_id, 'id !='=>$this->id)));
+        $bonus=0;
+
+        foreach($query as $guildFighter){
+            if($target->isInContact($guildFighter)){
+                $bonus++;
+            }
+        }
+        return $bonus;
+    }
+
 
     public function isInContact($item) {
         return abs($this->coordinate_x - $item->coordinate_x) == 1

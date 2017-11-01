@@ -128,7 +128,7 @@ class PlayersController extends AppController
                 if ($this->Players->save($player)) {
                     $this->Flash->success(__('The player has been saved.'));
 
-                    return $this->redirect('/login');
+                    return $this->redirect(['action' => 'login']);
                 }
                 $this->Flash->error(__('The player could not be saved. Please, try again.'));
             }

@@ -23,7 +23,7 @@ class FightersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Players', 'Guilds']
+            'contain' => ['Guilds']
         ];
         $fighters = $this->Fighters->find('all')
             ->where([
@@ -41,7 +41,7 @@ class FightersController extends AppController
      */
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['view']);
+        $this->Auth->allow(['view', 'ranking']);
         return parent::beforeFilter($event);
     }
 
@@ -55,13 +55,39 @@ class FightersController extends AppController
     public function view($id = null)
     {
         $fighter = $this->Fighters->get($id, [
-            'contain' => ['Players', 'Guilds', 'Messages']
+            'contain' => ['Players', 'Guilds']
         ]);
+
+        $guildsTable = $this->loadModel('Guilds');
+
+        $guildquery = $guildsTable
+            ->find()
+            ->select(['id', 'name'])
+            ->where(['id != ' => $fighter->guild_id]);
+
+        $guilds = array_map(function ($guilds) {
+            return [
+                'value' => $guilds['id'],
+                'text' => $guilds['name']
+            ];
+        }, $guildquery->toArray());
 
         $isMine = $fighter->player_id == $this->Auth->user('id');
         $this->set('isMine', $isMine);
         $this->set('fighter', $fighter);
         $this->set('_serialize', ['fighter']);
+        $this->set(compact('guilds'));
+
+
+    }
+
+    public function ranking() {
+        $fighters = $this->paginate($this->Fighters->find('all', [
+                'contain' => ['Players']
+            ]));
+
+        $this->set(compact('fighters'));
+        $this->set('_serialize', ['fighters']);
     }
 
     /**
@@ -187,7 +213,8 @@ class FightersController extends AppController
         if($fighter->hasFullXp() && $this->isMine($fighter)) {
             if($fighter->levelUp($skill)) {
                 $this->Fighters->save($fighter);
-                $this->Flash->success(__('Level Up ! Your player passed the next level'));
+                $newLevel=$fighter->level;
+                $this->Flash->success(__('Level Up ! Your fighter '.$fighter->name.' is now level '.$newLevel));
             } else {
                 $this->Flash->error(__('Error! You must select a skill to improve'));
             }
@@ -198,9 +225,30 @@ class FightersController extends AppController
     }
 
 
-    /**
-     * Arenas function
-     */
+    public function joinGuild()
+    {
+        $this->request->allowMethod('post');
+
+        $referer = $this->referer();
+        $split_url = explode('/', $referer);
+        $fighterId = $split_url[sizeof($split_url) - 1];
+        $fighter = $this->Fighters->get($fighterId);
+
+        if ($this->isMine($fighter)) {
+
+            $guildId = $this->request->getData("guild_id");
+            $fighter->guild_id = $guildId;
+            $this->Fighters->save($fighter);
+
+            $this->Flash->success(__($fighter->name.' just joined the guild.'));
+        } else {
+            $this->Flash->error("You can't join a guild with another player's user");
+        }
+
+        return $this->redirect(['action' => 'view', $fighter->id]);
+
+    }
+
 
     public function move(){
         $this->request->allowMethod('post');
@@ -268,29 +316,28 @@ class FightersController extends AppController
 
             $activeFighterId = $this->getSelectedFighterId();
             $myFighter = $this->Fighters->get($activeFighterId);
+            $eventsTable = $this->loadModel('Events');
+            $event = $eventsTable->newEntity();
+            $event['date'] = Time::now();
+            $event['coordinate_x'] =$target->coordinate_x;
+            $event['coordinate_y'] = $target->coordinate_y;
+
 
             if ($this->Fighters->attack($myFighter, $target)) {
 
-                $eventsTable = $this->loadModel('Events');
-                $event = $eventsTable->newEntity();
-
-                $action = $target->current_health > 0 ? 'attacked' : 'killed';
-                $event = $eventsTable->patchEntity($event, [
-                    'name' => $myFighter->name." ".$action." ".$target->name,
-                    'date' => Time::now(),
-                    'coordinate_x' => $target->coordinate_x,
-                    'coordinate_y' => $target->coordinate_y
-                ]);
-                $eventsTable->save($event);
-
+                $action = $target->current_health > 0 ? 'attacked and hit' : 'killed';
+                $event['name'] = $myFighter->name." ".$action." ".$target->name;
                 $this->Flash->success('Attack successful');
             }
             else{
+
+                $event['name'] = $myFighter->name." failed attacking ".$target->name;
                 $this->Flash->error('Attack failed');
             }
+            $eventsTable->save($event);
         } else {
             $this->Flash->error('Error occured');
         }
-        return $this->redirect(['controller' => 'Arena', 'action' => '/']);
-    }
+return $this->redirect(['controller' => 'Arena', 'action' => '/']);
+}
 }
