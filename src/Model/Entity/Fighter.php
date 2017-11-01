@@ -69,19 +69,26 @@ class Fighter extends Entity
     }
 
     /**
-     * Function to check wether fighter position is available
+     * Function to check wether a position is available
      */
     public static function positionIsFree($x, $y) {
         $fighters = TableRegistry::get("Fighters");
         $query = $fighters->find();
-
         foreach ($query as $row) {
-            if($y == $row->coordinate_y
+            if ($y == $row->coordinate_y
                 && $x == $row->coordinate_x) {
                 return false;
             }
         }
 
+        $tools=TableRegistry::get('Tools');
+        $query1=$tools->find();
+        foreach($query1 as $row){
+            if($y==$row->coordinate_y
+            && $x==$row->coordinate_x){
+                return false;
+            }
+        }
         return true;
     }
 
@@ -187,7 +194,13 @@ class Fighter extends Entity
 
     public function isInContact($item) {
         return abs($this->coordinate_x - $item->coordinate_x) == 1
-                || abs($this->coordinate_y - $item->coordinate_y) == 1;
+                && abs($this->coordinate_y - $item->coordinate_y) == 0
+                || abs($this->coordinate_y - $item->coordinate_y) == 1
+                && abs($this->coordinate_x - $item->coordinate_x) == 0;
+    }
 
+    public function pick($tool) {
+        $this[TOOLS_TABLE[$tool->type]['bonus']] += $tool->bonus;
+        $tool->fighter_id = $this->id;
     }
 }

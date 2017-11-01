@@ -16,6 +16,9 @@ body {
 .grid .cell:hover {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
+.grid .img-fluid {
+    max-height: 100%;
+}
 .jumbotron {
     border: 1px solid #000 !important;
     background-color: #fff !important;
@@ -43,6 +46,9 @@ body {
 .fightersList .skills i {
     font-size: 25px;
 }
+.fightersList dd {
+    white-space: normal;
+}
 button {
     cursor: pointer !important;
 }
@@ -64,6 +70,11 @@ button {
 }
 .enemy {
     cursor: url("../img/sword.png"), pointer;
+}
+.tool {
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    cursor: grab;
 }
 .level-badge {
     position: absolute;
