@@ -81,8 +81,9 @@ class Fighter extends Entity
             }
         }
 
-        $tools=TableRegistry::get('Tools');
-        $query1=$tools->find();
+        $toolsTable = TableRegistry::get('Tools');
+
+        $query1 = $toolsTable->find()->where(['fighter_id IS NULL']);
         foreach($query1 as $row){
             if($y==$row->coordinate_y
             && $x==$row->coordinate_x){
