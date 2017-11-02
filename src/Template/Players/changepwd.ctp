@@ -16,8 +16,7 @@
         echo $this->Form->control('pwd',[
             'label' => 'New Password']);
         echo $this->Form->control('new_pwd', [
-                'label' => 'Confirm New Password',
-                'type' => 'password']);
+                'label' => 'Confirm New Password']);
         ?>
     </fieldset>
     <div class="col-12 text-center">
