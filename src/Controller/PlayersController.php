@@ -77,7 +77,7 @@ class PlayersController extends AppController
      * */
     public function forgottenPwd() {
         $this->request->allowMethod('post');
-
+        var_dump($this->request->getData());
         /** If variable email is present in the request */
         if(!empty($this->request->getData('email'))) {
             $email = $this->request->getData('email');
@@ -86,14 +86,14 @@ class PlayersController extends AppController
             /** If player exists, display success message, or display error message */
             if(!empty($pwd)) {
                 $this->getMailer('Players')->send('resetPassword', [$email, $pwd]);
-                $this->Flash->success('We just sent you your new password by mail !');
+                $this->Flash->success('We just sent you your new password by mail ! Your new password is '.$pwd);
             } else {
                 $this->Flash->error('Sorry, we don\'t have any user matching mail address...'.
                                             ' Please try again');
             }
             /** Redirect to login */
-            $this->redirect(['action' => 'login']);
         }
+        $this->redirect(['action' => 'login']);
     }
 
     /**
