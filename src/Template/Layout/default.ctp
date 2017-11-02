@@ -93,6 +93,11 @@ $cakeDescription = 'WebArena';
                                 ['controller' => 'Players', 'action' => 'logout'],
                                 ['class' => 'nav-link']); ?>
                         </li>
+                        <li class="nav-item">
+                            <?php echo $this->Html->link('Change password',
+                                ['controller' => 'Players', 'action' => 'changepwd'],
+                                ['class' => 'nav-link']); ?>
+                        </li>
                         <?php
                     }
                     ?>

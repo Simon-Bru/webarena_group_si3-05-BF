@@ -113,7 +113,28 @@ class PlayersController extends AppController
         $this->set('_serialize', ['player']);
     }
 
-    /**
+    public function changepwd()
+    {
+        $playerId = $this->Auth->user('id');
+        $player = $this->Players->get($playerId);
+        if ($this->request->is('post'))
+        {
+            $pwd = $this->request->getData("pwd");
+            $newpwd = $this->request->getData("new_pwd");
+            if ($pwd == $newpwd)
+            {
+                $player->password = $newpwd;
+                if ($this->Players->save($player)) {
+                    $this->Flash->success(__('Your password has been successfully changed'));
+                    return $this->redirect(['controller' => 'Fighters', 'action' => 'index']);
+                }
+            }
+            $this->Flash->error(__('Please check both password entered are the same'));
+
+        }
+
+    }
+        /**
      * Add method
      *
      * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
