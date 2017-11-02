@@ -53,7 +53,7 @@
         </div>
     </section>
     <section>
-        <h2>Rules</h2>
+        <h2>Game rules</h2>
         <hr class="my-4">
 
         <ul>
@@ -97,6 +97,17 @@
         </ul>
 
         <ul>
+            <li>
+                <h4>Option A:  Advanced management of the fighters and equipment (Improvement)</h4>
+                <p>A fighter may have several fighters. A particular page allows him to choose which he currently plays. </p>
+                <p>The system must be able to manage a new category of objects: the tools. These tools must be
+                    pickable in the arena. A pick up action allows to equip them. Each tool increases a characteristic
+                    (the equivalent of one to three progression) when it is worn. Possible values are V (view) D (force)
+                    or L (life point). Depending on the type and bonus indicated in the database, your program may
+                    propose a name (force + 1: dagger, force + 2: sword, etc.). A specific action (a button) will create a
+                    dozen random objects in the field of play (for simplicity in this project the button will be available
+                    on the viewing page.) </p>
+            </li>
             <li>
                 <h4>Option B: Communication management and Guild (Improvement)</h4>
                 <p>The system must allow to send a message to another fighter. It must also add the screaming action
