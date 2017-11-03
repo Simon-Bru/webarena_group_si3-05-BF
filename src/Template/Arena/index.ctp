@@ -68,7 +68,7 @@ echo $this->Form->postLink('Generate Tools', ['controller' => 'Arena', 'action' 
         ?>
         <div class="row d-flex justify-content-center">
             <?php for ($x=0; $x < ARENA_WIDTH; $x++): ?>
-                <div class="cell d-flex align-items-center justify-content-center" style="font-size: 40px">
+                <div class="cell d-flex align-items-center justify-content-center">
                     <?php
                     if($y == $activeFighter->coordinate_y && $x == $activeFighter->coordinate_x) {
                         echo $this->element('Component/avatar', ['fighterId' => $activeFighter->id]);

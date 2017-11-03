@@ -36,9 +36,16 @@ class MessagesTable extends Table
         $this->setDisplayField('title');
         $this->setPrimaryKey('id');
 
-        $this->belongsTo('Fighters', [
+        $this->belongsTo('fighter_to', [
             'foreignKey' => 'fighter_id',
-            'joinType' => 'INNER'
+            'joinType' => 'INNER',
+            'className' => 'Fighters'
+        ]);
+
+        $this->belongsTo('fighter_from', [
+            'foreignKey' => 'fighter_id_from',
+            'joinType' => 'INNER',
+            'className' => 'Fighters'
         ]);
     }
 
@@ -85,7 +92,7 @@ class MessagesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['fighter_id'], 'Fighters'));
+        $rules->add($rules->existsIn(['fighter_id'], 'fighter_to'));
 
         return $rules;
     }

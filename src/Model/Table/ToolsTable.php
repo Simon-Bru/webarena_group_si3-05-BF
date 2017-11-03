@@ -92,7 +92,7 @@ class ToolsTable extends Table
         $availableTools = $this->find('all')->where(['fighter_id IS NULL']);
 
 //        GENERATE TOOLS ONLY IF THERE ARE LESS THAN 3 ON THE MAP
-        if(sizeof($availableTools) > 3) {
+        if(sizeof($availableTools->toArray()) > 0) {
             return false;
         }
         else {
