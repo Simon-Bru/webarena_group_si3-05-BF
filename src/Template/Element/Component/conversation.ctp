@@ -24,4 +24,11 @@ $conversation = Hash::sort($conversation, '{n}.date', 'asc');
     </div>
 
 <?php endforeach; ?>
-<div class="clearfix"></div>
+
+<?= $this->Form->create('sendMessage', ['class' => 'text-center m-auto', 'url' => '/messages/add']); ?>
+<?= $this->Form->hidden('fighter_id', ['value' => $recipient->id]) ?>
+<?= $this->Form->hidden('fighter_id_from', ['value' => $id]) ?>
+<?= $this->Form->input('title', ['label' => '', 'placeholder' => 'Title']); ?>
+<?= $this->Form->input('message', ['label' => '', 'placeholder' => 'Message']); ?>
+<?= $this->Form->button('Send', ['class' => 'btn-info m-auto']);?>
+<?= $this->Form->end(); ?>
