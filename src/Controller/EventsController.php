@@ -84,7 +84,6 @@ class EventsController extends AppController
         }
         else {
             $this->Flash->error(__('Scream not saved. Please, try again.'));
-            return $this->redirect(['action' => '/']);
         }
 
         $this->set(compact('event'));

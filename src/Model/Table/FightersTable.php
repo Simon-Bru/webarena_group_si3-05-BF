@@ -45,11 +45,13 @@ class FightersTable extends Table
         $this->belongsTo('Guilds', [
             'foreignKey' => 'guild_id'
         ]);
-        $this->hasMany('Messages', [
-            'foreignKey' => 'fighter_id'
+        $this->hasMany('messages_received', [
+            'foreignKey' => 'fighter_id',
+            'className' => 'Messages'
         ]);
-        $this->hasMany('Messages', [
-            'foreignKey' => 'fighter_id_from'
+        $this->hasMany('messages_sent', [
+            'foreignKey' => 'fighter_id_from',
+            'className' => 'Messages'
         ]);
         $this->hasMany('Tools', [
             'foreignKey' => 'fighter_id'
@@ -153,5 +155,23 @@ class FightersTable extends Table
         } else {
             return false;
         }
+    }
+
+    public function getConversations($id) {
+        $query = $this->find('all');
+
+        $query->contain([
+            'messages_sent' => [
+                'conditions' => ['fighter_id' => $id]
+            ],
+            'messages_received' => [
+                'conditions' => ['fighter_id_from' => $id]
+            ]
+        ])
+            ->where([
+                'Fighters.id != ' => $id
+            ]);
+
+        return $query->toArray();
     }
 }

@@ -14,19 +14,47 @@ use Cake\I18n\Time;
 class MessagesController extends AppController
 {
 
+    public function initialize()
+    {
+        $this->loadComponent('RequestHandler');
+        parent::initialize();
+    }
+
     /**
      * Index method
      *
      * @return \Cake\Http\Response|void
      */
-    public function index()
+    public function index($id = NULL)
     {
-        $messages = $this->Messages->find('all', [
-            'contain' => 'Fighters'
-        ]);
+        $fightersTable = $this->loadModel('Fighters');
 
-        $this->set(compact('messages'));
-        $this->set('_serialize', ['messages']);
+        if(empty($id)) {
+            $id = $this->getSelectedFighterId();
+        } else {
+            if(!$fightersTable->isMine($fightersTable->get($id))) {
+                $this->Flash->error('You can\'t see another player\'s fighter messages');
+                $this->redirect(['action' => 'messages']);
+            }
+        }
+
+        $fightersQuery = $fightersTable->find()
+            ->select(['id', 'name'])
+            ->where(['player_id' => $this->Auth->user('id')]);
+
+        $myfighters = array_map(function($fighter) use ($id) {
+            return [
+                'value' => $fighter->id,
+                'text' => $fighter->name,
+                'selected' => $fighter->id == $id
+            ];
+        }, $fightersQuery->toArray());
+
+        $recipients = $fightersTable->getConversations($id);
+
+        $this->set(compact('id'));
+        $this->set(compact("myfighters"));
+        $this->set(compact('recipients'));
     }
 
     /**
@@ -39,7 +67,7 @@ class MessagesController extends AppController
     public function view($id = null)
     {
         $message = $this->Messages->get($id, [
-            'contain' => ['Fighters']
+            'contain' => ['fighter_from', 'fighter_to']
         ]);
 
         $this->set('message', $message);

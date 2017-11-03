@@ -1,42 +1,64 @@
 <?php
 /**
  * @var \App\View\AppView $this
- * @var \App\Model\Entity\Message[]|\Cake\Collection\CollectionInterface $messages
+ * @var \App\Model\Entity\Message[]|\Cake\Collection\CollectionInterface $conversations
  */
 ?>
 <div class="jumbotron">
-    <h3><?= __('Messages') ?></h3>
+    <h1><i class="icons8-communication-filled mr-3"></i><?= __('Messages') ?></h1>
+    <div class="text-center col-12 col-md-8 col-lg-6 m-auto">
+        <?= $this->Form->control('guild_id', [
+            'label' => 'Select the recipient fighter: ',
+            'class' => 'w-50 ml-2 m-auto',
+            'id' => 'fighterSelect',
+            'type' => 'select',
+            'options' => $myfighters
+        ]);
+        ?>
+    </div>
     <div class="row">
         <div class="col-4">
-            <div class="list-group" id="list-tab" role="tablist">
-                <?php foreach($messages as $message): ?>
-
-                <?php endforeach; ?>
-                <a class="list-group-item list-group-item-action active" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">Home</a>
-            </div>
+            <aside class="list-group" id="list-tab" role="tablist">
+                <?php
+                foreach($recipients as $recipient) {
+                    echo $this->Html->link(
+                        $recipient->name.
+                        $this->Html->tag('span',
+                            sizeof($recipient->messages_sent)+sizeof($recipient->messages_received),
+                            ['class' => 'badge badge-primary float-right']
+                        ),
+                        '#'.$recipient->id,
+                        [
+                            'class' => 'list-group-item list-group-item-action',
+                            'role' => 'tab',
+                            'data-toggle' => 'list',
+                            'aria-controls' => $recipient->id,
+                            'escape' => false
+                        ]
+                    );
+                }
+                ?>
+            </aside>
         </div>
         <div class="col-8">
             <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade show active" id="list-home" role="tabpanel" aria-labelledby="list-home-list">1</div>
-                <div class="tab-pane fade" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">2</div>
-                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">3</div>
-                <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">4</div>
+                <?php
+
+                foreach($recipients as $recipient) {
+
+                    echo $this->Html->tag(
+                        'div',
+                        $this->element('Component/conversation', ['recipient' => $recipient]),
+                        [
+                        'class' => 'tab-pane fade',
+                        'id' => $recipient->id,
+                        'role' => 'tabpanel',
+                        'aria-labelledby' => 'conversation-'.$recipient->id,
+                        'escape' => false
+                    ]);
+                }
+                ?>
             </div>
         </div>
     </div>
-
-    <?php foreach ($messages as $message): ?>
-    <div>
-        <span><?= $this->Number->format($message->id) ?></span>
-        <span><?= h($message->date) ?></span>
-        <span><?= h($message->title) ?></span>
-        <span><?= $this->Number->format($message->fighter_id_from) ?></span>
-        <span><?= $message->has('fighter') ? $this->Html->link($message->fighter->name, ['controller' => 'Fighters', 'action' => 'view', $message->fighter->id]) : '' ?></span>
-        <span class="actions">
-            <?= $this->Html->link(__('View'), ['action' => 'view', $message->id]) ?>
-            <?= $this->Html->link(__('Edit'), ['action' => 'edit', $message->id]) ?>
-            <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $message->id], ['confirm' => __('Are you sure you want to delete # {0}?', $message->id)]) ?>
-        </span>
-    </div>
-    <?php endforeach; ?>
 </div>

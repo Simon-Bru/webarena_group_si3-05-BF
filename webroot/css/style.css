@@ -84,3 +84,7 @@ button {
 .cell i {
     font-size: 40px;
 }
+.list-group-item.active .badge {
+    background-color: #f8f9fa;
+    color: black;
+}
