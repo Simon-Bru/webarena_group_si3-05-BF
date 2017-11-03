@@ -63,6 +63,12 @@
                     'class' => 'icons8-shield-filled mr-1'
                 ])."Guild" : "" ?></dt>
         <dd><?= $fighter->has('guild') ? $this->Html->link($fighter->guild->name, ['controller' => 'Guilds', 'action' => 'view', $fighter->guild->id]) : '' ?></dd>
+        <dd><?php echo $this->Form->postLink(
+            $this->Html->tag('i', '',
+            ['class' => TOOLS_TABLE[$equip->type]['icon']]),
+            ['controller' => 'Fighters', 'action' => 'view', $equip->id],
+            ['escape' => false, 'class' => 'tool text-dark  ']);
+            ?></dd>
     </dl>
 
     <?php

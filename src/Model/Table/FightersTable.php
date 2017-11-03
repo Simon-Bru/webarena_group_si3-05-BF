@@ -48,6 +48,9 @@ class FightersTable extends Table
         $this->hasMany('Messages', [
             'foreignKey' => 'fighter_id'
         ]);
+        $this->hasMany('Tools', [
+            'foreignKey' => 'fighter_id'
+        ]);
     }
 
     /**

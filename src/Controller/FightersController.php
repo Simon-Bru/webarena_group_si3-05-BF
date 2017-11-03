@@ -55,7 +55,7 @@ class FightersController extends AppController
     public function view($id = null)
     {
         $fighter = $this->Fighters->get($id, [
-            'contain' => ['Players', 'Guilds']
+            'contain' => ['Players', 'Guilds','Tools']
         ]);
 
         $guildsTable = $this->loadModel('Guilds');
@@ -71,6 +71,18 @@ class FightersController extends AppController
                 'text' => $guilds['name']
             ];
         }, $guildquery->toArray());
+
+        $toolsTable=$this->loadModel('Tools');
+        $tools = $toolsTable->find('all',
+            array('conditions'=>
+                array('fighter_id'=>$fighter->id)));
+
+        foreach ($tools as $equip)
+        {
+         echo $equip->type;
+
+        }
+
 
         $isMine = $fighter->player_id == $this->Auth->user('id');
         $this->set('isMine', $isMine);
