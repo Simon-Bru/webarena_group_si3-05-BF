@@ -65,7 +65,7 @@ button {
     content: "Choose files..";
     float: left;
 }
-.border-info {
+.fightersList .border-info {
     border-width:3px;
 }
 .enemy {
@@ -87,4 +87,7 @@ button {
 .list-group-item.active .badge {
     background-color: #f8f9fa;
     color: black;
+}
+.conversation {
+    max-height: 500px;
 }

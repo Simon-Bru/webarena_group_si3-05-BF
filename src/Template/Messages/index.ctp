@@ -17,7 +17,7 @@
         ?>
     </div>
     <div class="row">
-        <div class="col-4">
+        <div class="col-12 col-sm-4">
             <aside class="list-group" id="list-tab" role="tablist">
                 <?php
                 foreach($recipients as $recipient) {
@@ -40,7 +40,7 @@
                 ?>
             </aside>
         </div>
-        <div class="col-8">
+        <div class="col-12 col-sm-8">
             <div class="tab-content" id="nav-tabContent">
                 <?php
 
@@ -48,14 +48,17 @@
 
                     echo $this->Html->tag(
                         'div',
-                        $this->element('Component/conversation', ['recipient' => $recipient]),
+                        $this->element('Component/conversation', [
+                            'recipient' => $recipient,
+                            'id' => $id
+                        ]),
                         [
-                        'class' => 'tab-pane fade',
-                        'id' => $recipient->id,
-                        'role' => 'tabpanel',
-                        'aria-labelledby' => 'conversation-'.$recipient->id,
-                        'escape' => false
-                    ]);
+                            'class' => 'tab-pane fade card p-4 conversation',
+                            'id' => $recipient->id,
+                            'role' => 'tabpanel',
+                            'aria-labelledby' => 'conversation-'.$recipient->id,
+                            'escape' => false
+                        ]);
                 }
                 ?>
             </div>
