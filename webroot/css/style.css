@@ -81,6 +81,6 @@ button {
     bottom: 0;
     right: 0;
 }
-.badge {
-    font-size: 30%;
+.cell i {
+    font-size: 40px;
 }
