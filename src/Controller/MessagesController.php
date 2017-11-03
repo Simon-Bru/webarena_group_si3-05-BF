@@ -32,7 +32,7 @@ class MessagesController extends AppController
         if(empty($id)) {
             $id = $this->getSelectedFighterId();
         } else {
-            if(!$fightersTable->isMine($fightersTable->get($id))) {
+            if($fightersTable->get($id)->player_id != $this->Auth->user('id')) {
                 $this->Flash->error('You can\'t see another player\'s fighter messages');
                 $this->redirect(['action' => 'messages']);
             }
@@ -55,23 +55,6 @@ class MessagesController extends AppController
         $this->set(compact('id'));
         $this->set(compact("myfighters"));
         $this->set(compact('recipients'));
-    }
-
-    /**
-     * View method
-     *
-     * @param string|null $id Message id.
-     * @return \Cake\Http\Response|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function view($id = null)
-    {
-        $message = $this->Messages->get($id, [
-            'contain' => ['fighter_from', 'fighter_to']
-        ]);
-
-        $this->set('message', $message);
-        $this->set('_serialize', ['message']);
     }
 
     /**
