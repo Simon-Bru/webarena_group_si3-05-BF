@@ -113,24 +113,31 @@ class PlayersController extends AppController
         $this->set('_serialize', ['player']);
     }
 
-    public function changepwd()
+    public function changePwd()
     {
         $playerId = $this->Auth->user('id');
         $player = $this->Players->get($playerId);
         if ($this->request->is('post'))
         {
-            $pwd = $this->request->getData("pwd");
-            $newpwd = $this->request->getData("new_pwd");
-            if ($pwd == $newpwd)
-            {
-                $player->password = $newpwd;
-                if ($this->Players->save($player)) {
-                    $this->Flash->success(__('Your password has been successfully changed'));
-                    return $this->redirect(['controller' => 'Fighters', 'action' => 'index']);
-                }
-            }
-            $this->Flash->error(__('Please check both password entered are the same'));
+            $player->password = $this->request->getData("password");
+            $query = $this->Auth->identify();
 
+            if(!$query) {
+                $this->Flash->error('The password is not correct. Please try again');
+            }
+            else {
+                $pwd = $this->request->getData("pwd");
+                $newpwd = $this->request->getData("new_pwd");
+                if ($pwd == $newpwd)
+                {
+                    $player->password = $newpwd;
+                    if ($this->Players->save($player)) {
+                        $this->Flash->success(__('Your password has been successfully changed'));
+                        return $this->redirect(['controller' => 'Fighters', 'action' => 'index']);
+                    }
+                }
+                $this->Flash->error(__('Please check the two passwords entered are the same'));
+            }
         }
 
     }
