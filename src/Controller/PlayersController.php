@@ -77,7 +77,7 @@ class PlayersController extends AppController
      * */
     public function forgottenPwd() {
         $this->request->allowMethod('post');
-        var_dump($this->request->getData());
+
         /** If variable email is present in the request */
         if(!empty($this->request->getData('email'))) {
             $email = $this->request->getData('email');
