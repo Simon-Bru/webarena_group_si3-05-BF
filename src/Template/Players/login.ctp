@@ -23,7 +23,7 @@
     </div>
     <div class="collapse col-12 text-center" id="forgottenPwdForm">
         <?= $this->Form->create('Mail', [
-                'url' =>'Players/forgottenPwd'
+                'url' =>'/Players/forgottenPwd'
         ]); ?>
         <fieldset>
             <?= $this->Form->control('email'); ?>
