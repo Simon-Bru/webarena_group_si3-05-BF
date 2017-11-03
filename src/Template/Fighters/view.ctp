@@ -59,16 +59,27 @@
         <dd>
             <?= $this->element('Component/skillsList', ['fighter' => $fighter]) ?>
         </dd>
+
+        <dd><?php
+            foreach ($fighter->tools as $equip) {
+                $list = [$this->Html->tag('i', '',
+                        ['class' => TOOLS_TABLE[$equip->type]['icon']]).'+'.$equip->bonus.' '.TOOLS_TABLE[$equip->type]['bonus']];
+                echo $this->Html->nestedList($list, [
+                    'class' => 'm-auto skills'
+                ],
+                    [
+                        'class' => 'd-flex align-items-center list-unstyled',
+                        'escape' => false
+                    ]);
+            }
+            ?></dd>
         <dt><?= $fighter->has('guild') ? $this->Html->tag('i', '', [
                     'class' => 'icons8-shield-filled mr-1'
                 ])."Guild" : "" ?></dt>
         <dd><?= $fighter->has('guild') ? $this->Html->link($fighter->guild->name, ['controller' => 'Guilds', 'action' => 'view', $fighter->guild->id]) : '' ?></dd>
-        <dd><?php echo $this->Form->postLink(
-            $this->Html->tag('i', '',
-            ['class' => TOOLS_TABLE[$equip->type]['icon']]),
-            ['controller' => 'Fighters', 'action' => 'view', $equip->id],
-            ['escape' => false, 'class' => 'tool text-dark  ']);
-            ?></dd>
+
+
+
     </dl>
 
     <?php
