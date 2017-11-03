@@ -81,20 +81,26 @@ class PlayersController extends AppController
         /** If variable email is present in the request */
         if(!empty($this->request->getData('email'))) {
             $email = $this->request->getData('email');
-            $pwd = $this->Players->resetPassword($email);
-
-            /** If player exists, display success message, or display error message */
-            if(!empty($pwd)) {
-                $this->getMailer('Players')->send('resetPassword', [$email, $pwd]);
-                $this->Flash->success('We just sent you your new password by mail !');
-            } else {
-                $this->Flash->error('Sorry, we don\'t have any user matching mail address...'.
-                                            ' Please try again');
+            $query = $this->Players->find('all')->where([
+                'Players.email = ' => $email
+            ]);
+            $result = $query->toArray();
+            if(!empty($result)) {
+                $player = $result[0];
+                $this->Flash->success('Your password is: ' . $player->password);
             }
-            /** Redirect to login */
-            $this->redirect('/login');
+            else{
+                $this->Flash->error('No account with that email');
+            }
         }
+        else{
+            $this->Flash->error('Please enter an email');
+        }
+        return $this->redirect(['controller' => 'Players', 'action' => '/']);
+
+
     }
+
 
     /**
      * View method
