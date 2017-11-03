@@ -46,6 +46,9 @@ body {
 .fightersList .skills i {
     font-size: 25px;
 }
+#inventoryModal i{
+    font-size: 30px;
+}
 .fightersList dd {
     white-space: normal;
 }

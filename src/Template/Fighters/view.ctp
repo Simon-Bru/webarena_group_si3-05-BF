@@ -63,6 +63,13 @@
                     'class' => 'icons8-shield-filled mr-1'
                 ])."Guild" : "" ?></dt>
         <dd><?= $fighter->has('guild') ? $this->Html->link($fighter->guild->name, ['controller' => 'Guilds', 'action' => 'view', $fighter->guild->id]) : '' ?></dd>
+        <?php
+        if($isMine && sizeof($fighter->tools) > 0) {
+            echo $this->element('Component/inventory', ['tools' => $fighter->tools]);
+        }
+        ?>
+
+
     </dl>
 
     <?php
