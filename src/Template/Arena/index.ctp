@@ -66,9 +66,10 @@ echo $this->Form->postLink('Generate Tools', ['controller' => 'Arena', 'action' 
     $j = 0;
     for ($y=0; $y < ARENA_HEIGHT; $y++):
         ?>
-        <div class="row d-flex justify-content-center">
+        <div class="row d-flex justify-content-center mb-1">
             <?php for ($x=0; $x < ARENA_WIDTH; $x++): ?>
-                <div class="cell d-flex align-items-center justify-content-center">
+                <div class="cell d-flex align-items-center justify-content-center ml-1">
+                    &nbsp;
                     <?php
                     if($y == $activeFighter->coordinate_y && $x == $activeFighter->coordinate_x) {
                         echo $this->element('Component/avatar', ['fighterId' => $activeFighter->id]);
@@ -86,7 +87,8 @@ echo $this->Form->postLink('Generate Tools', ['controller' => 'Arena', 'action' 
                                   ]); ?>'>
                             <?php
 
-                            if($activeFighter->isInContact($fighters[$i])) {
+                            if($activeFighter->isInContact($fighters[$i])
+                                && $activeFighter->player_id != $fighters[$i]->player_id) {
                                 echo $this->Form->postLink(
                                     $this->element('Component/avatar', ['fighterId' => $fighters[$i]->id]).
                                     $this->Html->tag('span', $fighters[$i]->level, [
