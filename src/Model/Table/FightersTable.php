@@ -47,14 +47,13 @@ class FightersTable extends Table
         ]);
         $this->hasMany('messages_received', [
             'foreignKey' => 'fighter_id',
-            'className' => 'Messages'
+            'className' => 'Messages',
+            'dependant' => true
         ]);
         $this->hasMany('messages_sent', [
             'foreignKey' => 'fighter_id_from',
-            'className' => 'Messages'
-        ]);
-        $this->hasMany('Tools', [
-            'foreignKey' => 'fighter_id'
+            'className' => 'Messages',
+            'dependant' => true
         ]);
         $this->hasMany('Tools', [
             'foreignKey' => 'fighter_id'

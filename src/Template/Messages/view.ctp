@@ -6,13 +6,27 @@
 ?>
 <div class="jumbotron">
     <h1><i class="icons8-communication-filled mr-3"></i><?= __('Messages') ?></h1>
-    <div class="text-center col-12 col-md-8 col-lg-6 m-auto">
+    <div class="col-12 col-md-8 col-lg-6 m-auto">
         <?= $this->Form->control('guild_id', [
             'label' => 'Select the recipient fighter: ',
-            'class' => 'w-50 ml-2 m-auto',
+            'class' => 'w-50 ml-2 m-auto d-inline-block',
             'id' => 'fighterSelect',
             'type' => 'select',
             'options' => $myfighters
+        ]);
+        ?>
+        <?= $this->Form->control('guild_id', [
+            'label' => 'New message to : ',
+            'class' => 'w-50 ml-2 m-auto',
+            'id' => 'messageToSelect',
+            'type' => 'select',
+            'options' => array_map(function($fighter){
+                return [
+                    'value' => $fighter->id,
+                    'text' => $fighter->name
+                ];
+            },$recipients),
+            'empty' => 'Choose a fighter to send new messages'
         ]);
         ?>
     </div>
@@ -21,6 +35,10 @@
             <aside class="list-group" id="list-tab" role="tablist">
                 <?php
                 foreach($recipients as $recipient) {
+                    $hidden = '';
+                    if(sizeof($recipient->messages_sent)+sizeof($recipient->messages_received) == 0) {
+                        $hidden = ' d-none';
+                    }
                     echo $this->Html->link(
                         $recipient->name.
                         $this->Html->tag('span',
@@ -29,7 +47,7 @@
                         ),
                         '#'.$recipient->id,
                         [
-                            'class' => 'list-group-item list-group-item-action',
+                            'class' => 'list-group-item list-group-item-action'.$hidden,
                             'role' => 'tab',
                             'data-toggle' => 'list',
                             'aria-controls' => $recipient->id,
@@ -65,3 +83,17 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    window.onload = function() {
+        $('[data-toggle=list]')[0].click();
+        $('#messageToSelect').change(function() {
+            $('[aria-controls='+$(this)[0].value+']').removeClass("d-none");
+            $('[aria-controls='+$(this)[0].value+']').click();
+        });
+        // Messages view fighters selection
+        $('#fighterSelect').change(function() {
+            window.location.replace(window.location.origin+"/messages/view/"+$(this)[0].value)
+        });
+    };
+</script>

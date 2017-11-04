@@ -10,10 +10,4 @@ $( document ).ready(function() {
     $('form').submit(function() {
         $(this).find(".btn").prop('disabled',true);
     });
-
-    // Messages view fighters selection
-    $('#fighterSelect').change(function() {
-        window.location.replace(window.location.origin+"/messages/index/"+$(this)[0].value)
-    });
-
 });

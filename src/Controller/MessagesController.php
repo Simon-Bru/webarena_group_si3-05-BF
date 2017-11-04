@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use Cake\I18n\Time;
+use Cake\Utility\Hash;
 
 /**
  * Messages Controller
@@ -19,12 +20,16 @@ class MessagesController extends AppController
         parent::initialize();
     }
 
+    public function index() {
+        $this->redirect(['action' => 'view', $this->getSelectedFighterId()]);
+    }
+
     /**
-     * Index method
+     * View method
      *
      * @return \Cake\Http\Response|void
      */
-    public function index($id = NULL)
+    public function view($id = NULL)
     {
         $fightersTable = $this->loadModel('Fighters');
 
@@ -50,6 +55,10 @@ class MessagesController extends AppController
         }, $fightersQuery->toArray());
 
         $recipients = $fightersTable->getConversations($id);
+        usort($recipients, function($a, $b) {
+            return sizeof($a->messages_sent)+sizeof($a->messages_received)
+                < sizeof($b->messages_sent)+sizeof($b->messages_received);
+        });
 
         $this->set(compact('id'));
         $this->set(compact("myfighters"));
