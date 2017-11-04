@@ -119,7 +119,7 @@ $cakeDescription = 'WebArena';
 <footer class="container-fluid d-flex justify-content-around mt-5 pt-5">
     <p class="d-inline-block">Group SII3</p>
     <p class="d-inline-block">&copy Bruguerolle/ Molano/ Belluccini Options ABF</p>
-    <p class="d-inline-block"> <a href="https://github.com/Simon-Bru/webarena_group_si3-05-BF">Link Versionning</a></p>
+    <p class="d-inline-block"> <a href="https://github.com/Simon-Bru/webarena_group_si3-05-BF/commits/master">Link Versionning</a></p>
 </footer>
 
 <?= $this->Html->script('jquery.min') ?>
