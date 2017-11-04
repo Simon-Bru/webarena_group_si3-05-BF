@@ -73,19 +73,11 @@ class FightersController extends AppController
         }, $guildquery->toArray());
 
         $toolsTable=$this->loadModel('Tools');
-        $tools = $toolsTable->find('all',
-            array('conditions'=>
-                array('fighter_id'=>$fighter->id)));
-
 
         $isMine = $fighter->player_id == $this->Auth->user('id');
         $this->set('isMine', $isMine);
         $this->set('fighter', $fighter);
-        $this->set('tool',$tools);
-        $this->set('_serialize', ['fighter']);
         $this->set(compact('guilds'));
-
-
     }
 
     public function ranking() {

@@ -3,19 +3,15 @@
  * @var \App\View\AppView $this
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="navbar list-unstyled justify-content-end">
-        <li class="nav-item"><?= $this->Html->link(__('All guilds'), ['action' => 'index']) ?></li>
-    </ul>
-</nav>
-<div class="guilds form large-9 medium-8 columns content">
-    <?= $this->Form->create($guild) ?>
+<section class="jumbotron">
+    <h1><i class="icons8-shield-filled"></i> Create a Guild</h1>
+    <hr>
+    <?= $this->Form->create($guild, ['class' => 'col-12 col-md-8 col-lg-6 m-auto text-center']) ?>
     <fieldset>
-        <legend><h1><i class="icons8-shield-filled"></i> Create a Guild</h1></legend>
         <?php
             echo $this->Form->control('name');
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'btn-primary']) ?>
     <?= $this->Form->end() ?>
-</div>
+</section>

@@ -3,12 +3,21 @@
  * @var \App\View\AppView $this
  * @var \App\Model\Entity\Guild[]|\Cake\Collection\CollectionInterface $guilds
  */
+
+if($userIsLogged) {
+    ?>
+    <nav>
+        <?= $this->Html->link(__('Create a Guild'), [
+            'action' => 'add'
+        ], [
+            'class' => 'btn btn-dark float-right'
+        ]) ?>
+    </nav>
+
+    <?php
+}
 ?>
-<nav class="nav">
-    <ul class="navbar list-unstyled">
-        <li class="nav-item"><?= $this->Html->link(__('Create a Guild'), ['action' => 'add']) ?></li>
-    </ul>
-</nav>
+
 
 <h1><i class="icons8-shield-filled mr-2"></i>Guilds</h1>
 <table class="table table-responsive table-hover table-striped">
@@ -29,8 +38,8 @@
                 <?= empty($guild->fighters)
                     ? "0"
                     : round(array_sum(array_map(function($fighter) {
-                        return $fighter->level;
-                    }, $guild->fighters))/sizeof($guild->fighters)) ?>
+                            return $fighter->level;
+                        }, $guild->fighters))/sizeof($guild->fighters)) ?>
             </td>
             <td> <?= $this->Html->link(
                     $this->Html->tag('i', '',

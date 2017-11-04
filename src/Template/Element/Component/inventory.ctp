@@ -1,4 +1,4 @@
-<button type="button" class="btn btn-success" data-toggle="modal" data-target="#inventoryModal">
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#inventoryModal">
     Inventory
 </button>
 

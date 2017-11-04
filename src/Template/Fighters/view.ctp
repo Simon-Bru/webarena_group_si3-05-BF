@@ -140,7 +140,7 @@
 
                 ?>
             </fieldset>
-            <p class="text-center"><?= $this->Form->button(__('Join'), ['class' => 'btn btn-success']) ?></p>
+            <p class="text-center"><?= $this->Form->button(__('Join'), ['class' => 'btn btn-dark']) ?></p>
             <?= $this->Form->end() ?>
         </div>
         <?php
