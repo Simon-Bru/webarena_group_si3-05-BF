@@ -11,6 +11,16 @@
         echo $this->element('Nav/fighters');
     }
     ?>
+    <?= $this->Html->link(
+        $this->Html->tag('i', '',
+            ['class' => 'icons8-edit-filled text-dark mx-1 float-right']),
+        ['action' => 'edit', $fighter->id],
+        [
+            'escape' => false,
+            'data-toggle' => "tooltip",
+            'data-placement' => "bottom",
+            'title'=>"Edit"
+        ]) ?>
 
     <h4 class="card-title"><h3><?= h($fighter->name) ?></h3></h4>
     <div class="float-left col-lg-4 col-12 ">

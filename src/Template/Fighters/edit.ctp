@@ -20,7 +20,9 @@
         )
         ?>
     </div>
-    <?= $this->Form->create($fighter) ?>
+    <?= $this->Form->create($fighter, [
+            'class' => 'col-12 col-md-8 col-lg-6 m-auto text-center'
+    ]) ?>
     <fieldset>
         <h3><?= __('Edit Fighter') ?></h3>
         <hr class="my-4">
@@ -29,6 +31,6 @@
         echo $this->Form->control('name');
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Save')) ?>
+    <?= $this->Form->button(__('Save'), ['class' => 'btn-success']) ?>
     <?= $this->Form->end() ?>
 </div>
