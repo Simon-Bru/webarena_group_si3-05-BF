@@ -23,7 +23,7 @@
     <div class="col-12 text-center">
         <small class="d-block">Already a member? </small>
         <?php echo $this->Html->link('Log In',
-            '/login',
+            ['action' => 'login'],
             ['class' => 'btn btn-info btn-sm']); ?>
     </div>
 </div>
