@@ -7,7 +7,13 @@
 <nav class="nav">
 
     <ul class="navbar">
-        <li class="nav-item"><?= $this->Html->link(__('All Events'), ['action' => 'index']) ?> </li>
+        <li class="nav-item list-unstyled">
+            <?= $this->Html->link($this->Html->tag('i', '', [
+                    'class' => 'icons8-back'
+                ]).'Back',
+                ['action' => 'index'],
+                ['escape' => false, 'class' => 'text-dark']) ?>
+        </li>
     </ul>
 </nav>
 <h1><i class="icons8-calendar mr-2"></i>Details of the event</h1>

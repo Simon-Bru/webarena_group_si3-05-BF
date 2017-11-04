@@ -90,24 +90,4 @@ class MessagesController extends AppController
         }
         return $this->redirect(['action' => 'index']);
     }
-
-    /**
-     * Delete method
-     *
-     * @param string|null $id Message id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $message = $this->Messages->get($id);
-        if ($this->Messages->delete($message)) {
-            $this->Flash->success(__('The message has been deleted.'));
-        } else {
-            $this->Flash->error(__('The message could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
-    }
 }
