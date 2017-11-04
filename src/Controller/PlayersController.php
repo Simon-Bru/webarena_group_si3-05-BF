@@ -86,7 +86,7 @@ class PlayersController extends AppController
             /** If player exists, display success message, or display error message */
             if(!empty($pwd)) {
                 $this->Flash->success('We just sent you your new password by mail ! Your new password is '.$pwd);
-//                $this->getMailer('Players')->send('resetPassword', [$email, $pwd]);
+                $this->getMailer('Players')->send('resetPassword', [$email, $pwd]);
             } else {
                 $this->Flash->error('Sorry, we don\'t have any user matching mail address...'.
                                             ' Please try again');
