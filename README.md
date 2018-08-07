@@ -3,8 +3,9 @@
 [![Build Status](https://img.shields.io/travis/cakephp/app/master.svg?style=flat-square)](https://travis-ci.org/cakephp/app)
 [![License](https://img.shields.io/packagist/l/cakephp/app.svg?style=flat-square)](https://packagist.org/packages/cakephp/app)
 
-An online fighting game using [CakePHP](https://cakephp.org) 3.x.
-Jeu de combat en ligne développé en [CakePHP](https://cakephp.org) 3.x.
+WebArena - An online fighting game using [CakePHP](https://cakephp.org) 3.x.
+
+WebArena - Jeu de combat en ligne développé en [CakePHP](https://cakephp.org) 3.x.
 
 ## Installation
 
